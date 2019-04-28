@@ -3,7 +3,7 @@
 
 #include <ciso646>
 
-namespace fft
+namespace utils
 {
 
 template <typename Type>
@@ -20,4 +20,4 @@ OutputIt move_only(const InputIt first, const InputIt last, const OutputIt d_fir
 	return std::move(first, last, d_first);
 }
 
-} // namespace fft
+} // namespace utils

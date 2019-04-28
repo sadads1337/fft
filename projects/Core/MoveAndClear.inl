@@ -1,7 +1,7 @@
 ﻿#pragma once
 #include "MoveAndClear.h"
 
-namespace fft
+namespace utils
 {
 
 template <typename ContainerType>
@@ -15,4 +15,4 @@ std::remove_reference_t<ContainerType> move_and_clear(ContainerType && val)
 	return temp;
 }
 
-} // namespace fft
+} // namespace utils

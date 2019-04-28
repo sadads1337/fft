@@ -2,7 +2,7 @@
 
 #include "MakeWithCapactiy.h"
 
-namespace fft
+namespace utils
 {
 
 template<typename VectorClass>
@@ -13,4 +13,4 @@ VectorClass make_with_capacity(typename VectorClass::size_type capacity)
 	return result;
 }
 
-} // namespace fft
+} // namespace utils

@@ -2,12 +2,9 @@
 
 add_executable (ffttest "main.cpp")
 
-find_package(MKL REQUIRED)
-
 target_link_libraries(ffttest 
-	PRIVATE
-		#FFT::Core
-		MKL::MKL
+	PUBLIC
+		FFT::Core
 )
 
 # TODO: Add tests and install targets if needed.
