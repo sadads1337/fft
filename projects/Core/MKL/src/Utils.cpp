@@ -30,7 +30,7 @@ ComplexContainer fft_real(const RealContainer & in_real)
 
 RealContainer ifft_real(ComplexContainer & in)
 {
-	std::vector<std::complex<float>> out(in.size());
+	ComplexContainer out(in.size());
 
 	DFTI_DESCRIPTOR_HANDLE descriptor;
 	utils::save_mkl_call(DftiCreateDescriptor, &descriptor, DFTI_SINGLE, DFTI_COMPLEX, 1, in.size());
@@ -40,10 +40,45 @@ RealContainer ifft_real(ComplexContainer & in)
 	utils::save_mkl_call(DftiComputeBackward, descriptor, in.data(), out.data());
 	utils::save_mkl_call(DftiFreeDescriptor, &descriptor);
 
-	auto result = utils::make_with_capacity<std::vector<float>>(out.size());
+	auto result = utils::make_with_capacity<RealContainer>(out.size());
 	for (const auto & value : out)
 	{
 		result.emplace_back(value.real());
+	}
+	return result;
+}
+
+RealContainer conv_real(const RealContainer & x, const RealContainer & y)
+{
+	RealContainer z(x.size() + y.size() - 1);
+	VSLConvTaskPtr task;
+	utils::save_mkl_call(vsldConvNewTask1D, &task, VSL_CONV_MODE_AUTO, static_cast<int>(x.size()), static_cast<int>(y.size()), static_cast<int>(z.size()));
+	utils::save_mkl_call(vsldConvExec1D, task, x.data(), 1, y.data(), 1, z.data(), 1);
+	utils::save_mkl_call(vslConvDeleteTask, &task);
+	return z;
+}
+
+RealContainer corr_real(const RealContainer & x, const RealContainer & y)
+{
+	RealContainer z(x.size() + y.size() - 1);
+	VSLCorrTaskPtr task;
+	utils::save_mkl_call(vsldCorrNewTask1D, &task, VSL_CORR_MODE_AUTO, static_cast<int>(x.size()), static_cast<int>(y.size()), static_cast<int>(z.size()));
+	utils::save_mkl_call(vsldCorrExec1D, task, x.data(), 1, y.data(), 1, z.data(), 1);
+	return z;
+}
+
+RealContainer summ_real(const RealContainer & x, const RealContainer & y)
+{
+	if (x.size() != y.size())
+	{
+		throw std::runtime_error("x and y must be the same size");
+	}
+	auto result = utils::make_with_capacity<RealContainer>(x.size());
+	auto it_x = x.begin();
+	auto it_y = y.begin();
+	for(; it_x != x.end(); ++it_x, ++it_y)
+	{
+		result.emplace_back(*it_x + *it_y);
 	}
 	return result;
 }

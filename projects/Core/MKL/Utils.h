@@ -5,7 +5,6 @@
 
 #include <mkl_types.h>
 
-
 namespace utils
 {
 
@@ -26,15 +25,21 @@ MKL_LONG save_mkl_call(Function & function, Args && ...args);
 namespace fft
 {
 
-using ComplexContainer = std::vector<std::complex<float>>;
-using RealContainer = std::vector<float>;
+using ComplexContainer = std::vector<std::complex<double>>;
+using RealContainer = std::vector<double>;
 
 ComplexContainer fft_complex(ComplexContainer & in);
 
 ComplexContainer fft_real(const RealContainer & in_real);
 
 RealContainer ifft_real(ComplexContainer & in);
-	
+
+RealContainer conv_real(const RealContainer & x, const RealContainer & y);
+
+RealContainer corr_real(const RealContainer & x, const RealContainer & y);
+
+RealContainer summ_real(const RealContainer & x, const RealContainer & y);
+
 } // namespace fft
 
 #include "Utils.inl"

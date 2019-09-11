@@ -6,7 +6,7 @@
 #include <Core/MakeWithCapactiy.h>
 #include <Core/MKL/Utils.h>
 
-fft::RealContainer generate_grid(const float start, const float end, const std::uint32_t n)
+fft::RealContainer generate_grid(const double start, const double end, const std::uint32_t n)
 {
 	auto result = utils::make_with_capacity<fft::RealContainer>(n);
 	for (auto i = 0u; i <= n; ++i)
@@ -17,12 +17,12 @@ fft::RealContainer generate_grid(const float start, const float end, const std::
 	return result;
 }
 
-float gauss_function(const float argument) noexcept
+double gauss_function(const double argument) noexcept
 {
 	return std::exp(argument * argument * -2.f);
 }
 
-float step_function(const float argument) noexcept
+double step_function(const double argument) noexcept
 {
 	return argument < 0.f ? 0.f : 1.f;
 }

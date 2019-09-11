@@ -3,8 +3,8 @@
 set(MODULE_NAME Core)
 
 set(SRC_LIST 
-	"MakeWithCapactiy.h"
-	"MakeWithCapactiy.inl"
+	"MakeWithCapacity.h"
+	"MakeWithCapacity.inl"
 	"MoveOnly.h"
 	"MoveOnly.inl"
 	"MoveAndClear.h"
@@ -33,3 +33,15 @@ target_include_directories(${MODULE_NAME}
 )
 
 add_library(${PROJECT_NAME}::${MODULE_NAME} ALIAS ${MODULE_NAME})
+
+
+set(TEST_SRC_LIST 
+	"test/conv_test.cpp"
+)
+
+add_executable(conv_test ${TEST_SRC_LIST})
+target_link_libraries(conv_test 
+	gtest_main
+	${MODULE_NAME}
+)
+add_test(NAME conv_test_runner COMMAND conv_test)
