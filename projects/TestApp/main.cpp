@@ -1,4 +1,4 @@
-﻿#include <Core/MKL/Utils.h>
+#include <Core/MKL/Utils.h>
 #include <Core/MakeWithCapacity.h>
 #include <Core/MoveAndClear.h>
 #include <Core/MoveOnly.h>

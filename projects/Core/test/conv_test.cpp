@@ -17,7 +17,7 @@ TEST(TestMKLCore, TestConvolution2)
 	const fft::RealContainer x = { 1,3,2 };
 	const fft::RealContainer y = { 4,3,2,1 };
 	const auto result = fft::conv_real(x, y);
-	const fft::RealContainer expected_result = { 4,15,19,13,7,3 };
+	const fft::RealContainer expected_result = { 4,15,19,13,7,2 };
 
 	ASSERT_EQ(result, expected_result);
 }

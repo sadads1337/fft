@@ -1,5 +1,7 @@
-﻿#pragma once
+#pragma once
 #include "MoveAndClear.h"
+
+#include "MoveOnly.h"
 
 namespace utils
 {
