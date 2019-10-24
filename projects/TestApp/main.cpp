@@ -9,6 +9,7 @@
 #include <functional>
 
 //! \todo: Студия не дружит с cassert, но очень нужно обмазать код assert'ми
+#include <cassert>
 
 using Precision = double;
 static_assert(std::is_floating_point_v<Precision>, "Precision must be float or double");
@@ -18,6 +19,7 @@ using Grid3D = std::vector<Grid2D>;
 
 auto make_grid(const size_t t, const size_t z, const size_t k, const double default_value = 0.)
 {
+	assert(t && z && k);
 	return Grid3D(t, Grid2D(z, Grid1D(k, default_value)));
 }
 
@@ -26,7 +28,7 @@ constexpr const auto g_z_limit_value = 1.;
 constexpr const auto g_t_limit_value = 1.;
 
 //! Схема не является безусловно устойчивой -> ограничения должны удовлетворять условиям Куранта.
-//! \todo: fixme!!!
+//! \todo: fixme!!! constexpr check with static assertion
 constexpr const auto g_t_grid_size = 10u;
 constexpr const auto g_z_grid_size = 10u;
 
@@ -43,7 +45,7 @@ auto apply_conv_factor(const Grid1D & input, const size_t k)
 	auto result = input;
 	for (auto idx = 0u; idx <= input.size(); ++idx)
 	{
-		if (0u <= k - idx < input.size())
+		if (0u <= k - idx && k - idx < input.size())
 		{
 			result[k - idx] = (k - idx) * result[k - idx];
 		}
@@ -56,7 +58,7 @@ auto apply_corr_factor(const Grid1D & input, const size_t k)
 	auto result = input;
 	for (auto idx = 0u; idx <= input.size(); ++idx)
 	{
-		if (0u <= k - idx < input.size())
+		if (0u <= k - idx && k - idx < input.size())
 		{
 			result[k - idx] = (k + idx) * result[k - idx];
 		}
@@ -69,13 +71,16 @@ auto apply_operation(
 	const Grid1D & rhs,
 	const std::function<Precision(Precision, Precision)> & function)
 {
+	assert(lhs.size() && rhs.size());
 	auto result = utils::make_with_capacity<fft::RealContainer>(lhs.size());
 	auto it_x = lhs.begin();
 	auto it_y = rhs.begin();
+	assert(lhs.size() == rhs.size());
 	for (; it_x != lhs.end(); ++it_x, ++it_y)
 	{
 		result.emplace_back(function(*it_x, *it_y));
 	}
+	assert(result.size());
 	return result;
 }
 
@@ -128,9 +133,9 @@ int main() try
 	const auto lambda = Grid1D(g_z_grid_size, 1.);
 	const auto mu = Grid1D(g_z_grid_size, 1.);
 
-	for(auto t_idx = 0u; t_idx < g_t_grid_size; t_idx += 2)
+	for(auto t_idx = 0u; t_idx < g_t_grid_size - 2; t_idx += 2)
 	{
-		for (auto z_idx = 2u; z_idx < g_z_grid_size; z_idx += 2)
+		for (auto z_idx = 2u; z_idx < g_z_grid_size - 2; z_idx += 2)
 		{
 			for (auto k_idx = 0u; k_idx < g_k_limit; k_idx += 2)
 			{
