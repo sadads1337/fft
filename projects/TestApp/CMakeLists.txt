@@ -1,6 +1,4 @@
-﻿cmake_minimum_required (VERSION 3.10)
-
-add_compile_options("/std:c++latest")
+cmake_minimum_required (VERSION 3.10)
 
 add_executable (TestApp "main.cpp")
 

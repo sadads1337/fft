@@ -1,4 +1,4 @@
-﻿cmake_minimum_required (VERSION 3.10)
+cmake_minimum_required (VERSION 3.10)
 
 set(MODULE_NAME Core)
 
@@ -15,7 +15,6 @@ set(SRC_LIST
 	"MKL/src/Utils.cpp"
 )
 
-enable_language(CXX)
 
 add_library(${MODULE_NAME} ${SRC_LIST})
 set_target_properties(${MODULE_NAME} PROPERTIES LINKER_LANGUAGE CXX)
