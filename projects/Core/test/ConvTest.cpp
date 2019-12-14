@@ -9,7 +9,7 @@ TEST(TestMKLCore, TestConvolution)
 	const auto result = fft::conv_real(x, y);
 	const fft::RealContainer expected_result = { 11,34,70,120,130,140,150,160,151,122,72 };
 
-	ASSERT_EQ(result, expected_result);
+	EXPECT_EQ(result, expected_result);
 }
 
 TEST(TestMKLCore, TestConvolution2)
@@ -19,7 +19,7 @@ TEST(TestMKLCore, TestConvolution2)
 	const auto result = fft::conv_real(x, y);
 	const fft::RealContainer expected_result = { 4,15,19,13,7,2 };
 
-	ASSERT_EQ(result, expected_result);
+	EXPECT_EQ(result, expected_result);
 }
 
 TEST(TestMKLCore, TestCorrelation)
@@ -29,7 +29,7 @@ TEST(TestMKLCore, TestCorrelation)
 	const auto result = fft::corr_real(x, y);
 	const fft::RealContainer expected_result = { 44,81,110,130,140,150,160,170,104,53,18 };
 
-	ASSERT_EQ(result, expected_result);
+	EXPECT_EQ(result, expected_result);
 }
 
 TEST(TestMKLCore, TestSumm)
@@ -39,5 +39,5 @@ TEST(TestMKLCore, TestSumm)
 	const auto result = fft::summ_real(x, y);
 	const fft::RealContainer expected_result = { 55,115,180,250,270,290,310,330,255,175,90 };
 
-	ASSERT_EQ(result, expected_result);
+	EXPECT_EQ(result, expected_result);
 }
