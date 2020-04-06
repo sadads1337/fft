@@ -21,20 +21,20 @@ add_library(${MODULE_NAME} ${SRC_LIST})
 set_target_properties(${MODULE_NAME} PROPERTIES LINKER_LANGUAGE CXX)
 
 find_package(MKL REQUIRED)
-find_package(Python3 COMPONENTS Development NumPy REQUIRED)
+find_package(Python2 COMPONENTS Development NumPy REQUIRED)
 
 target_link_libraries(${MODULE_NAME}
 	PUBLIC
 		MKL::MKL
-		Python3::Python
-		Python3::NumPy
+		Python2::Python
+		Python2::NumPy
 )
 
 target_include_directories(${MODULE_NAME}
 	PUBLIC
 		${PROJECT_SOURCE_DIR}/projects/
-		${Python3_INCLUDE_DIRS}
-		${Python3_NumPy_INCLUDE_DIRS}
+		${Python2_INCLUDE_DIRS}
+		${Python2_NumPy_INCLUDE_DIRS}
 )
 
 add_library(${PROJECT_NAME}::${MODULE_NAME} ALIAS ${MODULE_NAME})
