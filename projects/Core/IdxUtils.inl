@@ -51,7 +51,7 @@ inline auto apply_corr_factor(const Grid1D & input, const Precision mult)
 	auto result = Grid1D(input.size(), 0.);
 	for (auto k_idx = 0u; k_idx < input.size(); ++k_idx)
 	{
-		result[k_idx] = mult * static_cast<Precision>(k_idx) * input[k_idx];
+		result[k_idx] = mult * static_cast<Precision>(input.size() - k_idx) * input[k_idx];
 	}
 	return result;
 }
