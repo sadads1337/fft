@@ -4,6 +4,7 @@
 #include <Core/MoveOnly.h>
 #include <Core/matplotlib-cpp/matplotlibcpp.h>
 #include <Core/Types.h>
+#include <Core/IdxUtils.h>
 
 #include <iostream>
 #include <array>
@@ -42,49 +43,6 @@ static_assert(std::is_same_v<std::remove_cv_t<decltype(g_t_limit_value)>, double
 constexpr auto g_z_grid_step = g_z_limit_value / static_cast<double>(g_z_grid_size);
 constexpr auto g_t_grid_step = g_t_limit_value / static_cast<double>(g_t_grid_size);
 
-auto apply_conv_factor(const Grid1D & input, const size_t k)
-{
-	auto result = Grid1D(input.size(), 0.);
-	for (auto idx = 0u; idx <= input.size(); ++idx)
-	{
-		if (0u <= k - idx && k - idx < input.size())
-		{
-			result[k - idx] = (k - idx) * input[k - idx];
-		}
-	}
-	return result;
-}
-
-auto apply_corr_factor(const Grid1D & input, const size_t k)
-{
-	auto result = Grid1D(input.size(), 0.);
-	for (auto idx = 0u; idx <= input.size(); ++idx)
-	{
-		if (0u <= k - idx && k - idx < input.size())
-		{
-			result[k - idx] = (k + idx) * input[k - idx];
-		}
-	}
-	return result;
-}
-
-auto apply_operation(
-	const Grid1D & lhs,
-	const Grid1D & rhs,
-	const std::function<Precision(Precision, Precision)> & function)
-{
-	assert(lhs.size() && rhs.size());
-	auto result = utils::make_with_capacity<fft::RealContainer>(lhs.size());
-	auto it_x = lhs.begin();
-	auto it_y = rhs.begin();
-	assert(lhs.size() == rhs.size());
-	for (; it_x != lhs.end(); ++it_x, ++it_y)
-	{
-		result.emplace_back(function(*it_x, *it_y));
-	}
-	assert(result.size());
-	return result;
-}
 inline const auto g_pi = std::atan(1.) * 4.;
 
 //! legacy c
