@@ -43,6 +43,8 @@ static_assert(std::is_same_v<std::remove_cv_t<decltype(g_t_limit_value)>, double
 constexpr auto g_z_grid_step = g_z_limit_value / static_cast<Precision>(g_z_grid_size);
 constexpr auto g_t_grid_step = g_t_limit_value / static_cast<Precision>(g_t_grid_size);
 
+static_assert(g_z_grid_step < 1. / (2. * static_cast<Precision>(g_k_limit)));
+
 inline static const auto g_pi = std::atan(1.) * 4.;
 
 //! legacy c
