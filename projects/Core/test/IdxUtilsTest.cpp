@@ -59,5 +59,5 @@ TEST(TestIdxUtils, TestApplyCorrelationFactor)
 	const auto result = utils::apply_corr_factor(x, 1.);
 
 	EXPECT_EQ(x.size(), result.size());
-	EXPECT_EQ(result, (Grid1D{0., 2., 6., 12.}));
+	EXPECT_EQ(result, (Grid1D{4., 6., 6., 4.}));
 }
