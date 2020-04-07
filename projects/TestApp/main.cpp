@@ -2,7 +2,7 @@
 #include <Core/MakeWithCapacity.h>
 #include <Core/MoveAndClear.h>
 #include <Core/MoveOnly.h>
-#include <Core/matplotlib-cpp/matplotlibcpp.h>
+#include <matplotlibcpp/matplotlibcpp.h>
 #include <Core/Types.h>
 #include <Core/IdxUtils.h>
 

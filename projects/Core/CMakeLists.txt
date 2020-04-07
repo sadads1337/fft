@@ -54,3 +54,5 @@ target_link_libraries(CoreTest
 		${MODULE_NAME}
 )
 add_test(NAME CoreTestRunner COMMAND CoreTest)
+
+add_subdirectory(matplotlib-cpp)
