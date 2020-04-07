@@ -1,0 +1,3 @@
+[submodule "projects/Core/matplotlib-cpp"]
+	path = projects/Core/matplotlib-cpp
+	url = https://github.com/sadads1337/matplotlib-cpp.git
