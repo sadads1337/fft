@@ -9,6 +9,8 @@ set(SRC_LIST
 	"MoveOnly.inl"
 	"MoveAndClear.h"
 	"MoveAndClear.inl"
+	"IdxUtils.h"
+	"IdxUtils.inl"
 	"Types.h"
 	
 	"MKL/Utils.h"
@@ -37,6 +39,7 @@ add_library(${PROJECT_NAME}::${MODULE_NAME} ALIAS ${MODULE_NAME})
 
 set(TEST_SRC_LIST 
 	"test/ConvTest.cpp"
+	"test/IdxUtilsTest.cpp"
 )
 
 add_executable(CoreTest ${TEST_SRC_LIST})
