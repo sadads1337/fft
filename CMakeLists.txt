@@ -40,4 +40,3 @@ endif()
 
 add_subdirectory(projects/Core)
 add_subdirectory(projects/TestApp)
-add_subdirectory(projects/fft_test)
