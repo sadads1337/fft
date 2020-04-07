@@ -13,28 +13,34 @@
 //! \todo: Студия не дружит с cassert, но очень нужно обмазать код assert'ми
 #include <cassert>
 
-auto make_grid(const size_t t, const size_t z, const size_t k, const double default_value = 0.)
+auto make_grid_2d(const size_t z, const size_t k, const Precision default_value = 0.)
+{
+	assert(z && k);
+	return Grid2D(z, Grid1D(k, default_value));
+}
+
+auto make_grid_3d(const size_t t, const size_t z, const size_t k, const Precision default_value = 0.)
 {
 	assert(t && z && k);
 	return Grid3D(t, Grid2D(z, Grid1D(k, default_value)));
 }
 
 //! \todo: Сейчас сетка от 0. до g_*_limit_value, поправить для произвольной. И ниже.
-constexpr const auto g_z_limit_value = 1.;
-constexpr const auto g_t_limit_value = 1.;
+constexpr auto g_z_limit_value = 1.;
+constexpr auto g_t_limit_value = 1.;
 
 //! Схема не является безусловно устойчивой -> ограничения должны удовлетворять условиям Куранта.
 //! \todo: fixme!!! constexpr check with static assertion
-constexpr const auto g_t_grid_size = 10u;
-constexpr const auto g_z_grid_size = 10u;
+constexpr auto g_t_grid_size = 200u;
+constexpr auto g_z_grid_size = 100u;
 
-constexpr const auto g_k_limit = 10u;
+constexpr auto g_k_limit = 50u;
 
-static_assert(std::is_same<std::remove_cv_t<decltype(g_z_limit_value)>, double>::value, "g_z_grid_size must be double");
-static_assert(std::is_same<std::remove_cv_t<decltype(g_t_limit_value)>, double>::value, "g_t_limit_value must be double");
+static_assert(std::is_same_v<std::remove_cv_t<decltype(g_z_limit_value)>, double>, "g_z_grid_size must be double");
+static_assert(std::is_same_v<std::remove_cv_t<decltype(g_t_limit_value)>, double>, "g_t_limit_value must be double");
 //! Care double value might be out of range.
-constexpr const auto g_z_grid_step = g_z_limit_value / static_cast<double>(g_z_grid_size);
-constexpr const auto g_t_grid_step = g_t_limit_value / static_cast<double>(g_t_grid_size);
+constexpr auto g_z_grid_step = g_z_limit_value / static_cast<double>(g_z_grid_size);
+constexpr auto g_t_grid_step = g_t_limit_value / static_cast<double>(g_t_grid_size);
 
 auto apply_conv_factor(const Grid1D & input, const size_t k)
 {
@@ -79,41 +85,40 @@ auto apply_operation(
 	assert(result.size());
 	return result;
 }
+inline const auto g_pi = std::atan(1.) * 4.;
 
 //! legacy c
-auto f(int IG, float WN7, float DT, float DZ, int K8)
+auto source(int IG, float WN7, float DT, float DZ, int K8)
 {
 	auto F = Grid1D(static_cast<size_t>(K8));
-	float C, B, T, T1, T2, T3, T4, PII, X, A, S, DX;
-	int J, N, GI;
-	float t0;
-	PII = acos(-1.0);
-	int NPT1 = K8;
-	GI = IG;
-	C = DT / DZ;
-	B = 0.00;
-	T1 = 1.500;
-	T2 = 3.500;
-	T3 = 5.500;
-	T = 2.00*PII*WN7;
-
-	if (GI <= 2.0100) T4 = T1;
-	else {
-		if ((GI <= 4.0100) && (GI >= 2.0100)) T4 = T2;
-		else T4 = T3;
-	}
-	N = int(T4 / (DT*WN7));
-	X = T4 / (2.00*WN7);
-	A = (T / GI)*(T / GI);
-	S = -X;
-	for (J = 0; J<NPT1; J++) {
-		if (J + 1 <= N + 1) F[J] = C * exp((-A)*(S*S))*cos(T*S + B);
-		else F[J] = 0.00;
-		S = S + DT;
-	}
-	for (int i = 0; i<NPT1; i++)
-		F[i] = F[i] * DT / (DZ);
-
+    float C,B,T,T1,T2,T3,T4,PII,X,A,S;
+    int J,N,GI;
+	 PII=acos(-1.0);
+	 int NPT1=K8;
+	 GI=IG;
+      C=DT/DZ;
+       B=0.00;
+       T1=1.500;
+       T2=3.500;
+       T3=5.500;
+       T=2.00*PII*WN7;
+    
+       if(GI<=2.0100) T4=T1;
+    else {
+     if((GI<=4.0100)&&(GI>=2.0100)) T4=T2;
+        else T4=T3;
+    }
+       N=int(T4/(DT*WN7));
+       X=T4/(2.00*WN7);
+       A=(T/GI)*(T/GI);
+       S=-X;
+    for(J=0; J<NPT1; J++){
+     if(J+1<=N+1) F[J]=C*exp((-A)*(S*S))*cos(T*S+B);
+     else F[J]=0.00;
+     S=S+DT;
+    }
+   for(int i=0; i<NPT1; i++) F[i]=F[i]*DT/(DZ);
+	
 	return F;
 }
 
