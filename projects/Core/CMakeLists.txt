@@ -36,12 +36,12 @@ add_library(${PROJECT_NAME}::${MODULE_NAME} ALIAS ${MODULE_NAME})
 
 
 set(TEST_SRC_LIST 
-	"test/conv_test.cpp"
+	"test/ConvTest.cpp"
 )
 
-add_executable(conv_test ${TEST_SRC_LIST})
-target_link_libraries(conv_test 
+add_executable(CoreTest ${TEST_SRC_LIST})
+target_link_libraries(CoreTest
 	gtest_main
 	${MODULE_NAME}
 )
-add_test(NAME conv_test_runner COMMAND conv_test)
+add_test(NAME CoreTestRunner COMMAND CoreTest)
