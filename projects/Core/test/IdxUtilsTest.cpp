@@ -47,7 +47,7 @@ TEST(TestIdxUtils, TestApplyOperationDerivative)
 TEST(TestIdxUtils, TestApplyConvolutionFactor)
 {
 	const Grid1D x = {1., 2., 3., 4.};
-	const auto result = utils::apply_conv_factor(x);
+	const auto result = utils::apply_conv_factor(x, 1.);
 
 	EXPECT_EQ(x.size(), result.size());
 	EXPECT_EQ(result, (Grid1D{0., 2., 6., 12.}));
@@ -56,7 +56,7 @@ TEST(TestIdxUtils, TestApplyConvolutionFactor)
 TEST(TestIdxUtils, TestApplyCorrelationFactor)
 {
 	const Grid1D x = {1., 2., 3., 4.};
-	const auto result = utils::apply_corr_factor(x);
+	const auto result = utils::apply_corr_factor(x, 1.);
 
 	EXPECT_EQ(x.size(), result.size());
 	EXPECT_EQ(result, (Grid1D{0., 2., 6., 12.}));
