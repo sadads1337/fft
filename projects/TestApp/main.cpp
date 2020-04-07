@@ -116,6 +116,19 @@ auto f(int IG, float WN7, float DT, float DZ, int K8)
 	return F;
 }
 
+auto u_func(const Grid3D & u, const size_t x_idx, const size_t z_idx, const size_t t_idx)
+{
+	const auto b = 1.;
+	static_assert(std::is_same_v<std::remove_cv_t<decltype(b)>, Precision>, "b must be the same type with main precision type");
+	auto result = 2. / b;
+	for (auto k_idx = 0; k_idx < g_k_limit; ++k_idx)
+	{
+		result += u[t_idx][z_idx][k_idx]
+			* std::sin(static_cast<float>(k_idx) * x_idx * g_z_grid_step);
+	}
+	return result;
+}
+
 int main() try
 {
 	auto u = make_grid(g_t_grid_size, g_z_grid_size, g_k_limit);
@@ -130,9 +143,9 @@ int main() try
 
 	for(auto t_idx = 0u; t_idx < g_t_grid_size - 2; t_idx += 2)
 	{
-		for (auto z_idx = 2u; z_idx < g_z_grid_size - 2; z_idx += 2)
+		for (auto z_idx = 2u; z_idx < g_z_grid_size - 2u; z_idx += 2)
 		{
-			for (auto k_idx = 0u; k_idx < g_k_limit; k_idx += 2)
+			for (auto k_idx = 0u; k_idx < g_k_limit; ++k_idx)
 			{
 				const auto diffence_q = apply_operation(
 					q[t_idx][z_idx + 1],
@@ -144,7 +157,7 @@ int main() try
 				const auto p_rho_for_u = fft::summ_real(
 					fft::conv_real(apply_conv_factor(p[t_idx][z_idx], k_idx), rho),
 					fft::corr_real(apply_corr_factor(p[t_idx][z_idx], k_idx), rho));
-				u[t_idx + 2u][z_idx][k_idx] = g_t_grid_step * u[t_idx][z_idx][k_idx] 
+				u[t_idx + 2u][z_idx][k_idx] = u[t_idx][z_idx][k_idx]
 					+ g_t_grid_step * 0.5 * (q_rho_for_u[k_idx] - p_rho_for_u[k_idx]);
 
 				const auto q_rho_for_w = fft::summ_real(
@@ -157,7 +170,7 @@ int main() try
 				const auto s_rho_for_u = fft::summ_real(
 					fft::conv_real(apply_conv_factor(diffence_s, k_idx), rho),
 					fft::corr_real(apply_corr_factor(diffence_s, k_idx), rho));
-				w[t_idx + 2u][z_idx + 1u][k_idx] = g_t_grid_step * w[t_idx][z_idx + 1u][k_idx]
+				w[t_idx + 2u][z_idx + 1u][k_idx] = w[t_idx][z_idx + 1u][k_idx]
 					+ g_t_grid_step * 0.5 * (s_rho_for_u[k_idx] + s_rho_for_u[k_idx]);
 
 				const auto diffence_w = apply_operation(
@@ -165,8 +178,8 @@ int main() try
 					s[t_idx][z_idx - 1],
 					[](const auto & lhs, const auto & rhs) { return (lhs - rhs) / g_z_grid_step; });
 				const auto w_lambda_for_p = fft::summ_real(
-					fft::conv_real(apply_conv_factor(diffence_w, k_idx), rho),
-					fft::corr_real(apply_corr_factor(diffence_w, k_idx), rho));
+					fft::conv_real(apply_conv_factor(diffence_w, k_idx), lambda),
+					fft::corr_real(apply_corr_factor(diffence_w, k_idx), lambda));
 				const auto summ_lambda_mu = apply_operation(
 					lambda,
 					mu,
@@ -174,12 +187,12 @@ int main() try
 				const auto u_summ_lambda_mu_for_p = fft::summ_real(
 					fft::conv_real(apply_conv_factor(u[t_idx][z_idx], k_idx), summ_lambda_mu),
 					fft::corr_real(apply_corr_factor(u[t_idx][z_idx], k_idx), summ_lambda_mu));
-				const auto f_x_h = z_idx == 2u
-					? f(4, 0.1, g_t_grid_step, g_z_grid_step, g_k_limit)
-					: Grid1D(g_k_limit, 0.);
-				p[t_idx + 2u][z_idx][k_idx] = g_t_grid_step * p[t_idx][z_idx][k_idx]
+				const auto f_x_h = z_idx == (g_z_grid_size / 2)
+					? f(4, 10., g_t_grid_step, g_z_grid_step, g_t_grid_size)
+					: Grid1D(g_t_grid_size, 0.);
+				p[t_idx + 2u][z_idx][k_idx] = p[t_idx][z_idx][k_idx]
 					+ g_t_grid_step * 0.5 * (w_lambda_for_p[k_idx] - u_summ_lambda_mu_for_p[k_idx])
-					+ f_x_h[k_idx];
+					+ f_x_h[t_idx] * std::cos(k_idx * g_z_limit_value / 2.);
 
 				const auto diffence_u = apply_operation(
 					u[t_idx][z_idx + 2],
@@ -191,7 +204,7 @@ int main() try
 				const auto w_mu_for_q = fft::summ_real(
 					fft::conv_real(apply_conv_factor(w[t_idx][z_idx + 1], k_idx), mu),
 					fft::corr_real(apply_corr_factor(w[t_idx][z_idx + 1], k_idx), mu));
-				q[t_idx + 2u][z_idx + 1u][k_idx] = g_t_grid_step * q[t_idx][z_idx + 1u][k_idx]
+				q[t_idx + 2u][z_idx + 1u][k_idx] = q[t_idx][z_idx + 1u][k_idx]
 					+ g_t_grid_step * 0.5 * (u_mu_for_q[k_idx] - w_mu_for_q[k_idx]);
 
 				const auto w_lambda_for_s = fft::summ_real(
@@ -200,9 +213,9 @@ int main() try
 				const auto u_lambda_for_s = fft::summ_real(
 					fft::conv_real(apply_conv_factor(u[t_idx][z_idx], k_idx), lambda),
 					fft::corr_real(apply_corr_factor(u[t_idx][z_idx], k_idx), lambda));
-				s[t_idx + 2u][z_idx][k_idx] = g_t_grid_step * s[t_idx][z_idx][k_idx]
+				s[t_idx + 2u][z_idx][k_idx] = s[t_idx][z_idx][k_idx]
 					+ g_t_grid_step * 0.5 * (w_lambda_for_s[k_idx] - u_lambda_for_s[k_idx])
-					+ f_x_h[k_idx];
+					+ f_x_h[t_idx] * std::cos(k_idx * g_z_limit_value / 2.);
 			}
 		}
 	}
