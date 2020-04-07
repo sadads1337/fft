@@ -9,6 +9,7 @@ TEST(TestMKLCore, TestConvolution)
 	const auto result = fft::conv_real(x, y);
 	const fft::RealContainer expected_result = { 11,34,70,120,130,140,150,160,151,122,72 };
 
+	EXPECT_EQ(x.size() + y.size() - 1u, expected_result.size());
 	EXPECT_EQ(result, expected_result);
 }
 
@@ -19,6 +20,7 @@ TEST(TestMKLCore, TestConvolution2)
 	const auto result = fft::conv_real(x, y);
 	const fft::RealContainer expected_result = { 4,15,19,13,7,2 };
 
+	EXPECT_EQ(x.size() + y.size() - 1u, expected_result.size());
 	EXPECT_EQ(result, expected_result);
 }
 
