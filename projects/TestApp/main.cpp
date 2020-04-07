@@ -2,6 +2,7 @@
 #include <Core/MakeWithCapacity.h>
 #include <Core/MoveAndClear.h>
 #include <Core/MoveOnly.h>
+#include <Core/matplotlib-cpp/matplotlibcpp.h>
 #include <Core/Types.h>
 
 #include <iostream>
@@ -219,6 +220,28 @@ int main() try
 			}
 		}
 	}
+
+	std::vector<std::vector<double>> x, y, z;
+	for(auto x_idx = 2u; x_idx < g_z_grid_size - 2; x_idx += 2)
+	{
+		std::vector<double> x_row, y_row, z_row;
+		for(auto z_idx = 2u; z_idx < g_z_grid_size - 2; z_idx += 2)
+		{
+			const auto t_idx = 4;
+			x_row.push_back(x_idx * g_z_grid_step);
+			y_row.push_back(z_idx * g_z_grid_step);
+			const auto f_value = u_func(u, x_idx, z_idx, t_idx);
+			z_row.push_back(f_value);
+		}
+		x.push_back(x_row);
+		y.push_back(y_row);
+		z.push_back(z_row);
+	}
+
+	namespace plt = matplotlibcpp;
+
+	plt::plot_surface(x, y, z);
+	plt::show();
 }
 catch(const utils::MKLException & exception)
 {
