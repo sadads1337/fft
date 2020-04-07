@@ -45,9 +45,12 @@ set(TEST_SRC_LIST
 )
 
 add_executable(CoreTest ${TEST_SRC_LIST})
+
+find_package(gtest REQUIRED)
+
 target_link_libraries(CoreTest
 	PRIVATE
-		gtest_main
+		gtest::gtest
 		${MODULE_NAME}
 )
 add_test(NAME CoreTestRunner COMMAND CoreTest)
