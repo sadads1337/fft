@@ -2,6 +2,7 @@
 #include <Core/MakeWithCapacity.h>
 #include <Core/MoveAndClear.h>
 #include <Core/MoveOnly.h>
+#include <Core/Types.h>
 
 #include <iostream>
 #include <array>
@@ -10,12 +11,6 @@
 
 //! \todo: Студия не дружит с cassert, но очень нужно обмазать код assert'ми
 #include <cassert>
-
-using Precision = double;
-static_assert(std::is_floating_point_v<Precision>, "Precision must be float or double");
-using Grid1D = std::vector<double>;
-using Grid2D = std::vector<Grid1D>;
-using Grid3D = std::vector<Grid2D>;
 
 auto make_grid(const size_t t, const size_t z, const size_t k, const double default_value = 0.)
 {
@@ -42,28 +37,28 @@ constexpr const auto g_t_grid_step = g_t_limit_value / static_cast<double>(g_t_g
 
 auto apply_conv_factor(const Grid1D & input, const size_t k)
 {
-	auto result = input;
+	auto result = Grid1D(input.size(), 0.);
 	for (auto idx = 0u; idx <= input.size(); ++idx)
 	{
 		if (0u <= k - idx && k - idx < input.size())
 		{
-			result[k - idx] = (k - idx) * result[k - idx];
+			result[k - idx] = (k - idx) * input[k - idx];
 		}
 	}
-	return utils::move_and_clear(result);
+	return result;
 }
 
 auto apply_corr_factor(const Grid1D & input, const size_t k)
 {
-	auto result = input;
+	auto result = Grid1D(input.size(), 0.);
 	for (auto idx = 0u; idx <= input.size(); ++idx)
 	{
 		if (0u <= k - idx && k - idx < input.size())
 		{
-			result[k - idx] = (k + idx) * result[k - idx];
+			result[k - idx] = (k + idx) * input[k - idx];
 		}
 	}
-	return utils::move_and_clear(result);
+	return result;
 }
 
 auto apply_operation(

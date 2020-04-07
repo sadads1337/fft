@@ -9,6 +9,7 @@ set(SRC_LIST
 	"MoveOnly.inl"
 	"MoveAndClear.h"
 	"MoveAndClear.inl"
+	"Types.h"
 	
 	"MKL/Utils.h"
 	"MKL/Utils.inl"
