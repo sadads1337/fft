@@ -1,7 +1,5 @@
 #pragma once
 
-#include <cstdint>
-
 #include <Core/MakeWithCapacity.h>
 #include <Core/MKL/Utils.h>
 
@@ -28,10 +26,10 @@ inline auto apply_operation(
 
 inline auto apply_conv_factor(const Grid1D & input, const Precision mult)
 {
-	auto result = Grid1D(input.size(), 0.);
+	//! \todo: remove redudant allocation
+	auto result = Grid1D(input.size(), static_cast<Precision>(0.));
 	for (auto k_idx = 0u; k_idx < input.size(); ++k_idx)
 	{
-		//! \todo pi / b
 		result[k_idx] = mult * static_cast<Precision>(k_idx) * input[k_idx];
 	}
 	return result;
@@ -39,7 +37,8 @@ inline auto apply_conv_factor(const Grid1D & input, const Precision mult)
 
 inline auto apply_corr_factor(const Grid1D & input, const Precision mult)
 {
-	auto result = Grid1D(input.size(), 0.);
+	//! \todo: remove redudant allocation
+	auto result = Grid1D(input.size(), static_cast<Precision>(0.));
 	for (auto k_idx = 0u; k_idx < input.size(); ++k_idx)
 	{
 		result[k_idx] = mult * static_cast<Precision>(input.size() - k_idx) * input[k_idx];
