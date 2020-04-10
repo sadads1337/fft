@@ -1,5 +1,8 @@
 #pragma once
 
+#include <type_traits>
+#include <vector>
+
 using Precision = double;
 static_assert(std::is_floating_point_v<Precision>, "Precision must be float or double");
 
