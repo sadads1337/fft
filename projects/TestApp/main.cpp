@@ -1,13 +1,9 @@
 #include <Core/MKL/Utils.h>
-#include <Core/MakeWithCapacity.h>
-#include <Core/MoveAndClear.h>
-#include <Core/MoveOnly.h>
 #include <matplotlibcpp/matplotlibcpp.h>
 #include <Core/Types.h>
 #include <Core/IdxUtils.h>
 
 #include <iostream>
-#include <array>
 #include <type_traits>
 #include <functional>
 
