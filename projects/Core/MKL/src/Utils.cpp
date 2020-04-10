@@ -1,5 +1,5 @@
 ﻿#include <Core/MKL/Utils.h>
-#include <Core/MakeWithCapactiy.h>
+#include <Core/MakeWithCapacity.h>
 
 #include <mkl.h>
 
