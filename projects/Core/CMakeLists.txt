@@ -9,6 +9,7 @@ set(SRC_LIST
 	MoveAndClear.inl
 	IdxUtils.h
 	IdxUtils.inl
+	GridUtils.h
 	Types.h
 
 	MKL/Utils.h

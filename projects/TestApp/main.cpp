@@ -2,6 +2,7 @@
 #include <matplotlibcpp/matplotlibcpp.h>
 #include <Core/Types.h>
 #include <Core/IdxUtils.h>
+#include <Core/GridUtils.h>
 
 #include <iostream>
 #include <type_traits>
@@ -9,18 +10,6 @@
 
 //! \todo: Студия не дружит с cassert, но очень нужно обмазать код assert'ми
 #include <cassert>
-
-auto make_grid_2d(const size_t z, const size_t k, const Precision default_value = 0.)
-{
-	assert(z && k);
-	return Grid2D(z, Grid1D(k, default_value));
-}
-
-auto make_grid_3d(const size_t t, const size_t z, const size_t k, const Precision default_value = 0.)
-{
-	assert(t && z && k);
-	return Grid3D(t, Grid2D(z, Grid1D(k, default_value)));
-}
 
 //! \todo: Сейчас сетка от 0. до g_*_limit_value, поправить для произвольной. И ниже.
 constexpr auto g_z_limit_value = 1.;
