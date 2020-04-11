@@ -103,6 +103,7 @@ void calculate_one_step(const Values & prev_values, Values & values, const Env &
 	const auto & mu = env.mu;
 	const auto & f = env.f;
 
+	FFT_OMP_PRAGMA("omp parallel for")
 	for (auto z_idx = 1u; z_idx < g_z_grid_size - 1u; ++z_idx)
 	{
 		//! For u
