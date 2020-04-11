@@ -5,9 +5,25 @@ target_link_libraries(Benchmark
 		FFT::Scheme
 )
 
-add_executable(SummVectorizedBenchmark micro/SummVectorizedBench.cpp)
+add_executable(SummVectorizedBenchmark micro/SummVectorizedBench.cpp micro/Utils.h)
 
 target_link_libraries(SummVectorizedBenchmark
+	PUBLIC
+		FFT::Scheme
+		benchmark::benchmark
+)
+
+add_executable(ConvVectorizedBenchmark micro/ConvVectorizedBench.cpp micro/Utils.h)
+
+target_link_libraries(ConvVectorizedBenchmark
+	PUBLIC
+		FFT::Scheme
+		benchmark::benchmark
+)
+
+add_executable(CorrVectorizedBenchmark micro/CorrVectorizedBench.cpp micro/Utils.h)
+
+target_link_libraries(CorrVectorizedBenchmark
 	PUBLIC
 		FFT::Scheme
 		benchmark::benchmark

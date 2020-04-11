@@ -5,25 +5,25 @@
 
 #include "Utils.h"
 
-static void summ_real(benchmark::State& state)
+static void apply_corr_factor(benchmark::State& state)
 {
 	const auto size = static_cast<size_t>(state.range(0u));
 	const auto lhs = InitializeWithRandomNumbers(size);
-	const auto rhs = InitializeWithRandomNumbers(size);
+	constexpr auto factor = static_cast<Precision>(1.5);
 	for ([[maybe_unused]] auto _ : state)
 	{
-		benchmark::DoNotOptimize(utils::summ_real<false>(lhs, rhs));
+		benchmark::DoNotOptimize(utils::apply_corr_factor<false>(lhs, factor));
 	}
 }
 
-static void summ_real_vectorized(benchmark::State& state)
+static void apply_corr_factor_vectorized(benchmark::State& state)
 {
 	const auto size = static_cast<size_t>(state.range(0u));
 	const auto lhs = InitializeWithRandomNumbers(size);
-	const auto rhs = InitializeWithRandomNumbers(size);
+	constexpr auto factor = static_cast<Precision>(1.5);
 	for ([[maybe_unused]] auto _ : state)
 	{
-		benchmark::DoNotOptimize(utils::summ_real<true>(lhs, rhs));
+		benchmark::DoNotOptimize(utils::apply_corr_factor<true>(lhs, factor));
 	}
 }
 
@@ -35,7 +35,7 @@ static auto customize_benchmark(benchmark::internal::Benchmark * const benchmark
 	}
 }
 
-BENCHMARK(summ_real)->Apply(customize_benchmark);
-BENCHMARK(summ_real_vectorized)->Apply(customize_benchmark);
+BENCHMARK(apply_corr_factor)->Apply(customize_benchmark);
+BENCHMARK(apply_corr_factor_vectorized)->Apply(customize_benchmark);
 
 BENCHMARK_MAIN();
