@@ -7,8 +7,6 @@ set(SRC_LIST
 	MoveOnly.inl
 	MoveAndClear.h
 	MoveAndClear.inl
-	IdxUtils.h
-	IdxUtils.inl
 	GridUtils.h
 	Types.h
 
@@ -32,19 +30,18 @@ add_library(${PROJECT_NAME}::${MODULE_NAME} ALIAS ${MODULE_NAME})
 
 set(TEST_SRC_LIST 
 	test/ConvTest.cpp
-	test/IdxUtilsTest.cpp
 )
 
 add_executable(CoreTest ${TEST_SRC_LIST})
 
 find_package(gtest REQUIRED)
 
-target_link_libraries(CoreTest
+target_link_libraries(${MODULE_NAME}Test
 	PRIVATE
 		gtest::gtest
 		${MODULE_NAME}
 )
-add_test(NAME CoreTestRunner COMMAND CoreTest)
+add_test(NAME ${MODULE_NAME}TestRunner COMMAND ${MODULE_NAME}Test)
 
 add_subdirectory(matplotlib-cpp)
 

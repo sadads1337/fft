@@ -1,9 +1,8 @@
 #include <Scheme/Scheme.h>
 
-
-#include <Core/IdxUtils.h>
 #include <Core/MKL/Utils.h>
 
+#include "IdxUtils.h"
 #include "OpenMP.h"
 
 namespace scheme

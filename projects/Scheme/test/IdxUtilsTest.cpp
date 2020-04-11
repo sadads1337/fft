@@ -1,6 +1,6 @@
 #include <gtest/gtest.h>
 
-#include <Core/IdxUtils.h>
+#include <Scheme/src/IdxUtils.h>
 
 #include <array>
 
