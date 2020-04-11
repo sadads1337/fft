@@ -17,10 +17,10 @@ inline static constexpr auto g_t_limit_value = static_cast<Precision>(1.);
 
 //! Схема не является безусловно устойчивой -> ограничения должны удовлетворять условиям Куранта.
 //! \todo: fixme!!! constexpr check with static assertion
-inline static constexpr auto g_t_grid_size = 101u;
-inline static constexpr auto g_z_grid_size = 51u;
+inline static constexpr auto g_t_grid_size = 1000u;
+inline static constexpr auto g_z_grid_size = 500u;
 
-inline static constexpr auto g_k_limit = 10u;
+inline static constexpr auto g_k_limit = 30u;
 
 static_assert(std::is_same_v<std::remove_cv_t<decltype(g_z_limit_value)>, double>, "g_z_grid_size must be double");
 static_assert(std::is_same_v<std::remove_cv_t<decltype(g_t_limit_value)>, double>, "g_t_limit_value must be double");
