@@ -48,7 +48,7 @@ inline auto apply_corr_factor(const Grid1D & input, const Precision mult)
 
 auto inline summ_real(const Grid1D & x, const Grid1D & y)
 {
-	assert(x.size() != y.size());
+	assert(x.size() == y.size());
 	//! \todo: remove redudant allocation
 	auto result = utils::make_with_capacity<Grid1D>(x.size());
 	auto it_x = x.begin();
