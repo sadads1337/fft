@@ -8,21 +8,30 @@
 namespace utils
 {
 
+template<bool vectorized>
 inline auto apply_operation(
 	const Grid1D & lhs,
 	const Grid1D & rhs,
 	const std::function<Precision(Precision, Precision)> & function)
 {
 	assert(lhs.size() && rhs.size());
-	auto result = utils::make_with_capacity<fft::RealContainer>(lhs.size());
-	auto it_x = lhs.begin();
-	auto it_y = rhs.begin();
-	assert(lhs.size() == rhs.size());
-	for (; it_x != lhs.end(); ++it_x, ++it_y)
-	{
-		result.push_back(function(*it_x, *it_y));
-	}
 	assert(result.size() == lhs.size());
+	auto result = utils::make_with_capacity<Grid1D>(lhs.size());
+	if constexpr (vectorized)
+	{
+		FFT_OMP_PRAGMA("omp parallel for")
+		for (auto idx = 0u; idx < lhs.size(); ++idx)
+		{
+			result.push_back(function(lhs[idx], rhs[idx]));
+		}
+	}
+	else
+	{
+		for (auto idx = 0u; idx < lhs.size(); ++idx)
+		{
+			result.push_back(function(lhs[idx], rhs[idx]));
+		}
+	}
 	return result;
 }
 

@@ -28,3 +28,11 @@ target_link_libraries(CorrVectorizedBenchmark
 		FFT::Scheme
 		benchmark::benchmark
 )
+
+add_executable(ApplyOperationVectorizedBenchmark micro/ApplyOperationVectorizedBench.cpp micro/Utils.h)
+
+target_link_libraries(ApplyOperationVectorizedBenchmark
+	PUBLIC
+		FFT::Scheme
+		benchmark::benchmark
+)

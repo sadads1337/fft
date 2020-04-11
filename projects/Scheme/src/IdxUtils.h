@@ -5,6 +5,7 @@
 namespace utils
 {
 
+template<bool vectorized>
 auto apply_operation(
 	const Grid1D & lhs,
 	const Grid1D & rhs,

@@ -77,6 +77,13 @@ auto inline apply_corr_factor(T && ...args)
 	return utils::apply_corr_factor<vectorized>(std::forward<T>(args)...);
 }
 
+template<typename... T>
+auto inline apply_operation(T && ...args)
+{
+	constexpr bool vectorized = false;
+	return utils::apply_operation<vectorized>(std::forward<T>(args)...);
+}
+
 void calculate_one_step(const Values & prev_values, Values & values, const Env & env, const size_t t_idx)
 {
 	const auto & prev_u = prev_values.u;
@@ -99,7 +106,7 @@ void calculate_one_step(const Values & prev_values, Values & values, const Env &
 	for (auto z_idx = 1u; z_idx < g_z_grid_size - 1u; ++z_idx)
 	{
 		//! For u
-		const auto der_q = utils::apply_operation(
+		const auto der_q = apply_operation(
 			prev_q[z_idx + 1u],
 			prev_q[z_idx],
 			[](const auto & lhs, const auto & rhs) { return (lhs - rhs) / g_z_grid_step; });
@@ -114,7 +121,7 @@ void calculate_one_step(const Values & prev_values, Values & values, const Env &
 		const auto q_rho_for_w = summ_real(
 			fft::conv_real(apply_conv_factor(prev_q[z_idx + 1u], g_pi / g_z_limit_value), rho),
 			fft::corr_real(apply_corr_factor(prev_q[z_idx + 1u], g_pi / g_z_limit_value), rho));
-		const auto der_s = utils::apply_operation(
+		const auto der_s = apply_operation(
 			prev_s[z_idx + 1u],
 			prev_s[z_idx],
 			[](const auto & lhs, const auto & rhs) { return (lhs - rhs) / g_z_grid_step; });
@@ -123,14 +130,14 @@ void calculate_one_step(const Values & prev_values, Values & values, const Env &
 			fft::corr_real(apply_corr_factor(der_s, g_pi / g_z_limit_value), rho));
 
 		//! For p
-		const auto der_w = utils::apply_operation(
+		const auto der_w = apply_operation(
 			prev_w[z_idx + 1u],
 			prev_w[z_idx],
 			[](const auto & lhs, const auto & rhs) { return (lhs - rhs) / g_z_grid_step; });
 		const auto w_lambda_for_p = summ_real(
 			fft::conv_real(apply_conv_factor(der_w, g_pi / g_z_limit_value), lambda),
 			fft::corr_real(apply_corr_factor(der_w, g_pi / g_z_limit_value), lambda));
-		const auto summ_lambda_mu = utils::apply_operation(
+		const auto summ_lambda_mu = apply_operation(
 			lambda,
 			mu,
 			[](const auto & lhs, const auto & rhs) { return lhs + static_cast<Precision>(2.) * rhs; });
@@ -139,7 +146,7 @@ void calculate_one_step(const Values & prev_values, Values & values, const Env &
 			fft::corr_real(apply_corr_factor(prev_u[z_idx], g_pi / g_z_limit_value), summ_lambda_mu));
 
 		//! For q
-		const auto der_u = utils::apply_operation(
+		const auto der_u = apply_operation(
 			prev_u[z_idx + 1u],
 			prev_u[z_idx],
 			[](const auto & lhs, const auto & rhs) { return (lhs - rhs) / g_z_grid_step; });
