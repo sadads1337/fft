@@ -10,7 +10,7 @@
 
 #if FFT_ENABLE_OPENMP
 	#include <omp.h>
-	#define FFT_OMP(omp_directive) omp_directive
+	#define FFT_OMP_PRAGMA(omp_directive) _Pragma(omp_directive)
 #else
-	#define FFT_OMP(omp_directive)
+	#define FFT_OMP_PRAGMA(omp_directive)
 #endif // #ifdef FFT_ENABLE_OPENMP

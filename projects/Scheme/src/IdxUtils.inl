@@ -3,6 +3,8 @@
 #include <Core/MakeWithCapacity.h>
 #include <Core/MKL/Utils.h>
 
+#include "OpenMP.h"
+
 namespace utils
 {
 
@@ -46,16 +48,25 @@ inline auto apply_corr_factor(const Grid1D & input, const Precision mult)
 	return result;
 }
 
+template<bool vectorized>
 auto inline summ_real(const Grid1D & x, const Grid1D & y)
 {
 	assert(x.size() == y.size());
 	//! \todo: remove redudant allocation
 	auto result = utils::make_with_capacity<Grid1D>(x.size());
-	auto it_x = x.begin();
-	auto it_y = y.begin();
-	for(; it_x != x.end(); ++it_x, ++it_y)
+
+	if constexpr (vectorized)
 	{
-		result.emplace_back(*it_x + *it_y);
+		FFT_OMP_PRAGMA("omp parallel for")
+		for (auto idx = 0u; idx < x.size(); ++idx) {
+			result.emplace_back(x[idx] + y[idx]);
+		}
+	}
+	else
+	{
+		for (auto idx = 0u; idx < x.size(); ++idx) {
+			result.emplace_back(x[idx] + y[idx]);
+		}
 	}
 	return result;
 }

@@ -17,7 +17,7 @@ if (FFT_ENABLE_OPENMP)
 		PUBLIC
 			OpenMP::OpenMP_CXX
 	)
-	target_compile_definitions(${MODULE_NAME} PRIVATE FFT_ENABLE_OPENMP)
+	target_compile_definitions(${MODULE_NAME} PUBLIC FFT_ENABLE_OPENMP)
 endif()
 
 target_link_libraries(${MODULE_NAME}
