@@ -67,20 +67,4 @@ RealContainer corr_real(const RealContainer & x, const RealContainer & y)
 	return z;
 }
 
-RealContainer summ_real(const RealContainer & x, const RealContainer & y)
-{
-	if (x.size() != y.size())
-	{
-		throw std::runtime_error("x and y must be the same size");
-	}
-	auto result = utils::make_with_capacity<RealContainer>(x.size());
-	auto it_x = x.begin();
-	auto it_y = y.begin();
-	for(; it_x != x.end(); ++it_x, ++it_y)
-	{
-		result.emplace_back(*it_x + *it_y);
-	}
-	return result;
-}
-
 } // namespace fft

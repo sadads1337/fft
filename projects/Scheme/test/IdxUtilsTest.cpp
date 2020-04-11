@@ -55,3 +55,16 @@ TEST(TestIdxUtils, TestApplyCorrelationFactor)
 	EXPECT_EQ(x.size(), result.size());
 	EXPECT_EQ(result, (Grid1D{4., 6., 6., 4.}));
 }
+
+TEST(TestIdxUtils, TestSumm)
+{
+	const Grid1D x = { 11,34,70,120,130,140,150,160,151,122,72 };
+	const Grid1D y = { 44,81,110,130,140,150,160,170,104,53,18 };
+
+	ASSERT_EQ(x.size(), y.size());
+
+	const auto result = utils::summ_real(x, y);
+	const Grid1D expected_result = { 55,115,180,250,270,290,310,330,255,175,90 };
+
+	EXPECT_EQ(result, expected_result);
+}

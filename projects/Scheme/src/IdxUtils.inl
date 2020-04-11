@@ -46,4 +46,18 @@ inline auto apply_corr_factor(const Grid1D & input, const Precision mult)
 	return result;
 }
 
+auto inline summ_real(const Grid1D & x, const Grid1D & y)
+{
+	assert(x.size() != y.size());
+	//! \todo: remove redudant allocation
+	auto result = utils::make_with_capacity<Grid1D>(x.size());
+	auto it_x = x.begin();
+	auto it_y = y.begin();
+	for(; it_x != x.end(); ++it_x, ++it_y)
+	{
+		result.emplace_back(*it_x + *it_y);
+	}
+	return result;
+}
+
 } // namespace utils

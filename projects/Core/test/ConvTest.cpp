@@ -33,13 +33,3 @@ TEST(TestMKLCore, TestCorrelation)
 
 	EXPECT_EQ(result, expected_result);
 }
-
-TEST(TestMKLCore, TestSumm)
-{
-	const fft::RealContainer x = { 11,34,70,120,130,140,150,160,151,122,72 };
-	const fft::RealContainer y = { 44,81,110,130,140,150,160,170,104,53,18 };
-	const auto result = fft::summ_real(x, y);
-	const fft::RealContainer expected_result = { 55,115,180,250,270,290,310,330,255,175,90 };
-
-	EXPECT_EQ(result, expected_result);
-}
