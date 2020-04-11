@@ -44,9 +44,12 @@ struct Values final
 
 struct Env final
 {
-	const Grid1D rho = Grid1D(g_k_limit, static_cast<Precision>(1.));
-	const Grid1D lambda = Grid1D(g_k_limit, static_cast<Precision>(1.));
-	const Grid1D mu = Grid1D(g_k_limit, static_cast<Precision>(1.));
+	const Grid1D rho;
+	const Grid1D lambda;
+	const Grid1D mu;
+	const Grid1D f;
+
+	Env() = delete;
 };
 
 //! legacy c

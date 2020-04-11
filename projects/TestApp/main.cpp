@@ -11,7 +11,17 @@ int main() try
 {
 	scheme::Values values_1{};
 	scheme::Values values_2{};
-	const scheme::Env env{};
+	const scheme::Env env{
+		Grid1D(scheme::g_k_limit, static_cast<Precision>(1.)),
+		Grid1D(scheme::g_k_limit, static_cast<Precision>(1.)),
+		Grid1D(scheme::g_k_limit, static_cast<Precision>(1.)),
+		scheme::source(
+			4,
+			static_cast<Precision>(1.),
+			scheme::g_t_grid_step,
+			scheme::g_z_grid_step,
+			scheme::g_t_grid_size),
+	};
 	
 	for(auto t_idx = 0u; t_idx < 2u/*g_t_grid_size*/; ++t_idx)
 	{

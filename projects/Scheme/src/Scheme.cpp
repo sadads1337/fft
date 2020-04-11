@@ -73,6 +73,7 @@ void calculate_one_step(const Values & prev_values, Values & values, const Env &
 	const auto & rho = env.rho;
 	const auto & lambda = env.lambda;
 	const auto & mu = env.mu;
+	const auto & f = env.f;
 
 	for (auto z_idx = 1u; z_idx < g_z_grid_size - 1u; ++z_idx)
 	{
@@ -139,8 +140,8 @@ void calculate_one_step(const Values & prev_values, Values & values, const Env &
 		//! For f
 		constexpr auto z_0_idx = g_z_grid_size / 2;
 		const auto f_x_h = z_idx == z_0_idx
-			? source(4, static_cast<Precision>(1.), g_t_grid_step, g_z_grid_step, g_t_grid_size)
-			: Grid1D(g_t_grid_size, static_cast<Precision>(0.));
+			? f[t_idx]
+			: 0.;
 
 		for (auto k_idx = 0u; k_idx < g_k_limit; ++k_idx)
 		{
@@ -155,12 +156,12 @@ void calculate_one_step(const Values & prev_values, Values & values, const Env &
 				+ half * g_t_grid_step * (q_rho_for_w[k_idx] + s_rho_for_w[k_idx]);
 			p[z_idx][k_idx] = prev_p[z_idx][k_idx]
 				+ half * g_t_grid_step * (w_lambda_for_p[k_idx] - u_summ_lambda_mu_for_p[k_idx])
-				+ f_x_h[t_idx] * std::cos(static_cast<Precision>(k_idx) * g_pi / g_z_limit_value * static_cast<Precision>(z_0));
+				+ f_x_h * std::cos(static_cast<Precision>(k_idx) * g_pi / g_z_limit_value * static_cast<Precision>(z_0));
 			q[z_idx + 1u][k_idx] = prev_q[z_idx + 1u][k_idx]
 				+ half * g_t_grid_step * (u_mu_for_q[k_idx] - w_mu_for_q[k_idx]);
 			s[z_idx][k_idx] = prev_s[z_idx][k_idx]
 				+ half * g_t_grid_step * (w_summ_lambda_mu_for_s[k_idx] - u_lambda_for_s[k_idx])
-				+ f_x_h[t_idx] * std::cos(static_cast<Precision>(k_idx) * g_pi / g_z_limit_value  * static_cast<Precision>(z_0));
+				+ f_x_h * std::cos(static_cast<Precision>(k_idx) * g_pi / g_z_limit_value  * static_cast<Precision>(z_0));
 		}
 	}
 }
