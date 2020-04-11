@@ -46,3 +46,5 @@ add_test(NAME ${MODULE_NAME}TestRunner COMMAND ${MODULE_NAME}Test)
 add_subdirectory(matplotlib-cpp)
 
 add_library(${PROJECT_NAME}::matplotlibcpp ALIAS matplotlibcpp)
+
+add_subdirectory(benchmark)
