@@ -9,8 +9,6 @@ include_directories(${PROJECT_SOURCE_DIR}/Projects)
 
 enable_testing()
 
-option(FFT_SANITIZE On "Enable builds with sanitizers support")
-
 if (FFT_SANITIZE)
     message(STATUS "Trying to check available sanitizers")
 

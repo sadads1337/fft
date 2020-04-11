@@ -8,7 +8,8 @@
 	#undef FFT_OMP
 #endif // #ifdef FFT_OMP
 
-#ifdef FFT_ENABLE_OPENMP
+#if FFT_ENABLE_OPENMP
+	#include <omp.h>
 	#define FFT_OMP(omp_directive) omp_directive
 #else
 	#define FFT_OMP(omp_directive)

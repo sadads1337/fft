@@ -11,6 +11,7 @@ set(SRC_LIST
 add_library(${MODULE_NAME} ${SRC_LIST})
 
 if (FFT_ENABLE_OPENMP)
+	message(STATUS "Trying to find OpenMP")
 	find_package(OpenMP REQUIRED)
 	target_link_libraries(${MODULE_NAME}
 		PUBLIC
