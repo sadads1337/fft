@@ -5,6 +5,8 @@ project (FFT C CXX)
 list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
 include(common)
 
+option(FFT_ENABLE_OPENMP On "Enable OpenMP support")
+
 add_subdirectory(projects/Core)
 add_subdirectory(projects/Scheme)
 add_subdirectory(projects/TestApp)

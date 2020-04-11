@@ -4,6 +4,8 @@
 #include <Core/IdxUtils.h>
 #include <Core/MKL/Utils.h>
 
+#include "OpenMP.h"
+
 namespace scheme
 {
 
