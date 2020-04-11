@@ -6,3 +6,5 @@ if (NOT MSVC)
 endif()
 
 include_directories(${PROJECT_SOURCE_DIR}/Projects)
+
+enable_testing()
