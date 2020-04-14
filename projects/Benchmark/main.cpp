@@ -23,15 +23,7 @@ int main() try
 			scheme::g_t_grid_size),
 	};
 
-	{
-		utils::TimeGuard time_guard{};
-		for (auto t_idx = 0u; t_idx < scheme::g_t_grid_size; ++t_idx) {
-			calculate_one_step(values_1, values_2, env, t_idx);
-
-			//! new in values_2 now; we don't need values_2, swap here, do not copy
-			std::swap(values_1, values_2);
-		}
-	}
+	main_loop_for_t(values_1, values_2, env);
 }
 catch(const utils::MKLException & exception)
 {

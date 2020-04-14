@@ -1,6 +1,7 @@
 #include <Scheme/Scheme.h>
 
 #include <Core/MKL/Utils.h>
+#include <Core/TimeGuard.h>
 
 #include "IdxUtils.h"
 #include "OpenMP.h"
@@ -192,6 +193,17 @@ void calculate_one_step(const Values & prev_values, Values & values, const Env &
 				+ half * g_t_grid_step * (w_summ_lambda_mu_for_s[k_idx] - u_lambda_for_s[k_idx])
 				+ f_x_h * std::cos(static_cast<Precision>(k_idx) * g_pi / g_z_limit_value  * static_cast<Precision>(z_0));
 		}
+	}
+}
+
+void main_loop_for_t(Values & prev_values, Values & values, const Env & env)
+{
+	utils::TimeGuard time_guard{};
+	for (auto t_idx = 0u; t_idx < scheme::g_t_grid_size; ++t_idx) {
+		calculate_one_step(prev_values, values, env, t_idx);
+
+		//! new in values_2 now; we don't need values_2, swap here, do not copy
+		std::swap(prev_values, values);
 	}
 }
 

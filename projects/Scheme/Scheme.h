@@ -59,4 +59,6 @@ Precision u_func(const Grid2D & u, const size_t x_idx, const size_t z_idx);
 
 void calculate_one_step(const Values & prev_values, Values & values, const Env & env, const size_t t_idx);
 
+void main_loop_for_t(Values & prev_values, Values & values, const Env & env);
+
 } // namespace scheme
