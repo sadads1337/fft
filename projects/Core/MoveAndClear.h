@@ -2,12 +2,11 @@
 
 #include <type_traits>
 
-namespace utils
-{
+namespace utils {
 
 template <typename ContainerType>
-std::remove_reference_t<ContainerType> move_and_clear(ContainerType && val);
+std::remove_reference_t<ContainerType> move_and_clear(ContainerType&& val);
 
-} // namespace utils
+}  // namespace utils
 
 #include "MoveAndClear.inl"

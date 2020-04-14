@@ -1,3 +1,6 @@
 [submodule "projects/Core/matplotlib-cpp"]
 	path = projects/Core/matplotlib-cpp
 	url = https://github.com/sadads1337/matplotlib-cpp.git
+[submodule "projects/Core/benchmark"]
+	path = projects/Core/benchmark
+	url = https://github.com/google/benchmark
