@@ -15,7 +15,7 @@ inline auto apply_operation(
 	const std::function<Precision(Precision, Precision)> & function)
 {
 	assert(lhs.size() && rhs.size());
-	assert(result.size() == lhs.size());
+	assert(lhs.size() == rhs.size());
 	auto result = utils::make_with_capacity<Grid1D>(lhs.size());
 	if constexpr (vectorized)
 	{
