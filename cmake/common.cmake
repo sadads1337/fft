@@ -7,7 +7,9 @@ endif()
 
 include_directories(${PROJECT_SOURCE_DIR}/Projects)
 
-enable_testing()
+if (FFT_ENABLE_TESTS)
+    enable_testing()
+endif()
 
 if (FFT_SANITIZE)
     message(STATUS "Trying to check available sanitizers")
