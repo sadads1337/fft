@@ -1,12 +1,11 @@
 ﻿#pragma once
 #include "MakeWithCapacity.h"
 
-namespace utils
-{
+namespace utils {
 
-template<typename VectorClass>
+template <typename VectorClass>
 VectorClass make_with_capacity(typename VectorClass::size_type capacity);
 
-} // namespace utils
+}  // namespace utils
 
 #include "MakeWithCapacity.inl"
