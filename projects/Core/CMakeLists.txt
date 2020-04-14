@@ -8,7 +8,10 @@ set(SRC_LIST
 	MoveAndClear.h
 	MoveAndClear.inl
 	GridUtils.h
+	TimeGuard.h
 	Types.h
+
+	src/TimeGuard.cpp
 
 	MKL/Utils.h
 	MKL/Utils.inl
