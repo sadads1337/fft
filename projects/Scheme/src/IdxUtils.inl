@@ -13,15 +13,15 @@ inline auto apply_operation(
     const std::function<Precision(Precision, Precision)>& function) {
   assert(lhs.size() && rhs.size());
   assert(lhs.size() == rhs.size());
-  auto result = utils::make_with_capacity<Grid1D>(lhs.size());
+  Grid1D result(rhs.size());
   if constexpr (vectorized) {
-    FFT_OMP_PRAGMA("omp parallel for")
+    FFT_OMP_PRAGMA("omp simd")
     for (auto idx = 0u; idx < lhs.size(); ++idx) {
-      result.push_back(function(lhs[idx], rhs[idx]));
+      result[idx] = function(lhs[idx], rhs[idx]);
     }
   } else {
     for (auto idx = 0u; idx < lhs.size(); ++idx) {
-      result.push_back(function(lhs[idx], rhs[idx]));
+      result[idx] = function(lhs[idx], rhs[idx]);
     }
   }
   return result;
@@ -30,9 +30,9 @@ inline auto apply_operation(
 template <bool vectorized>
 inline auto apply_conv_factor(const Grid1D& input, const Precision mult) {
   //! \todo: remove redudant allocation
-  auto result = Grid1D(input.size(), static_cast<Precision>(0.));
+  Grid1D result(input.size());
   if constexpr (vectorized) {
-    FFT_OMP_PRAGMA("omp parallel for")
+    FFT_OMP_PRAGMA("omp simd")
     for (auto k_idx = 0u; k_idx < input.size(); ++k_idx) {
       result[k_idx] = mult * static_cast<Precision>(k_idx) * input[k_idx];
     }
@@ -47,9 +47,9 @@ inline auto apply_conv_factor(const Grid1D& input, const Precision mult) {
 template <bool vectorized>
 inline auto apply_corr_factor(const Grid1D& input, const Precision mult) {
   //! \todo: remove redudant allocation
-  auto result = Grid1D(input.size(), static_cast<Precision>(0.));
+  Grid1D result(input.size());
   if constexpr (vectorized) {
-    FFT_OMP_PRAGMA("omp parallel for")
+    FFT_OMP_PRAGMA("omp simd")
     for (auto k_idx = 0u; k_idx < input.size(); ++k_idx) {
       result[k_idx] =
           mult * static_cast<Precision>(input.size() - k_idx) * input[k_idx];
@@ -67,16 +67,16 @@ template <bool vectorized>
 auto inline summ_real(const Grid1D& x, const Grid1D& y) {
   assert(x.size() == y.size());
   //! \todo: remove redudant allocation
-  auto result = utils::make_with_capacity<Grid1D>(x.size());
+  Grid1D result(x.size());
 
   if constexpr (vectorized) {
-    FFT_OMP_PRAGMA("omp parallel for")
+    FFT_OMP_PRAGMA("omp simd")
     for (auto idx = 0u; idx < x.size(); ++idx) {
-      result.emplace_back(x[idx] + y[idx]);
+      result[idx] = x[idx] + y[idx];
     }
   } else {
     for (auto idx = 0u; idx < x.size(); ++idx) {
-      result.emplace_back(x[idx] + y[idx]);
+      result[idx] = x[idx] + y[idx];
     }
   }
   return result;
