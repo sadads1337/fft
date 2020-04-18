@@ -3,6 +3,11 @@ set(CMAKE_CXX_STANDARD 17)
 if (NOT MSVC)
     # Since our compiler is apple-clang
     add_compile_options(-Werror=all)
+
+    if (CMAKE_BUILD_TYPE EQUAL "RELEASE")
+        # Enable O3 in release, hope there is no UB in thirdparty libs
+        add_compile_options(-O3)
+    endif ()
 endif ()
 
 include_directories(${PROJECT_SOURCE_DIR}/Projects)
