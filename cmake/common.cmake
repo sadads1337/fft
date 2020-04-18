@@ -4,8 +4,15 @@ if (NOT MSVC)
     add_compile_options(-Werror=all)
 
     if (CMAKE_BUILD_TYPE EQUAL "RELEASE")
+        # Since our compiler is apple clang or icc
         # Enable O3 in release, hope there is no UB in thirdparty libs
-        add_compile_options(-O3)
+        set (FFT_COMPILATION_FLAGS -O3 -march=native)
+
+        if (FFT_ENABLE_OPENMP)
+            list(APPEND FFT_COMPILATION_FLAGS -qopenmp-simd -ffast-math)
+        endif ()
+
+        add_compile_options(${FFT_COMPILATION_FLAGS})
     endif ()
 else ()
     add_compile_options(/W4)
