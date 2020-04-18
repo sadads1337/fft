@@ -69,3 +69,33 @@ if (FFT_SANITIZE)
         set(CMAKE_EXE_LINKER_FLAGS_ASAN "${CMAKE_EXE_LINKER_FLAGS_DEBUG} -fsanitize=address -fno-sanitize-recover=all")
     endif ()
 endif ()
+
+function (add_vectorization_report MODULE_NAME)
+    if (FFT_ENABLE_VECT_REPORT)
+        if (CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
+            SET(FFT_COMPILATION_FLAGS_FOR_REPORT
+                    -Rpass="loop|vect"
+                    -Rpass-missed="loop|vect"
+                    -Rpass-analysis="loop|vect"
+                    )
+        elseif (CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
+            message(STATUS "GNU Compiler report for vectorization is not supported")
+        elseif (CMAKE_CXX_COMPILER_ID STREQUAL "Intel")
+            SET(FFT_COMPILATION_FLAGS_FOR_REPORT
+                    -qopt-report-file=stdout
+                    -qopt-report-format=vs
+                    -qopt-report=5
+                    -qopt-report-phase=loop,vec
+                    )
+        elseif (CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
+            message(STATUS "MSVC Compiler report for vectorization is not supported")
+        endif()
+
+        if (FFT_COMPILATION_FLAGS_FOR_REPORT)
+            target_compile_options(${MODULE_NAME}
+                    PRIVATE
+                    ${FFT_COMPILATION_FLAGS_FOR_REPORT}
+                    )
+        endif ()
+    endif ()
+endfunction ()
