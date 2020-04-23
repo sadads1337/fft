@@ -5,6 +5,8 @@
 #include <complex>
 #include <vector>
 
+#include <aligned/aligned_vector>
+
 namespace utils {
 
 struct MKLException final : std::runtime_error {
@@ -20,8 +22,8 @@ MKL_LONG save_mkl_call(Function& function, Args&&... args);
 
 namespace fft {
 
-using ComplexContainer = std::vector<std::complex<double>>;
-using RealContainer = std::vector<double>;
+using ComplexContainer = aligned::aligned_vector<std::complex<double>, aligned::alignment::avx>;
+using RealContainer = aligned::aligned_vector<double, aligned::alignment::avx>;
 
 ComplexContainer fft_complex(ComplexContainer& in);
 

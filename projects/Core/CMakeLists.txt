@@ -1,5 +1,7 @@
 set(MODULE_NAME Core)
 
+add_subdirectory(aligned)
+
 set(SRC_LIST
         MakeWithCapacity.h
         MakeWithCapacity.inl
@@ -27,6 +29,7 @@ find_package(MKL REQUIRED)
 target_link_libraries(${MODULE_NAME}
         PUBLIC
         MKL::MKL
+        aligned
         )
 
 add_library(${PROJECT_NAME}::${MODULE_NAME} ALIAS ${MODULE_NAME})

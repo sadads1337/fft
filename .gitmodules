@@ -4,3 +4,6 @@
 [submodule "projects/Core/benchmark"]
 	path = projects/Core/benchmark
 	url = https://github.com/google/benchmark
+[submodule "projects/Core/aligned"]
+	path = projects/Core/aligned
+	url = https://github.com/sadads1337/aligned.git
