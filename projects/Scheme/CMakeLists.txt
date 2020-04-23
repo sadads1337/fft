@@ -22,6 +22,15 @@ if (FFT_ENABLE_OPENMP)
     target_compile_definitions(${MODULE_NAME} PUBLIC FFT_ENABLE_OPENMP)
 endif ()
 
+if (FFT_ENABLE_MANUAL_VECT)
+    find_package(SSE REQUIRED)
+    target_link_libraries(${MODULE_NAME}
+            PUBLIC
+            FFT::AVX2
+            )
+    target_compile_definitions(${MODULE_NAME} PUBLIC FFT_ENABLE_MANUAL_VECT)
+endif ()
+
 target_link_libraries(${MODULE_NAME}
         PUBLIC
         FFT::Core

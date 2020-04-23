@@ -6,7 +6,7 @@ if (NOT MSVC)
     if (CMAKE_BUILD_TYPE EQUAL "RELEASE")
         # Since our compiler is apple clang or icc
         # Enable O3 in release, hope there is no UB in thirdparty libs
-        set (FFT_COMPILATION_FLAGS -O3 -march=native)
+        set (FFT_COMPILATION_FLAGS -O3)
 
         if (FFT_ENABLE_OPENMP)
             list(APPEND FFT_COMPILATION_FLAGS -qopenmp-simd -ffast-math)
