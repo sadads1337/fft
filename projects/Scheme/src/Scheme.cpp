@@ -8,40 +8,40 @@
 namespace scheme {
 
 //! \todo: fixme скопипащенный legacy c
-Grid1D source(int IG, float WN7, float DT, float DZ, int K8) {
+Grid1D source(int IG, Precision WN7, Precision DT, Precision DZ, int K8) {
   auto F = Grid1D(static_cast<size_t>(K8));
-  float C, B, T, T1, T2, T3, T4, PII, X, A, S;
-  int J, N, GI;
-  PII = acos(-1.0);
+  Precision C, B, T, T1, T2, T3, T4, PII, X, A, S;
+  int N, GI;
+  PII = std::acos(static_cast<Precision>(-1.));
   int NPT1 = K8;
   GI = IG;
   C = DT / DZ;
-  B = 0.00;
-  T1 = 1.500;
-  T2 = 3.500;
-  T3 = 5.500;
-  T = 2.00 * PII * WN7;
+  B = static_cast<Precision>(0.);
+  T1 = static_cast<Precision>(1.5);
+  T2 = static_cast<Precision>(3.5);
+  T3 = static_cast<Precision>(5.5);
+  T = static_cast<Precision>(2.) * PII * WN7;
 
-  if (GI <= 2.0100)
+  if (GI <= static_cast<Precision>(2.01))
     T4 = T1;
   else {
-    if ((GI <= 4.0100) && (GI >= 2.0100))
+    if ((GI <= static_cast<Precision>(4.01)) && (GI >= static_cast<Precision>(2.01)))
       T4 = T2;
     else
       T4 = T3;
   }
   N = int(T4 / (DT * WN7));
-  X = T4 / (2.00 * WN7);
+  X = T4 / (static_cast<Precision>(2.) * WN7);
   A = (T / GI) * (T / GI);
   S = -X;
-  for (J = 0; J < NPT1; J++) {
+  for (auto J = 0; J < NPT1; ++J) {
     if (J + 1 <= N + 1)
       F[J] = C * exp((-A) * (S * S)) * cos(T * S + B);
     else
-      F[J] = 0.00;
+      F[J] = static_cast<Precision>(0.);
     S = S + DT;
   }
-  for (int i = 0; i < NPT1; i++) F[i] = F[i] * DT / (DZ);
+  for (auto i = 0; i < NPT1; ++i) F[i] = F[i] * DT / (DZ);
 
   return F;
 }

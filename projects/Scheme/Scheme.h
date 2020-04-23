@@ -60,7 +60,7 @@ struct Env final {
 };
 
 //! legacy c
-Grid1D source(int IG, float WN7, float DT, float DZ, int K8);
+Grid1D source(int IG, Precision WN7, Precision DT, Precision DZ, int K8);
 
 Precision u_func(const Grid2D& u, const size_t x_idx, const size_t z_idx);
 
