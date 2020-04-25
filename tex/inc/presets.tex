@@ -24,8 +24,10 @@
 \usepackage{ragged2e}
 \justifying
 
-\usepackage{amssymb,amsfonts,amsmath} % Математика
-\numberwithin{equation}{section} % Формула вида секция.номер
+\usepackage{amssymb,amsfonts,amsmath,esvect,systeme} % Математика
+\usepackage{mathtools} 
+\numberwithin{equation}{subsection} % Формула вида секция.номер
+\allowdisplaybreaks
 
 \usepackage{enumerate} % Тонкая настройка списков
 \usepackage{indentfirst} % Красная строка после заголовка
@@ -200,6 +202,35 @@
         }
         \setlength{\itemsep}{0pt}
     }
+\makeatother
+
+% Система с  квадратной скобкой
+\makeatletter
+\newenvironment{sqcases}{%
+  \matrix@check\sqcases\env@sqcases
+}{%
+  \endarray\right.%
+}
+\def\env@sqcases{%
+  \let\@ifnextchar\new@ifnextchar
+  \left\lbrack
+  \def\arraystretch{1.2}%
+  \array{@{}l@{\quad}l@{}}%
+}
+\makeatother
+
+\makeatletter
+\newcounter{longaligned}
+\newenvironment{longaligned}[1][]
+ {%
+  \stepcounter{longaligned}%
+  \refstepcounter{equation}%
+  \label{longaligned@\thelongaligned}%
+  #1%
+  \start@align\@ne\st@rredtrue\m@ne % start align*
+ }
+ {\endalign}
+\newcommand{\longalignedtag}{\tag{\ref{longaligned@\thelongaligned}}}
 \makeatother
 
 \setcounter{page}{4} % Начало нумерации страниц
