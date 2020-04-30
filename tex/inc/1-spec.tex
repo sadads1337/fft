@@ -107,6 +107,9 @@ $$
 $$
 \mu(x,z) = \frac{\overline{\mu}_0}{2} + \sum_{l=1}^\infty{\overline{\mu}_0 \cdot cos(lx)}
 $$
+$$
+\lambda(x,z) = \frac{\overline{\lambda}_0}{2} + \sum_{l=1}^\infty{\overline{\lambda}_0 \cdot cos(lx)}
+$$
 
 Использая формулу интегрирования по частям, формулу произведения тригонометрических функций, приводя подобные слагаемые, и замену \ref{eq:4}
 Получим следующее соотношение.
@@ -191,7 +194,11 @@ $$
 		+ \sum_{l=0}^\infty{(k-l)\overline{\lambda}_l \cdot \overline{u}^{(k-l)}}\right);
 \end{longaligned}
 
-Таким образом, используя (\ref{eq:5}) и (\ref{eq:6}), и обозначая $conv(x,y)_k = \sum_{l=0}^\infty(k-l)x^{(k-l)}y^l$, $corr(x,y)_k = \sum_{l=0}^\infty(k+l)x^{(k+l)}y^l$, можно привести исходную систему (\ref{eq:1}-\ref{eq:3}) к виду.
+Таким образом, используя (\ref{eq:5}) и (\ref{eq:6}), и обозначая 
+$conv(x,y)_k = \sum_{l=0}^\infty(k-l)x^{(k-l)}y^l$, 
+$corr(x,y)_k = \sum_{l=0}^\infty(k+l)x^{(k+l)}y^l$, 
+$sum(x,y)_k = conv(x,y)_k + corr(x,y)_k$, 
+можно привести исходную систему (\ref{eq:1}-\ref{eq:3}) к виду.
 
 \begin{longaligned}
 \label{eq:7}
