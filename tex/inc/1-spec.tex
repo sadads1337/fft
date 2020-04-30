@@ -219,62 +219,26 @@ $sum(x,y)_k = conv(x,y)_k + corr(x,y)_k$,
 		-sum(\overline\rho, \overline{p})_k
 			+ sum(\overline\rho, \frac{\partial\overline{q}}{\partial z})_k \right)
 		+ \overline{f}_x^k; \\
-&\frac{\partial\overline{w}_k}{\partial t} = \frac{1}{2} \cdot \sum_{l=0}^\infty\left(
-	(k+l)\overline{\rho}_l\overline{q}^{(k+l)}
-		+(k-l)\overline{\rho}_l\overline{q}^{(k-l)} + \right.\\
-	&\left.+(k+l)\overline{\rho}_l\frac{\partial\overline{s}^{(k+l)}}{\partial z} 
-		+(k-l)\overline{\rho}_l\frac{\partial\overline{s}^{(k-l)}}{\partial z}\right) 
-		+ \overline{f}_z^k= \\
-	&=\frac{1}{2} \cdot \left(
-		conv(\overline\rho, \overline{q})_k
-			+corr(\overline\rho, \overline{q})_k
-			+ conv(\overline\rho, \frac{\partial\overline{s}}{\partial z})_k
-			+ corr(\overline\rho, \frac{\partial\overline{s}}{\partial z})_k \right)
-		+ \overline{f}_z^k= \\
-	&=\frac{1}{2} \cdot \left(
+&\frac{\partial\overline{w}_k}{\partial t}
+	=\frac{1}{2} \cdot \left(
 		sum(\overline\rho, \overline{q})_k
 			+ sum(\overline\rho, \frac{\partial\overline{s}}{\partial z})_k \right)
 		+ \overline{f}_z^k; \longalignedtag\\
-&\frac{\partial\overline{p}_k}{\partial t} = \frac{1}{2} \cdot \sum_{l=0}^\infty\left(
-	-(k+l)(\overline{\lambda}_l + 2\overline{\mu}_l)\overline{u}^{(k+l)}
-		-(k-l)(\overline{\lambda}_l + 2\overline{\mu}_l)\overline{u}^{(k-l)} + \right.\\
-	&\left.+(k+l)\overline{\lambda}_l\frac{\partial\overline{w}^{(k+l)}}{\partial z} 
-		+(k-l)\overline{\lambda}_l\frac{\partial\overline{w}^{(k-l)}}{\partial z}\right) = \\
-	&=\frac{1}{2} \cdot \left(
-		-conv((\overline{\lambda}_l + 2\overline{\mu}_l), \overline{u})_k
-			-corr((\overline{\lambda}_l + 2\overline{\mu}_l), \overline{u})_k + \right.\\
-		&\left.+ conv (\overline\lambda, \frac{\partial\overline{w}}{\partial z})_k
-			+ corr(\overline\lambda, \frac{\partial\overline{w}}{\partial z})_k \right) = \\
-	&=\frac{1}{2} \cdot \left(
+&\frac{\partial\overline{p}_k}{\partial t}
+	=\frac{1}{2} \cdot \left(
 		sum((\overline{\lambda}_l + 2\overline{\mu}_l), \overline{u})_k
 			+ sum(\overline\lambda, \frac{\partial\overline{w}}{\partial z})_k \right) ; \\
-&\frac{\partial\overline{q}_k}{\partial t} = \frac{1}{2} \cdot \sum_{l=0}^\infty\left(
-	+(k+l)\overline{\mu}_l\frac{\partial\overline{u}^{(k+l)}}{\partial z}
-		+(k-l)\overline{\mu}_l\frac{\partial\overline{u}^{(k-l)}}{\partial z} + \right.\\
-	&\left.-(k+l)\overline{\mu}_l\overline{w}^{(k+l)}
-		-(k-l)\overline{\mu}_l\overline{w}^{(k-l)}\right) = \\
-	&=\frac{1}{2} \cdot \left(conv(\overline\mu, \frac{\partial\overline{u}}{\partial z})_k
-		+corr(\mu, \frac{\partial\overline{u}}{\partial z})_k - \right.\\
-	&\left.- conv (\overline\mu, \overline{w})_k
-		-corr(\overline\mu, \overline{w})_k \right) = \\
-	&=\frac{1}{2} \cdot \left(
+&\frac{\partial\overline{q}_k}{\partial t}
+	=\frac{1}{2} \cdot \left(
 		sum(\overline\mu, \frac{\partial\overline{u}}{\partial z})_k
 			- sum(\overline\mu, \overline{w})_k \right) ; \\
-&\frac{\partial\overline{s}_k}{\partial t} = \frac{1}{2} \cdot \sum_{l=0}^\infty\left(
-	(k+l)(\overline{\lambda}_l + 2\overline{\mu}_l)\frac{\partial\overline{w}^{(k+l)}}{\partial z} 
-		+(k-l)(\overline{\lambda}_l + 2\overline{\mu}_l)\frac{\partial\overline{w}^{(k+l)}}{\partial z} + \right.\\
-	&\left.+(k+l)\overline{\lambda}_l\overline{u}^{(k-l)}
-		+(k-l)\overline{\lambda}_l\overline{u}^{(k-l)}\right) = \\
-	&=\frac{1}{2} \cdot \left(+conv((\overline{\lambda}_l + 2\overline{\mu}_l), \frac{\partial\overline{w}}{\partial z})_k 
-		+corr((\overline{\lambda}_l + 2\overline{\mu}_l), \frac{\partial\overline{w}}{\partial z})_k + \right.\\
-	&\left.+ conv (\overline\lambda, \overline{u})_k 
-		+corr(\overline\lambda, \overline{u})_k \right) = \\
-	&=\frac{1}{2} \cdot \left(
+&\frac{\partial\overline{s}_k}{\partial t}
+	=\frac{1}{2} \cdot \left(
 		sum((\overline{\lambda}_l + 2\overline{\mu}_l), \frac{\partial\overline{w}}{\partial z})_k
 			+ sum(\overline\lambda, \overline{u})_k \right) ; \\
 \end{longaligned}
 
-Начальные и граничные же условия примут вид.
+Начальные и граничные же условия примут вид (todo)
 
 \begin{equation}
 \label{eq:8}
