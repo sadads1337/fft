@@ -5,6 +5,8 @@ target_link_libraries(Benchmark
         FFT::Scheme
         )
 
+#todo: Add function to common.cmake
+
 add_executable(SummVectorizedBenchmark micro/SummVectorizedBench.cpp micro/Utils.h)
 
 target_link_libraries(SummVectorizedBenchmark
