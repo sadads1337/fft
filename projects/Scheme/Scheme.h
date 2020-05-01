@@ -62,10 +62,10 @@ struct Env final {
 //! legacy c
 Grid1D source(int IG, Precision WN7, Precision DT, Precision DZ, int K8);
 
-Precision u_func(const Grid2D& u, const size_t x_idx, const size_t z_idx);
+Precision u_func(const Grid2D& u, size_t x_idx, size_t z_idx);
 
 void calculate_one_step(const Values& prev_values, Values& values,
-                        const Env& env, const size_t t_idx);
+                        const Env& env, size_t t_idx);
 
 void main_loop_for_t(Values& prev_values, Values& values, const Env& env);
 

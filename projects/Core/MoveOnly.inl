@@ -1,5 +1,6 @@
 ﻿#pragma once
 #include <ciso646>
+#include <memory>
 
 #include "MoveOnly.h"
 
