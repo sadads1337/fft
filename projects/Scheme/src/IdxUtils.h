@@ -2,6 +2,8 @@
 
 #include <Core/Types.h>
 
+#include <functional>
+
 namespace utils {
 
 template <bool vectorized>
