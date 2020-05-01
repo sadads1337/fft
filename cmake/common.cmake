@@ -23,7 +23,7 @@ else ()
     endif ()
 endif ()
 
-include_directories(${PROJECT_SOURCE_DIR}/Projects)
+include_directories(${PROJECT_SOURCE_DIR}/projects)
 
 if (FFT_ENABLE_TESTS)
     enable_testing()

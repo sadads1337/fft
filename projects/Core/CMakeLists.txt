@@ -55,9 +55,8 @@ add_subdirectory(matplotlib-cpp)
 
 add_library(${PROJECT_NAME}::matplotlibcpp ALIAS matplotlibcpp)
 
-if (NOT FFT_ENABLE_TESTS)
-    set(BENCHMARK_ENABLE_TESTING OFF)
-    set(BENCHMARK_ENABLE_GTEST_TESTS OFF)
-endif ()
+set(BENCHMARK_ENABLE_TESTING OFF)
+set(BENCHMARK_ENABLE_GTEST_TESTS OFF)
+set(BENCHMARK_ENABLE_INSTALL OFF)
 
 add_subdirectory(benchmark)
