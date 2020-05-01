@@ -19,10 +19,10 @@ inline auto summ_real_impl(const Grid1D& x, const Grid1D& y, Grid1D & result)
   static_assert(sizeof(Grid1D::value_type) == 8u);
   for (auto idx = 0u; idx < x.size() / 4u; ++idx)
   {
-    inline auto x_data = _mm256_load_pd(x.data() + 4u * idx);
-    inline auto y_data = _mm256_load_pd(y.data() + 4u * idx);
+    auto x_data = _mm256_load_pd(x.data() + 4u * idx);
+    auto y_data = _mm256_load_pd(y.data() + 4u * idx);
 
-    inline const auto sum = _mm256_add_pd(x_data, y_data);
+    const auto sum = _mm256_add_pd(x_data, y_data);
     _mm256_store_pd(result.data() + 4u * idx, sum);
   }
   for (auto idx = x.size() - x.size() % 4u; idx < x.size(); ++idx)
@@ -38,14 +38,14 @@ inline auto apply_corr_factor_impl(const Grid1D& input, const Precision mult, Gr
   {
     const auto k_idx = idx * 4u;
 
-    inline auto input_data = _mm256_load_pd(input.data() + k_idx);
-    inline const auto factors_data = _mm256_set_pd(
+    auto input_data = _mm256_load_pd(input.data() + k_idx);
+    const auto factors_data = _mm256_set_pd(
         mult * static_cast<Precision>(input.size() - k_idx - 3u),
         mult * static_cast<Precision>(input.size() - k_idx - 2u),
         mult * static_cast<Precision>(input.size() - k_idx - 1u),
         mult * static_cast<Precision>(input.size() - k_idx));
 
-    inline const auto factorized = _mm256_mul_pd(input_data, factors_data);
+    const auto factorized = _mm256_mul_pd(input_data, factors_data);
     _mm256_store_pd(result.data() + k_idx, factorized);
   }
 
@@ -60,16 +60,16 @@ inline auto apply_conv_factor_impl(const Grid1D& input, const Precision mult, Gr
   static_assert(sizeof(Grid1D::value_type) == 8u);
   for (auto idx = 0u; idx < input.size() / 4u; ++idx)
   {
-    inline const auto k_idx = idx * 4u;
+    const auto k_idx = idx * 4u;
 
-    inline auto input_data = _mm256_load_pd(input.data() + k_idx);
-    inline const auto factors_data = _mm256_set_pd(
+    auto input_data = _mm256_load_pd(input.data() + k_idx);
+    const auto factors_data = _mm256_set_pd(
         mult * static_cast<Precision>(k_idx + 3u),
         mult * static_cast<Precision>(k_idx + 2u),
         mult * static_cast<Precision>(k_idx + 1u),
         mult * static_cast<Precision>(k_idx));
 
-    inline const auto factorized = _mm256_mul_pd(input_data, factors_data);
+    const auto factorized = _mm256_mul_pd(input_data, factors_data);
     _mm256_store_pd(result.data() + k_idx, factorized);
   }
 
@@ -86,7 +86,7 @@ inline auto apply_operation_impl(
   static_assert(sizeof(Grid1D::value_type) == 8u);
   for (auto idx = 0u; idx < lhs.size() / 4u; ++idx)
   {
-    inline const auto function_apply_data = _mm256_set_pd(
+    const auto function_apply_data = _mm256_set_pd(
         function(lhs[idx * 4u + 3u], rhs[idx * 4u + 3u]),
         function(lhs[idx * 4u + 2u], rhs[idx * 4u + 2u]),
         function(lhs[idx * 4u + 1u], rhs[idx * 4u + 1u]),
