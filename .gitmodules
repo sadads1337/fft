@@ -7,3 +7,6 @@
 [submodule "projects/Core/aligned"]
 	path = projects/Core/aligned
 	url = https://github.com/sadads1337/aligned.git
+[submodule "projects/Core/luna"]
+	path = projects/Core/luna
+	url = /home/imakarov/develop/local/fft/projects/Core/luna

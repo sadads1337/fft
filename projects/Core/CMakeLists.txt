@@ -60,3 +60,5 @@ set(BENCHMARK_ENABLE_GTEST_TESTS OFF)
 set(BENCHMARK_ENABLE_INSTALL OFF)
 
 add_subdirectory(benchmark)
+
+add_subdirectory(luna)
