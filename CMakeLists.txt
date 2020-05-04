@@ -15,6 +15,7 @@ add_subdirectory(projects/Core)
 add_subdirectory(projects/Scheme)
 add_subdirectory(projects/TestApp)
 add_subdirectory(projects/Benchmark)
+add_subdirectory(projects/Luna)
 
 install(TARGETS
         Benchmark
