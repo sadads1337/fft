@@ -1,0 +1,22 @@
+import init_vector(int #fgnum, int #fgsize, name) as init_vector_x;
+import init_vector(int #fgnum, int #fgsize, name) as init_vector_y;
+import sum_vectors(value #vec1, value #vec2, int #fgsize, name #result) as sum;
+import check_vector(value #vec, int #fgnum, int #size) as check_vector;
+
+##const FG_SIZE 4
+##const FG_COUNT 10
+
+sub main()
+{
+	df x, y, z;
+
+	for i=0..$FG_COUNT-1
+	{
+		init_vector_x(i, $FG_SIZE, x[i]);
+		init_vector_y(i, $FG_SIZE, y[i]);
+
+		sum(x[i], y[i], $FG_SIZE, z[i]);
+
+		check_vector(z[i], i, $FG_SIZE);
+	}
+}
