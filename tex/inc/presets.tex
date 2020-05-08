@@ -5,12 +5,15 @@
 \usepackage{xltxtra}  % Верхние и нижние индексы
 \usepackage{pdfpages} % Вставка PDF
 
+\usepackage{courier}
 \usepackage{listings} % Оформление исходного кода
 \lstset{
-    basicstyle=\small\ttfamily, % Размер и тип шрифта
+    basicstyle=\footnotesize\ttfamily, % Размер и тип шрифта
     breaklines=true, % Перенос строк
-    tabsize=2, % Размер табуляции
-    literate={--}{{-{}-}}2 % Корректно отображать двойной дефис
+    tabsize=1, % Размер табуляции
+    literate={--}{{-{}-}}2, % Корректно отображать двойной дефис
+    framextopmargin=50pt,
+    frame=line
 }
 
 % Русский язык
@@ -19,7 +22,7 @@
 \setmainfont[Ligatures=TeX]{Times New Roman}
 \newfontfamily\cyrillicfont{Times New Roman}[Script=Cyrillic]
 % todo fix me
-%\setmonofont{Times New Roman} % Моноширинный шрифт для оформления кода
+\setmonofont{Times New Roman} % Моноширинный шрифт для оформления кода
 
 \usepackage{ragged2e}
 \justifying
