@@ -248,9 +248,58 @@ $sum(x,y)_k = conv(x,y)_k + corr(x,y)_k$,
 \subsubsection{Разностная схема для преобразованной задачи}
 Новую, уже одномерную задачу (\ref{eq:7}-\ref{eq:8}), полученную из исходной постановки (\ref{eq:1}-\ref{eq:3}),
 можно решать различными конечно-разностными методами. В данной работе в качестве разностной схемы для решения (\ref{eq:7}-\ref{eq:8})
-была взята, хорошо себя зарекомендовавшая, конечно-разностная схема Верье.
+был взят одномерный аналог, хорошо себя зарекомендовавшей, конечно-разностной схемы Верье.
 
-todo описание сетки, описание схемы
+todo описание сетки
+
+Полагая, что $\tau$ - шаг по временной сетке, а $h$ - по пространственной, получаем следующее конечно-разностное представление системы (\ref{eq:7}-\ref{eq:8})
+
+\begin{longaligned}
+\label{eq:9}
+{}
+&\frac{\overline u_{n+1,i}^k - \overline u_{n,i}^k}{\tau}
+= \frac{1}{2} \left[sum(\frac{\overline q_{n,i+\frac{1}{2}}^k - \overline q_{n,i-\frac{1}{2}}^k}{h}, \overline\rho_i)_k 
+	- sum(\overline p_{n, i}, \overline\rho_i)_k \right] \\
+&\frac{\overline w_{n+1,i+\frac{1}{2}}^k - \overline w_{n+1,i+\frac{1}{2}}^k}{\tau} 
+= \frac{1}{2} \left[sum(\overline q_{n, i+\frac{1}{2}}^k, \overline\rho_{i+\frac{1}{2}})_k
+	- sum(\frac{\overline s_{n,i+1}^k - \overline s_{n,i}^k}{h}, \overline\rho_{i+\frac{1}{2}})_k \right] \\
+&\frac{\overline p_{n+1,i}^k - \overline p_{n,i}^k}{\tau}
+= \frac{1}{2} \left[sum(\frac{\overline w_{n,i+\frac{1}{2}}^k - \overline w_{n,i-\frac{1}{2}}^k}{h}, \overline\lambda_i)_k 
+	- sum(\overline u_{n, i}, \overline\lambda_i + 2\overline\mu_i)_k \right] + f_{x,n}^k\longalignedtag\\
+&\frac{\overline q_{n+1,i+\frac{1}{2}}^k - \overline q_{n+1,i+\frac{1}{2}}^k}{\tau} 
+= \frac{1}{2} \left[sum(\frac{\overline u_{n,i+1}^k - \overline u_{n,i}^k}{h}, \overline\mu_{i+\frac{1}{2}})_k
+	- sum(\overline w_{n, i+\frac{1}{2}}^k, \overline\mu_{i+\frac{1}{2}})_k \right] \\
+&\frac{\overline s_{n+1,i}^k - \overline s_{n,i}^k}{\tau}
+= \frac{1}{2} \left[sum(\frac{\overline w_{n,i+\frac{1}{2}}^k - \overline w_{n,i-\frac{1}{2}}^k}{h}, \overline\lambda_i+2\overline\mu_i)_k 
+	- sum(\overline u_{n, i}, \overline\lambda_i)_k \right] + f_{z,n}^k\\
+\end{longaligned}
+
+Где функция источника представляется в виде:
+
+$$
+f_{x,n}^k=f_{z,n}^k=\left\{
+  \begin{array}{ccc}
+    f(t)cos(\overline k x_0) & , z=z_0 \\
+    0 & , z\neq z_0
+  \end{array}
+\right.
+$$
+
+А граничные условия:
+
+$$
+\frac{\overline w_{n+1, \frac{1}{2}} - \overline w_{n, \frac{1}{2}}}{\tau}
+= \frac{1}{2} sum(\frac{2\overline s_{n,1}^k}{h}, \overline\rho_1)
+$$
+
+Для того, чтобы обеспечить сходимость представленной выше явной разностной схемы, также необходимо выполнение условий Куранта:
+
+\begin{equation}
+\label{eq:10}
+\tau \leq \frac{h}{\max\limits_z\left(\sqrt\frac{\overline\lambda + 2\overline\mu}{\overline\rho}\right)}
+\end{equation}
+
+Формулы обращения, для нахождения решения исходной системы (\ref{eq:1}-\ref{eq:3}) примут вид:
 
 todo описание формул обращения
 
