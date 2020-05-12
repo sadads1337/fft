@@ -16,13 +16,23 @@
     frame=line
 }
 
+\lstdefinestyle{CppCodeStyle}{
+    basicstyle=\footnotesize\ttfamily,
+    escapeinside=§§,
+    escapebegin=\begin{russian}\commentfont,
+    escapeend=\end{russian},
+}
+\newcommand{\commentfont}{\ttfamily}
+
 % Русский язык
 \usepackage{polyglossia}
 \setdefaultlanguage{russian}
 \setmainfont[Ligatures=TeX]{Times New Roman}
 \newfontfamily\cyrillicfont{Times New Roman}[Script=Cyrillic]
 % todo fix me
-\setmonofont{Times New Roman} % Моноширинный шрифт для оформления кода
+%\setmonofont{Times New Roman} % Моноширинный шрифт для оформления кода
+\setmonofont{Courier New}
+\newfontfamily\cyrillicfonttt{Courier New}[Script=Cyrillic]
 
 \usepackage{ragged2e}
 \justifying
@@ -88,7 +98,7 @@
     \AddEnumerateCounter{\asbuk}{\@asbuk}{м)}
 \makeatother
 \setlist{nolistsep} % Нет отступов между пунктами списка
-\renewcommand{\labelitemi}{--} % Маркет списка --
+\renewcommand{\labelitemi}{\textendash} % Маркет списка --
 \renewcommand{\labelenumi}{\asbuk{enumi})} % Список второго уровня
 \renewcommand{\labelenumii}{\arabic{enumii})} % Список третьего уровня
 
@@ -171,9 +181,13 @@
 
 % Оформление заголовков
 \usepackage[compact,explicit]{titlesec}
-\titleformat{\section}{}{}{12.5mm}{\centering{\thesection\quad\MakeTextUppercase{#1}}\vspace{1.5em}}
-\titleformat{\subsection}[block]{\vspace{1em}}{}{12.5mm}{\thesubsection\quad#1\vspace{1em}}
-\titleformat{\subsubsection}[block]{\vspace{1em}\normalsize}{}{12.5mm}{\thesubsubsection\quad#1\vspace{1em}}
+
+\titleformat{\section}{\bfseries}{}{12.5mm}{\centering{\thesection\quad\MakeTextUppercase{#1}}\vspace{1.5em}}
+
+\titleformat{\subsection}[block]{\vspace{1em}\hspace{-1.3cm}\bfseries}{}{12.5mm}{\thesubsection\quad#1\vspace{1em}}
+
+\titleformat{\subsubsection}[block]{\vspace{1em}\hspace{-1.3cm}\bfseries}{}{12.5mm}{\thesubsubsection\quad#1\vspace{1em}}
+
 \titleformat{\paragraph}[block]{\normalsize}{}{12.5mm}{\MakeTextUppercase{#1}}
 
 % Секции без номеров (введение, заключение...), вместо section*{}

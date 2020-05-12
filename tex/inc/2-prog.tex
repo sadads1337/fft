@@ -27,7 +27,7 @@
 
 Средствами С++17 эти проверки можно реализовать, например, следующим образом.
 
-\begin{lstlisting}
+\begin{lstlisting}[style={CppCodeStyle}]
 using Precision = double;
 
 inline static constexpr auto g_z_limit_value = static_cast<Precision>(1.);
@@ -59,9 +59,9 @@ static_assert(g_z_grid_step < static_cast<Precision>(1.) / (static_cast<Precisio
 Так как полная реализация алгоритма средствами С++17 является достаточно громоздкой, ниже приведен только псевдокод описываемого алгоритма.
 Полная реализация алгоритма может быть найдена в приложении (todo reference).
 
-\begin{lstlisting}
+\begin{lstlisting}[style={CppCodeStyle}]
 
-//! Параметры среды
+§//! Параметры среды§
 struct EnvParams
 {
 	rho[z_limit][k_limit];
@@ -69,7 +69,7 @@ struct EnvParams
 	mu[z_limit][k_limit];
 };
 
-//! Искомые величины
+§//! Искомые величины§
 struct ModelParams
 {
 	u[z_limit][k_limit];
@@ -77,31 +77,31 @@ struct ModelParams
 	... 
 }
 
-//! Предрасчитанная функция истоничка
+§//! Предрасчитанная функция истоничка§
 f[t_limit] = calculate_f();
 
-EnvParams env = set_env(); //! Задаем параметры среды
+EnvParams env = set_env(); §//! Задаем параметры среды§
 
-ModelParams values_1 = set_zero(); //! Задаем начальные значения равные 0
-ModelParams values_2 = set_zero(); //! Задаем начальные значения равные 0
+ModelParams values_1 = set_zero(); §//! Задаем начальные значения равные 0§
+ModelParams values_2 = set_zero(); §//! Задаем начальные значения равные 0§
 
 for (t=0; t < t_limit; ++t)
 {
 	for (z=0; z < z_limit; ++z)
 	{
-		//! Умножаем на соотвествующие k-коэффициенты
+		§//! Умножаем на соотвествующие k-коэффициенты§
 		calculate_coefs_corr_and_conv(values_1[z], t);
-		//! Вычисляем свертки и корреляции
+		§//! Вычисляем свертки и корреляции§
 		calculate_all_corr_and_conv(values_1[z], t);
 		for (k=0; k < k_limit; ++k)
 		{
-			//! Применяем схему для соотвествующих z, k и функции источника
+			§//! Применяем схему для соотвествующих z, k и функции источника§
 			values_2[z][k] = apply_scheme(values_1[z][k], t, f);
 		}
 	}
-	//! Сохраняем результат вычисления шага t+1
+	§//! Сохраняем результат вычисления шага t+1§
 	save(values_2);
-	//! Значения шага t+1 задаем как исходные для следующего шага
+	§//! Значения шага t+1 задаем как исходные для следующего шага§
 	swap(values_1, values_2);
 }
 
@@ -161,7 +161,7 @@ todo графики
 
 Пример векторизованного средствами OpenMP кода на C++, для функции вычисления коэффициентов для последющего вычисления сумм типа сверток.
 
-\begin{lstlisting}
+\begin{lstlisting}[style={CppCodeStyle}]
 inline auto apply_corr_factor(
 	const Grid1D& input,
 	const Precision mult,
@@ -183,7 +183,7 @@ inline auto apply_corr_factor(
 
 Вариант с ручной векторизацией с использованием векторных расширений AVX2.
 
-\begin{lstlisting}
+\begin{lstlisting}[style={CppCodeStyle}]
 inline auto apply_corr_factor(
 	const Grid1D& input,
 	const Precision mult,
