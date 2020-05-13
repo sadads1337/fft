@@ -61,4 +61,6 @@ set(BENCHMARK_ENABLE_INSTALL OFF)
 
 add_subdirectory(benchmark)
 
-add_subdirectory(luna)
+if (FFT_ENABLE_LUNA)
+    add_subdirectory(luna)
+endif ()
