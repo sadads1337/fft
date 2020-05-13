@@ -9,4 +9,4 @@
 	url = https://github.com/sadads1337/aligned.git
 [submodule "projects/Core/luna"]
 	path = projects/Core/luna
-	url = /home/imakarov/develop/local/fft/projects/Core/luna
+	url = https://gitlab.ssd.sscc.ru/luna/luna.git
