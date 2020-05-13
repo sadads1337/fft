@@ -13,6 +13,17 @@ Dependencies
 * [**matplotlib-cpp**](https://github.com/lava/matplotlib-cpp) forked as submodule.
 * [**benchmark**](https://github.com/google/benchmark) as submodule.
 * **OpenMP** optional.
+* [**LuNA RTS and compiler**](https://gitlab.ssd.sscc.ru/luna/luna) optional as submodule.
+
+Build options
+-----
+
+* **FFT_SANITIZE** - Enable builds with sanitizers support
+* **FFT_ENABLE_TESTS** - Enable tests build
+* **FFT_ENABLE_OPENMP** - Enable OpenMP support
+* **FFT_ENABLE_LUNA** - Enable LuNA support
+* **FFT_ENABLE_MANUAL_VECT** - Enable manual vectorization
+* **FFT_ENABLE_VECT_REPORT** - Enable additional vectorization report while compiling
 
 Build
 -----
@@ -30,7 +41,7 @@ Tex compile
 ----
 Tested on MacOS 10.15 Catalina.
 
-#### Dependecies:
+#### Tex dependecies:
 
 * [**Sublime Text 3**](https://www.google.com/url?sa=t&rct=j&q=&esrc=s&source=web&cd=1&cad=rja&uact=8&ved=2ahUKEwjfkcmBtPHoAhWIsaQKHQJhAdwQFjAAegQIBxAC&url=https%3A%2F%2Fwww.sublimetext.com%2F3&usg=AOvVaw0BtVmjapIa9yP4qOnqEhSR).
 * [**LatexTools**](https://latextools.readthedocs.io/en/latest/install/) plugin for Sublime.
