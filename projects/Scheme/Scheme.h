@@ -51,12 +51,12 @@ struct Values final {
 };
 
 struct Env final {
-  const Grid1D rho;
-  const Grid1D lambda;
-  const Grid1D mu;
-  const Grid1D f;
+  Grid1D rho;
+  Grid1D lambda;
+  Grid1D mu;
+  Grid1D f;
 
-  Env() = delete;
+  //! \todo: maybe constant initilized, but there is a bug in LuNA df initialization code.
 };
 
 //! legacy c

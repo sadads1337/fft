@@ -1,22 +1,29 @@
-import init_vector(int #fgnum, int #fgsize, name) as init_vector_x;
-import init_vector(int #fgnum, int #fgsize, name) as init_vector_y;
-import sum_vectors(value #vec1, value #vec2, int #fgsize, name #result) as sum;
-import check_vector(value #vec, int #fgnum, int #size) as check_vector;
+import init_env(int #fgnum, int #fgsize, name) as init_env;
+import check_env(value #env, int #fgnum, int #size) as check_env;
 
-##const FG_SIZE 4
-##const FG_COUNT 10
+import init_values(int #fgnum, int #fgsize, name) as init_values;
+import check_values(value #values, int #fgnum, int #size) as check_values;
+
+import calculate_one_step(value #prev_values, value #env, int #t_idx, name #values) as calculate_one_step;
+import check_one_step(value #prev_values, value #values, value #env, int #t_idx, int #fgnum, int #fgsize) as check_one_step;
+
+##const FG_SIZE 512
+##const FG_COUNT 1
+##const T_IDX_LIMIT 2
 
 sub main()
 {
-	df x, y, z;
+	df env, values, last_iter;
 
-	for i=0..$FG_COUNT-1
+	init_env($FG_COUNT, $FG_SIZE, env);
+	check_env(env, $FG_COUNT, $FG_SIZE);
+
+	init_values($FG_COUNT, $FG_SIZE, values[0]);
+	check_values(values[0], $FG_COUNT, $FG_SIZE);
+
+	while (int(it < $T_IDX_LIMIT)), it = 0 .. out last_iter
 	{
-		init_vector_x(i, $FG_SIZE, x[i]);
-		init_vector_y(i, $FG_SIZE, y[i]);
-
-		sum(x[i], y[i], $FG_SIZE, z[i]);
-
-		check_vector(z[i], i, $FG_SIZE);
+		calculate_one_step(values[it], env, it, values[it + 1]);
+		check_one_step(values[it], values[it + 1], env, it, $FG_COUNT, $FG_SIZE);
 	}
 }

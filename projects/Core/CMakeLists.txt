@@ -32,6 +32,10 @@ target_link_libraries(${MODULE_NAME}
         aligned
         )
 
+if (FFT_ENABLE_LUNA)
+    target_compile_options(${MODULE_NAME} PRIVATE -fPIC)
+endif ()
+
 add_library(${PROJECT_NAME}::${MODULE_NAME} ALIAS ${MODULE_NAME})
 
 if (FFT_ENABLE_TESTS)
