@@ -1,5 +1,10 @@
 add_library(Luna SHARED SchemeBindings.h src/SchemeBindings.cpp)
-target_link_libraries(Luna PRIVATE LUNA_LIB)
+target_link_libraries(Luna
+        PRIVATE
+        LUNA_LIB
+        FFT::Core
+        FFT::Scheme
+        )
 
 add_custom_target(LunaRunner_GEN)
 add_custom_command(TARGET LunaRunner_GEN
