@@ -4,12 +4,12 @@ import check_env(value #env, int #fgnum, int #size) as check_env;
 import init_values(int #fgnum, int #fgsize, name) as init_values;
 import check_values(value #values, int #fgnum, int #size) as check_values;
 
-import calculate_one_step(value #prev_values, value #env, int #t_idx, name #values) as calculate_one_step;
-import check_one_step(value #prev_values, value #values, value #env, int #t_idx, int #fgnum, int #fgsize) as check_one_step;
+import calculate_one_step(value #prev_values, value #env, int #t_idx, int #fgnum, int #fgsize, int #fgcount, name #values) as calculate_one_step;
+import check_one_step(value #prev_values, value #values, value #env, int #t_idx, int #fgnum, int #fgsize, int #fgcount) as check_one_step;
 
 ##const FG_SIZE 512
 ##const FG_COUNT 1
-##const T_IDX_LIMIT 2
+##const T_IDX_LIMIT 1024
 
 sub main()
 {
@@ -18,12 +18,18 @@ sub main()
 	init_env($FG_COUNT, $FG_SIZE, env);
 	check_env(env, $FG_COUNT, $FG_SIZE);
 
-	init_values($FG_COUNT, $FG_SIZE, values[0]);
-	check_values(values[0], $FG_COUNT, $FG_SIZE);
+	for fg_num = 0..$FG_COUNT-1
+	{
+		init_values(fg_num, $FG_SIZE, values[0][fg_num]);
+		//check_values(values[0][fg_num], fg_num, $FG_SIZE);
+	}
 
 	while (int(it < $T_IDX_LIMIT)), it = 0 .. out last_iter
 	{
-		calculate_one_step(values[it], env, it, values[it + 1]);
-		check_one_step(values[it], values[it + 1], env, it, $FG_COUNT, $FG_SIZE);
+		for fg_num = 0..$FG_COUNT-1
+		{
+			calculate_one_step(values[it][fg_num], env, it, fg_num, $FG_SIZE, $FG_COUNT, values[it + 1][fg_num]) --> (values[it][fg_num]);
+			//check_one_step(values[it][fg_num], values[it + 1][fg_num], env, it, fg_num, $FG_SIZE, $FG_COUNT);
+		}
 	}
 }
