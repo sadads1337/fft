@@ -17,7 +17,7 @@ int main() try {
                      scheme::g_z_grid_step, scheme::g_t_grid_size),
   };
 
-  main_loop_for_t(values_1, values_2, env);
+  main_loop_for_t(values_1, values_2, env, scheme::g_t_grid_size, {});
 } catch (const utils::MKLException& exception) {
   std::cout << "MKL exception happend: " << exception.what();
 } catch (const std::exception& exception) {

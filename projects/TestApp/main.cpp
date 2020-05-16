@@ -16,18 +16,15 @@ int main() try {
                      scheme::g_z_grid_step, scheme::g_t_grid_size),
   };
 
-  for (auto t_idx = 0u; t_idx < 2u /*g_t_grid_size*/; ++t_idx) {
-    calculate_one_step(values_1, values_2, env, t_idx);
+  constexpr auto t_idx_limit = 2u;
 
-    //! new in values_2 now; we don't need values_2, swap here, do not copy
-    std::swap(values_1, values_2);
-
+  const auto draw_plot = [](const auto & values) {
     //! draw values_1;
     std::vector<double> x, y;
     for (auto x_idx = 0u; x_idx < scheme::g_z_grid_size; ++x_idx) {
       x.push_back(static_cast<Precision>(x_idx) * scheme::g_z_grid_step);
       constexpr auto z_0 = scheme::g_z_grid_size / 2;
-      const auto f_value = scheme::u_func(values_1.u, x_idx, z_0);
+      const auto f_value = scheme::u_func(values.u, x_idx, z_0);
       y.push_back(f_value);
     }
     namespace plt = matplotlibcpp;
@@ -68,7 +65,11 @@ int main() try {
             plt::ylabel("z");
             plt::show();
     }*/
-  }
+
+  };
+
+  main_loop_for_t(values_1, values_2, env, t_idx_limit, draw_plot);
+
 } catch (const utils::MKLException& exception) {
   std::cout << "MKL exception happend: " << exception.what();
 } catch (const std::exception& exception) {

@@ -84,7 +84,8 @@ auto inline apply_operation(T&&... args) {
 }
 
 void calculate_one_step(const Values& prev_values, Values& values,
-                        const Env& env, const size_t t_idx) {
+                        const Env& env, const size_t t_idx, const size_t fg_num,
+                        const size_t fg_size) {
   const auto& prev_u = prev_values.u;
   const auto& prev_w = prev_values.w;
   const auto& prev_p = prev_values.p;
@@ -103,7 +104,11 @@ void calculate_one_step(const Values& prev_values, Values& values,
   const auto& f = env.f;
 
   FFT_OMP_PRAGMA("omp parallel for")
-  for (auto z_idx = 1u; z_idx < g_z_grid_size - 1u; ++z_idx) {
+
+  const auto z_idx_start = fg_num * fg_size + 1u;
+  const auto z_idx_end = z_idx_start + fg_size - 2u;
+
+  for (auto z_idx = z_idx_start; z_idx < z_idx_end; ++z_idx) {
     //! For u
     const auto der_q = apply_operation(prev_q[z_idx + 1u], prev_q[z_idx],
                                        [](const auto& lhs, const auto& rhs) {
@@ -215,13 +220,21 @@ void calculate_one_step(const Values& prev_values, Values& values,
   }
 }
 
-void main_loop_for_t(Values& prev_values, Values& values, const Env& env) {
+void main_loop_for_t(Values& prev_values, Values& values, const Env& env,
+                     const size_t t_idx_limit,
+                     const std::function<void(const Values&)> & callback) {
   utils::TimeGuard time_guard{};
-  for (auto t_idx = 0u; t_idx < scheme::g_t_grid_size; ++t_idx) {
-    calculate_one_step(prev_values, values, env, t_idx);
+  for (auto t_idx = 0u; t_idx < t_idx_limit; ++t_idx) {
+    constexpr auto fg_num = 0u;
+    constexpr auto fg_size = g_z_grid_size;
+    calculate_one_step(prev_values, values, env, t_idx, fg_num, fg_size);
 
     //! new in values_2 now; we don't need values_2, swap here, do not copy
     std::swap(prev_values, values);
+
+    if (callback) {
+      callback(prev_values);
+    }
   }
 }
 
