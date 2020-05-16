@@ -10,7 +10,7 @@ TimeGuard::~TimeGuard() {
   const auto stop = std::chrono::high_resolution_clock::now();
   const auto elapsed =
       std::chrono::duration_cast<std::chrono::seconds>(stop - start_);
-  std::cout << "Elapsed in " << elapsed.count() << "seconds";
+  std::cout << "Elapsed in " << elapsed.count() << "seconds." << std::endl;
 }
 
 }  // namespace utils
