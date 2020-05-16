@@ -194,7 +194,7 @@
 % Секции без номеров (введение, заключение...), вместо section*{}
 \newcommand{\anonsection}[1]{
     \phantomsection % Корректный переход по ссылкам в содержании
-    \paragraph{\centerline{{#1}}\vspace{1.5em}}
+    \paragraph{\centerline{\bfseries{#1}}\vspace{1.5em}}
     \addcontentsline{toc}{section}{\uppercase{#1}}
 }
 
