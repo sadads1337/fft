@@ -31,7 +31,7 @@ inline auto summ_real_impl(const Grid1D& x, const Grid1D& y, Grid1D & result)
   }
 }
 
-inline auto apply_corr_factor_impl(const Grid1D& input, const Precision mult, Grid1D & result)
+inline auto apply_corr_factor_impl(const Grid1D& input, const Precision mult, const size_t offset, const size_t fg_count, Grid1D & result)
 {
   static_assert(sizeof(Grid1D::value_type) == 8u);
   for (auto idx = 0u; idx < input.size() / 4u; ++idx)
@@ -39,43 +39,48 @@ inline auto apply_corr_factor_impl(const Grid1D& input, const Precision mult, Gr
     const auto k_idx = idx * 4u;
 
     auto input_data = _mm256_load_pd(input.data() + k_idx);
+    const auto k_idx_real = offset + k_idx;
+    const auto size_real = fg_count * input.size();
     const auto factors_data = _mm256_set_pd(
-        mult * static_cast<Precision>(input.size() - k_idx - 3u),
-        mult * static_cast<Precision>(input.size() - k_idx - 2u),
-        mult * static_cast<Precision>(input.size() - k_idx - 1u),
-        mult * static_cast<Precision>(input.size() - k_idx));
+        mult * static_cast<Precision>(size_real - k_idx_real - 3u),
+        mult * static_cast<Precision>(size_real - k_idx_real - 2u),
+        mult * static_cast<Precision>(size_real - k_idx_real - 1u),
+        mult * static_cast<Precision>(size_real - k_idx_real));
 
     const auto factorized = _mm256_mul_pd(input_data, factors_data);
     _mm256_store_pd(result.data() + k_idx, factorized);
   }
 
   for (auto k_idx = input.size() - input.size() % 4u; k_idx < input.size(); ++k_idx) {
+    const auto k_idx_real = offset + k_idx;
+    const auto size_real = fg_count * input.size();
     result[k_idx] =
-        mult * static_cast<Precision>(input.size() - k_idx) * input[k_idx];
+        mult * static_cast<Precision>(size_real - k_idx_real) * input[k_idx];
   }
 }
 
-inline auto apply_conv_factor_impl(const Grid1D& input, const Precision mult, Grid1D & result)
+inline auto apply_conv_factor_impl(const Grid1D& input, const Precision mult, const size_t offset, Grid1D & result)
 {
   static_assert(sizeof(Grid1D::value_type) == 8u);
   for (auto idx = 0u; idx < input.size() / 4u; ++idx)
   {
     const auto k_idx = idx * 4u;
-
+    const auto k_idx_real = offset + k_idx;
     auto input_data = _mm256_load_pd(input.data() + k_idx);
     const auto factors_data = _mm256_set_pd(
-        mult * static_cast<Precision>(k_idx + 3u),
-        mult * static_cast<Precision>(k_idx + 2u),
-        mult * static_cast<Precision>(k_idx + 1u),
-        mult * static_cast<Precision>(k_idx));
+        mult * static_cast<Precision>(k_idx_real + 3u),
+        mult * static_cast<Precision>(k_idx_real + 2u),
+        mult * static_cast<Precision>(k_idx_real + 1u),
+        mult * static_cast<Precision>(k_idx_real));
 
     const auto factorized = _mm256_mul_pd(input_data, factors_data);
     _mm256_store_pd(result.data() + k_idx, factorized);
   }
 
   for (auto k_idx = input.size() - input.size() % 4u; k_idx < input.size(); ++k_idx) {
+    const auto k_idx_real = offset + k_idx;
     result[k_idx] =
-        mult * static_cast<Precision>(k_idx) * input[k_idx];
+        mult * static_cast<Precision>(k_idx_real) * input[k_idx];
   }
 }
 
@@ -113,19 +118,22 @@ inline auto summ_real_impl(const Grid1D& x, const Grid1D& y, Grid1D & result)
   }
 }
 
-inline auto apply_corr_factor_impl(const Grid1D& input, const Precision mult, Grid1D & result) {
+inline auto apply_corr_factor_impl(const Grid1D& input, const Precision mult, const size_t offset, const size_t fg_count, Grid1D & result) {
   FFT_OMP_PRAGMA("omp simd")
   for (auto k_idx = 0u; k_idx < input.size(); ++k_idx) {
+    const auto k_idx_real = offset + k_idx;
+    const auto size_real = fg_count * input.size();
     result[k_idx] =
-        mult * static_cast<Precision>(input.size() - k_idx) * input[k_idx];
+        mult * static_cast<Precision>(size_real - k_idx_real) * input[k_idx];
   }
 }
 
-inline auto apply_conv_factor_impl(const Grid1D& input, const Precision mult, Grid1D & result) {
+inline auto apply_conv_factor_impl(const Grid1D& input, const Precision mult, const size_t offset, Grid1D & result) {
   FFT_OMP_PRAGMA("omp simd")
   for (auto k_idx = 0u; k_idx < input.size(); ++k_idx) {
+    const auto k_idx_real = offset + k_idx;
     result[k_idx] =
-        mult * static_cast<Precision>(k_idx) * input[k_idx];
+        mult * static_cast<Precision>(k_idx_real) * input[k_idx];
   }
 }
 
@@ -153,17 +161,20 @@ inline auto summ_real_impl(const Grid1D& x, const Grid1D& y, Grid1D & result)
   }
 }
 
-inline auto apply_corr_factor_impl(const Grid1D& input, const Precision mult, Grid1D & result) {
+inline auto apply_corr_factor_impl(const Grid1D& input, const Precision mult, const size_t offset, const size_t fg_count, Grid1D & result) {
   for (auto k_idx = 0u; k_idx < input.size(); ++k_idx) {
+    const auto k_idx_real = offset + k_idx;
+    const auto size_real = fg_count * input.size();
     result[k_idx] =
-        mult * static_cast<Precision>(input.size() - k_idx) * input[k_idx];
+        mult * static_cast<Precision>(size_real - k_idx_real) * input[k_idx];
   }
 }
 
-inline auto apply_conv_factor_impl(const Grid1D& input, const Precision mult, Grid1D & result) {
+inline auto apply_conv_factor_impl(const Grid1D& input, const Precision mult, const size_t offset, Grid1D & result) {
   for (auto k_idx = 0u; k_idx < input.size(); ++k_idx) {
+    const auto k_idx_real = offset + k_idx;
     result[k_idx] =
-        mult * static_cast<Precision>(k_idx) * input[k_idx];
+        mult * static_cast<Precision>(k_idx_real) * input[k_idx];
   }
 }
 
@@ -198,33 +209,33 @@ inline auto apply_operation(
 }
 
 template <bool vectorized>
-inline auto apply_conv_factor(const Grid1D& input, const Precision mult) {
+inline auto apply_conv_factor(const Grid1D& input, const Precision mult, const size_t offset) {
   //! \todo: remove redudant allocation
   Grid1D result(input.size());
   if constexpr (vectorized) {
 #if FFT_ENABLE_MANUAL_VECT
-    avx::apply_conv_factor_impl(input, mult, result);
+    avx::apply_conv_factor_impl(input, mult, offset, result);
 #else
-    omp::apply_conv_factor_impl(input, mult, result);
+    omp::apply_conv_factor_impl(input, mult, offset, result);
 #endif
   } else {
-    normal::apply_conv_factor_impl(input, mult, result);
+    normal::apply_conv_factor_impl(input, mult, offset, result);
   }
   return result;
 }
 
 template <bool vectorized>
-inline auto apply_corr_factor(const Grid1D& input, const Precision mult) {
+inline auto apply_corr_factor(const Grid1D& input, const Precision mult, const size_t offset, const size_t fg_count) {
   //! \todo: remove redudant allocation
   Grid1D result(input.size());
   if constexpr (vectorized) {
 #if FFT_ENABLE_MANUAL_VECT
-    avx::apply_corr_factor_impl(input, mult, result);
+    avx::apply_corr_factor_impl(input, mult, offset, fg_count, result);
 #else
-    omp::apply_corr_factor_impl(input, mult, result);
+    omp::apply_corr_factor_impl(input, mult, offset, fg_count, result);
 #endif
   } else {
-    normal::apply_corr_factor_impl(input, mult, result);
+    normal::apply_corr_factor_impl(input, mult, offset, fg_count, result);
   }
   return result;
 }

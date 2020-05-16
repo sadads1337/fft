@@ -38,11 +38,21 @@ void check_values(
     std::int32_t fg_num,
     std::int32_t fg_size);
 
-//! import calculate_one_step(value #prev_values, value #env, int #t_idx, name #values) as calculate_one_step;
+//! import calculate_one_step(
+//!     value #prev_values,
+//!     value #env,
+//!     int #t_idx,
+//!     int #fgnum,
+//!     int #fgsize,
+//!     int #fgcount,
+//!     name #values) as calculate_one_step;
 void calculate_one_step(
     const luna::ucenv::InputDF & prev_values,
     const luna::ucenv::InputDF & env,
     std::int32_t t_idx,
+    std::int32_t fg_num,
+    std::int32_t fg_size,
+    std::int32_t fg_count,
     luna::ucenv::OutputDF & values);
 
 //! import check_one_step(
@@ -51,7 +61,8 @@ void calculate_one_step(
 //!     value #env,
 //!     int #t_idx,
 //!     int #fgnum,
-//!     int #fgsize) as check_one_step;
+//!     int #fgsize
+//!     int #fgcount) as check_one_step;
 //! \warning only for debug purposes;
 void check_one_step(
     const luna::ucenv::InputDF & prev_values,
@@ -59,7 +70,8 @@ void check_one_step(
     const luna::ucenv::InputDF & env,
     std::int32_t t_idx,
     std::int32_t fg_num,
-    std::int32_t fg_size);
+    std::int32_t fg_size,
+    std::int32_t fg_count);
 
 } // extern "C"
 

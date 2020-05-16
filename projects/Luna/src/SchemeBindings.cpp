@@ -63,6 +63,10 @@ void check_env(
 {
   const auto env_data = env.getData<scheme::Env>();
   assert(env_data);
+  assert(env_data->rho.size() == scheme::g_k_limit);
+  assert(env_data->lambda.size() == scheme::g_k_limit);
+  assert(env_data->mu.size() == scheme::g_k_limit);
+  assert(env_data->f.size() == scheme::g_t_grid_size);
 
   const auto check_values = [](const auto & values, const auto & expected_value) {
     for (const auto & value : values)
@@ -88,14 +92,18 @@ void check_env(
 
 void init_values(
     [[maybe_unused]] const std::int32_t fg_num,
-    [[maybe_unused]] const std::int32_t fg_size,
+    const std::int32_t fg_size,
     luna::ucenv::OutputDF & values)
 {
-  //! Zero initialized scheme::Values
-  //! Since our fragment is only one \b fg_num and \b fg_size unused.
-  //! \todo: Fix it later, when fragment number become > 1.
+  scheme::Values values_data{
+      make_grid_2d(fg_size, scheme::g_k_limit),
+      make_grid_2d(fg_size, scheme::g_k_limit),
+      make_grid_2d(fg_size, scheme::g_k_limit),
+      make_grid_2d(fg_size, scheme::g_k_limit),
+      make_grid_2d(fg_size, scheme::g_k_limit),
+  };
 
-  values.set(scheme::Values{});
+  values.set(utils::move_only(values_data));
 }
 
 //! import check_prev_values(value #prev_values, int #fgnum, int #size) as check_prev_values;
@@ -107,12 +115,13 @@ void check_values(
     [[maybe_unused]] const std::int32_t fg_num,
     [[maybe_unused]] const std::int32_t fg_size)
 {
-  //! Zero initialized scheme::Values
-  //! Since our fragment is only one \b fg_num and \b fg_size unused.
-  //! \todo: Fix it later, when fragment number become > 1.
-
   const auto values_data = values.getData<scheme::Values>();
   assert(values_data);
+  assert(values_data->u.size() == static_cast<size_t>(fg_size));
+  assert(values_data->w.size() == static_cast<size_t>(fg_size));
+  assert(values_data->p.size() == static_cast<size_t>(fg_size));
+  assert(values_data->q.size() == static_cast<size_t>(fg_size));
+  assert(values_data->s.size() == static_cast<size_t>(fg_size));
 
   const auto check_values = [](const auto & values, const auto & expected_value) {
     for (const auto & value : values)
@@ -140,17 +149,36 @@ void calculate_one_step(
     const luna::ucenv::InputDF & prev_values,
     const luna::ucenv::InputDF & env,
     const std::int32_t t_idx,
+    const std::int32_t fg_num,
+    const std::int32_t fg_size,
+    const std::int32_t fg_count,
     luna::ucenv::OutputDF & values)
 {
   const auto prev_values_data = prev_values.getData<scheme::Values>();
   assert(prev_values_data);
+  assert(prev_values_data->u.size() == static_cast<size_t>(fg_size));
+  assert(prev_values_data->w.size() == static_cast<size_t>(fg_size));
+  assert(prev_values_data->p.size() == static_cast<size_t>(fg_size));
+  assert(prev_values_data->q.size() == static_cast<size_t>(fg_size));
+  assert(prev_values_data->s.size() == static_cast<size_t>(fg_size));
   const auto env_data = env.getData<scheme::Env>();
   assert(env_data);
+  assert(env_data->rho.size() == scheme::g_k_limit);
+  assert(env_data->lambda.size() == scheme::g_k_limit);
+  assert(env_data->mu.size() == scheme::g_k_limit);
+  assert(env_data->f.size() == scheme::g_t_grid_size);
 
   //! \todo: fix redudant copy
-  scheme::Values values_data{};
+  scheme::Values values_data{
+      make_grid_2d(fg_size, scheme::g_k_limit),
+      make_grid_2d(fg_size, scheme::g_k_limit),
+      make_grid_2d(fg_size, scheme::g_k_limit),
+      make_grid_2d(fg_size, scheme::g_k_limit),
+      make_grid_2d(fg_size, scheme::g_k_limit),
+  };
 
-  no_omp_wrapper(scheme::calculate_one_step, *prev_values_data, values_data, *env_data, t_idx);
+  no_omp_wrapper(scheme::calculate_one_step, *prev_values_data, values_data,
+                 *env_data, t_idx, fg_num, fg_size, fg_count);
 
   assert(values_data != *prev_values_data);
 
@@ -162,24 +190,42 @@ void check_one_step(
     const luna::ucenv::InputDF & values,
     const luna::ucenv::InputDF & env,
     const std::int32_t t_idx,
-    [[maybe_unused]] const std::int32_t fg_num,
-    [[maybe_unused]] const std::int32_t fg_size)
+    const std::int32_t fg_num,
+    const std::int32_t fg_size,
+    const std::int32_t fg_count)
 {
-  //! Zero initialized scheme::Values
-  //! Since our fragment is only one \b fg_num and \b fg_size unused.
-  //! \todo: Fix it later, when fragment number become > 1.
-
-  scheme::Values expected_values_data{};
+  scheme::Values expected_values_data{
+      make_grid_2d(fg_size, scheme::g_k_limit),
+      make_grid_2d(fg_size, scheme::g_k_limit),
+      make_grid_2d(fg_size, scheme::g_k_limit),
+      make_grid_2d(fg_size, scheme::g_k_limit),
+      make_grid_2d(fg_size, scheme::g_k_limit),
+  };
 
   const auto prev_values_data = prev_values.getData<scheme::Values>();
   assert(prev_values_data);
+  assert(prev_values_data->u.size() == static_cast<size_t>(fg_size));
+  assert(prev_values_data->w.size() == static_cast<size_t>(fg_size));
+  assert(prev_values_data->p.size() == static_cast<size_t>(fg_size));
+  assert(prev_values_data->q.size() == static_cast<size_t>(fg_size));
+  assert(prev_values_data->s.size() == static_cast<size_t>(fg_size));
   const auto values_data = values.getData<scheme::Values>();
   assert(values_data);
+  assert(values_data->u.size() == static_cast<size_t>(fg_size));
+  assert(values_data->w.size() == static_cast<size_t>(fg_size));
+  assert(values_data->p.size() == static_cast<size_t>(fg_size));
+  assert(values_data->q.size() == static_cast<size_t>(fg_size));
+  assert(values_data->s.size() == static_cast<size_t>(fg_size));
   const auto env_data = env.getData<scheme::Env>();
   assert(env_data);
+  assert(env_data->rho.size() == scheme::g_k_limit);
+  assert(env_data->lambda.size() == scheme::g_k_limit);
+  assert(env_data->mu.size() == scheme::g_k_limit);
+  assert(env_data->f.size() == scheme::g_t_grid_size);
 
   //! Since \b prev_values are correct, we check only next step. Induction works here.
-  no_omp_wrapper(scheme::calculate_one_step, *prev_values_data, expected_values_data, *env_data, t_idx);
+  no_omp_wrapper(scheme::calculate_one_step, *prev_values_data, expected_values_data,
+                 *env_data, t_idx, fg_num, fg_size, fg_count);
 
   if (*values_data != expected_values_data)
   {

@@ -65,8 +65,8 @@ Grid1D source(int IG, Precision WN7, Precision DT, Precision DZ, int K8);
 
 Precision u_func(const Grid2D& u, size_t x_idx, size_t z_idx);
 
-void calculate_one_step(const Values& prev_values, Values& values,
-                        const Env& env, size_t t_idx, size_t fg_num, size_t fg_size);
+void calculate_one_step(const Values& prev_values, Values& values, const Env& env,
+                        size_t t_idx, size_t fg_num, size_t fg_size, size_t fg_count);
 
 void main_loop_for_t(Values& prev_values, Values& values, const Env& env,
                      size_t t_idx_limit, const std::function<void(const Values&)> & callback);
