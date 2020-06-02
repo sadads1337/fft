@@ -4,6 +4,7 @@ set(SRC_LIST
         Scheme.h
         src/IdxUtils.h
         src/IdxUtils.inl
+        src/IdxUtilsAVX.inl
         src/OpenMP.h
         src/Scheme.cpp
         )
