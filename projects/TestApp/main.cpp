@@ -4,6 +4,7 @@
 #include <matplotlibcpp/matplotlibcpp.h>
 
 #include <iostream>
+#include <thread>
 
 int main() try {
   scheme::Values values_1{};
@@ -68,7 +69,7 @@ int main() try {
 
   };
 
-  main_loop_for_t(values_1, values_2, env, t_idx_limit, draw_plot);
+  main_loop_for_t(values_1, values_2, env, t_idx_limit, draw_plot, std::thread::hardware_concurrency());
 
 } catch (const utils::MKLException& exception) {
   std::cout << "MKL exception happend: " << exception.what();
