@@ -57,7 +57,8 @@ struct Env final {
   Grid1D mu;
   Grid1D f;
 
-  //! \todo: maybe constant initilized, but there is a bug in LuNA df initialization code.
+  //! \todo: maybe constant initilized, but there is a bug in LuNA df
+  //! initialization code.
 };
 
 //! legacy c

@@ -5,8 +5,7 @@
 //! \todo: Студия не дружит с cassert, но очень нужно обмазать код assert'ми
 #include <cassert>
 
-inline auto make_grid_2d(size_t z, size_t k,
-                         Precision default_value = 0.) {
+inline auto make_grid_2d(size_t z, size_t k, Precision default_value = 0.) {
   assert(z && k);
   return Grid2D(z, Grid1D(k, default_value));
 }

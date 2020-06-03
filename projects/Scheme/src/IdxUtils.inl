@@ -11,19 +11,18 @@
 
 namespace utils {
 
-inline namespace omp
-{
+inline namespace omp {
 
-inline auto summ_real_impl(const Grid1D& x, const Grid1D& y, Grid1D & result)
-{
+inline auto summ_real_impl(const Grid1D& x, const Grid1D& y, Grid1D& result) {
   FFT_OMP_PRAGMA("omp simd")
-  for (auto idx = 0u; idx < x.size(); ++idx)
-  {
+  for (auto idx = 0u; idx < x.size(); ++idx) {
     result[idx] = x[idx] + y[idx];
   }
 }
 
-inline auto apply_corr_factor_impl(const Grid1D& input, const Precision mult, const size_t offset, const size_t fg_count, Grid1D & result) {
+inline auto apply_corr_factor_impl(const Grid1D& input, const Precision mult,
+                                   const size_t offset, const size_t fg_count,
+                                   Grid1D& result) {
   FFT_OMP_PRAGMA("omp simd")
   for (auto k_idx = 0u; k_idx < input.size(); ++k_idx) {
     const auto k_idx_real = offset + k_idx;
@@ -33,19 +32,19 @@ inline auto apply_corr_factor_impl(const Grid1D& input, const Precision mult, co
   }
 }
 
-inline auto apply_conv_factor_impl(const Grid1D& input, const Precision mult, const size_t offset, Grid1D & result) {
+inline auto apply_conv_factor_impl(const Grid1D& input, const Precision mult,
+                                   const size_t offset, Grid1D& result) {
   FFT_OMP_PRAGMA("omp simd")
   for (auto k_idx = 0u; k_idx < input.size(); ++k_idx) {
     const auto k_idx_real = offset + k_idx;
-    result[k_idx] =
-        mult * static_cast<Precision>(k_idx_real) * input[k_idx];
+    result[k_idx] = mult * static_cast<Precision>(k_idx_real) * input[k_idx];
   }
 }
 
 inline auto apply_operation_impl(
     const Grid1D& lhs, const Grid1D& rhs,
     const std::function<Precision(Precision, Precision)>& function,
-    Grid1D & result) {
+    Grid1D& result) {
   FFT_OMP_PRAGMA("omp simd")
   for (auto idx = 0u; idx < lhs.size(); ++idx) {
     result[idx] = function(lhs[idx], rhs[idx]);
@@ -53,20 +52,19 @@ inline auto apply_operation_impl(
   return result;
 }
 
-} // inline namespace omp
+}  // namespace omp
 
-inline namespace normal
-{
+inline namespace normal {
 
-inline auto summ_real_impl(const Grid1D& x, const Grid1D& y, Grid1D & result)
-{
-  for (auto idx = 0u; idx < x.size(); ++idx)
-  {
+inline auto summ_real_impl(const Grid1D& x, const Grid1D& y, Grid1D& result) {
+  for (auto idx = 0u; idx < x.size(); ++idx) {
     result[idx] = x[idx] + y[idx];
   }
 }
 
-inline auto apply_corr_factor_impl(const Grid1D& input, const Precision mult, const size_t offset, const size_t fg_count, Grid1D & result) {
+inline auto apply_corr_factor_impl(const Grid1D& input, const Precision mult,
+                                   const size_t offset, const size_t fg_count,
+                                   Grid1D& result) {
   for (auto k_idx = 0u; k_idx < input.size(); ++k_idx) {
     const auto k_idx_real = offset + k_idx;
     const auto size_real = fg_count * input.size();
@@ -75,24 +73,24 @@ inline auto apply_corr_factor_impl(const Grid1D& input, const Precision mult, co
   }
 }
 
-inline auto apply_conv_factor_impl(const Grid1D& input, const Precision mult, const size_t offset, Grid1D & result) {
+inline auto apply_conv_factor_impl(const Grid1D& input, const Precision mult,
+                                   const size_t offset, Grid1D& result) {
   for (auto k_idx = 0u; k_idx < input.size(); ++k_idx) {
     const auto k_idx_real = offset + k_idx;
-    result[k_idx] =
-        mult * static_cast<Precision>(k_idx_real) * input[k_idx];
+    result[k_idx] = mult * static_cast<Precision>(k_idx_real) * input[k_idx];
   }
 }
 
 inline auto apply_operation_impl(
     const Grid1D& lhs, const Grid1D& rhs,
     const std::function<Precision(Precision, Precision)>& function,
-    Grid1D & result) {
+    Grid1D& result) {
   for (auto idx = 0u; idx < lhs.size(); ++idx) {
     result[idx] = function(lhs[idx], rhs[idx]);
   }
 }
 
-} // inline namespace normal
+}  // namespace normal
 
 template <bool vectorized>
 inline auto apply_operation(
@@ -114,7 +112,8 @@ inline auto apply_operation(
 }
 
 template <bool vectorized>
-inline auto apply_conv_factor(const Grid1D& input, const Precision mult, const size_t offset) {
+inline auto apply_conv_factor(const Grid1D& input, const Precision mult,
+                              const size_t offset) {
   //! \todo: remove redudant allocation
   Grid1D result(input.size());
   if constexpr (vectorized) {
@@ -130,7 +129,8 @@ inline auto apply_conv_factor(const Grid1D& input, const Precision mult, const s
 }
 
 template <bool vectorized>
-inline auto apply_corr_factor(const Grid1D& input, const Precision mult, const size_t offset, const size_t fg_count) {
+inline auto apply_corr_factor(const Grid1D& input, const Precision mult,
+                              const size_t offset, const size_t fg_count) {
   //! \todo: remove redudant allocation
   Grid1D result(input.size());
   if constexpr (vectorized) {

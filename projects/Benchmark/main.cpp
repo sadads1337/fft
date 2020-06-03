@@ -4,9 +4,9 @@
 #include <Scheme/Scheme.h>
 
 #include <chrono>
+#include <cstdlib>
 #include <iostream>
 #include <thread>
-#include <cstdlib>
 
 int main([[maybe_unused]] int argc, [[maybe_unused]] char** argv) try {
   scheme::Values values_1{};
@@ -20,9 +20,10 @@ int main([[maybe_unused]] int argc, [[maybe_unused]] char** argv) try {
   };
 
   const auto num_threads = argc <= 1 ? std::thread::hardware_concurrency()
-                                    : static_cast<size_t>(std::atoi(argv[1]));
+                                     : static_cast<size_t>(std::atoi(argv[1]));
 
-  main_loop_for_t(values_1, values_2, env, scheme::g_t_grid_size, {}, num_threads);
+  main_loop_for_t(values_1, values_2, env, scheme::g_t_grid_size, {},
+                  num_threads);
 } catch (const utils::MKLException& exception) {
   std::cout << "MKL exception happend: " << exception.what();
 } catch (const std::exception& exception) {

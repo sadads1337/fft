@@ -1,9 +1,8 @@
 #pragma once
 
+#include <aligned/aligned_vector>
 #include <type_traits>
 #include <vector>
-
-#include <aligned/aligned_vector>
 
 using Precision = double;
 static_assert(std::is_floating_point_v<Precision>,

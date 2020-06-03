@@ -1,13 +1,11 @@
 #pragma once
 
+#include <Core/Types.h>
 #include <mkl_types.h>
 
+#include <aligned/aligned_vector>
 #include <complex>
 #include <vector>
-
-#include <aligned/aligned_vector>
-
-#include <Core/Types.h>
 
 namespace utils {
 
@@ -24,8 +22,10 @@ MKL_LONG save_mkl_call(Function& function, Args&&... args);
 
 namespace fft {
 
-using ComplexContainer = aligned::aligned_vector<std::complex<Precision>, aligned::alignment::avx>;
-using RealContainer = aligned::aligned_vector<Precision, aligned::alignment::avx>;
+using ComplexContainer =
+    aligned::aligned_vector<std::complex<Precision>, aligned::alignment::avx>;
+using RealContainer =
+    aligned::aligned_vector<Precision, aligned::alignment::avx>;
 
 ComplexContainer fft_complex(ComplexContainer& in);
 
