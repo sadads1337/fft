@@ -25,7 +25,8 @@ Grid1D source(int IG, Precision WN7, Precision DT, Precision DZ, int K8) {
   if (GI <= static_cast<Precision>(2.01))
     T4 = T1;
   else {
-    if ((GI <= static_cast<Precision>(4.01)) && (GI >= static_cast<Precision>(2.01)))
+    if ((GI <= static_cast<Precision>(4.01)) &&
+        (GI >= static_cast<Precision>(2.01)))
       T4 = T2;
     else
       T4 = T3;
@@ -126,28 +127,38 @@ void calculate_one_step(const Values& prev_values, Values& values,
                                          return (lhs - rhs) / g_z_grid_step;
                                        });
     const auto q_rho_for_u = summ_real(
-        fft::conv_real(apply_conv_factor(der_q, g_pi / g_z_limit_value, offset), rho),
-        fft::corr_real(apply_corr_factor(der_q, g_pi / g_z_limit_value, offset, fg_count), rho));
-    const auto p_rho_for_u = summ_real(
-        fft::conv_real(apply_conv_factor(prev_p[z_idx], g_pi / g_z_limit_value, offset),
+        fft::conv_real(apply_conv_factor(der_q, g_pi / g_z_limit_value, offset),
                        rho),
-        fft::corr_real(apply_corr_factor(prev_p[z_idx], g_pi / g_z_limit_value, offset, fg_count),
+        fft::corr_real(
+            apply_corr_factor(der_q, g_pi / g_z_limit_value, offset, fg_count),
+            rho));
+    const auto p_rho_for_u = summ_real(
+        fft::conv_real(
+            apply_conv_factor(prev_p[z_idx], g_pi / g_z_limit_value, offset),
+            rho),
+        fft::corr_real(apply_corr_factor(prev_p[z_idx], g_pi / g_z_limit_value,
+                                         offset, fg_count),
                        rho));
 
     //! For w
     const auto q_rho_for_w = summ_real(
-        fft::conv_real(
-            apply_conv_factor(prev_q[z_idx + 1u], g_pi / g_z_limit_value, offset), rho),
+        fft::conv_real(apply_conv_factor(prev_q[z_idx + 1u],
+                                         g_pi / g_z_limit_value, offset),
+                       rho),
         fft::corr_real(
-            apply_corr_factor(prev_q[z_idx + 1u], g_pi / g_z_limit_value, offset, fg_count),
+            apply_corr_factor(prev_q[z_idx + 1u], g_pi / g_z_limit_value,
+                              offset, fg_count),
             rho));
     const auto der_s = apply_operation(prev_s[z_idx + 1u], prev_s[z_idx],
                                        [](const auto& lhs, const auto& rhs) {
                                          return (lhs - rhs) / g_z_grid_step;
                                        });
     const auto s_rho_for_w = summ_real(
-        fft::conv_real(apply_conv_factor(der_s, g_pi / g_z_limit_value, offset), rho),
-        fft::corr_real(apply_corr_factor(der_s, g_pi / g_z_limit_value, offset, fg_count), rho));
+        fft::conv_real(apply_conv_factor(der_s, g_pi / g_z_limit_value, offset),
+                       rho),
+        fft::corr_real(
+            apply_corr_factor(der_s, g_pi / g_z_limit_value, offset, fg_count),
+            rho));
 
     //! For p
     const auto der_w = apply_operation(prev_w[z_idx + 1u], prev_w[z_idx],
@@ -157,16 +168,19 @@ void calculate_one_step(const Values& prev_values, Values& values,
     const auto w_lambda_for_p = summ_real(
         fft::conv_real(apply_conv_factor(der_w, g_pi / g_z_limit_value, offset),
                        lambda),
-        fft::corr_real(apply_corr_factor(der_w, g_pi / g_z_limit_value, offset, fg_count),
-                       lambda));
+        fft::corr_real(
+            apply_corr_factor(der_w, g_pi / g_z_limit_value, offset, fg_count),
+            lambda));
     const auto summ_lambda_mu =
         apply_operation(lambda, mu, [](const auto& lhs, const auto& rhs) {
           return lhs + static_cast<Precision>(2.) * rhs;
         });
     const auto u_summ_lambda_mu_for_p = summ_real(
-        fft::conv_real(apply_conv_factor(prev_u[z_idx], g_pi / g_z_limit_value, offset),
-                       summ_lambda_mu),
-        fft::corr_real(apply_corr_factor(prev_u[z_idx], g_pi / g_z_limit_value, offset, fg_count),
+        fft::conv_real(
+            apply_conv_factor(prev_u[z_idx], g_pi / g_z_limit_value, offset),
+            summ_lambda_mu),
+        fft::corr_real(apply_corr_factor(prev_u[z_idx], g_pi / g_z_limit_value,
+                                         offset, fg_count),
                        summ_lambda_mu));
 
     //! For q
@@ -175,24 +189,33 @@ void calculate_one_step(const Values& prev_values, Values& values,
                                          return (lhs - rhs) / g_z_grid_step;
                                        });
     const auto u_mu_for_q = summ_real(
-        fft::conv_real(apply_conv_factor(der_u, g_pi / g_z_limit_value, offset), mu),
-        fft::corr_real(apply_corr_factor(der_u, g_pi / g_z_limit_value, offset, fg_count), mu));
-    const auto w_mu_for_q = summ_real(
-        fft::conv_real(
-            apply_conv_factor(prev_w[z_idx + 1u], g_pi / g_z_limit_value, offset), mu),
+        fft::conv_real(apply_conv_factor(der_u, g_pi / g_z_limit_value, offset),
+                       mu),
         fft::corr_real(
-            apply_corr_factor(prev_w[z_idx + 1u], g_pi / g_z_limit_value, offset, fg_count), mu));
+            apply_corr_factor(der_u, g_pi / g_z_limit_value, offset, fg_count),
+            mu));
+    const auto w_mu_for_q = summ_real(
+        fft::conv_real(apply_conv_factor(prev_w[z_idx + 1u],
+                                         g_pi / g_z_limit_value, offset),
+                       mu),
+        fft::corr_real(
+            apply_corr_factor(prev_w[z_idx + 1u], g_pi / g_z_limit_value,
+                              offset, fg_count),
+            mu));
 
     //! For s
     const auto w_summ_lambda_mu_for_s = summ_real(
         fft::conv_real(apply_conv_factor(der_w, g_pi / g_z_limit_value, offset),
                        summ_lambda_mu),
-        fft::corr_real(apply_corr_factor(der_w, g_pi / g_z_limit_value, offset, fg_count),
-                       summ_lambda_mu));
+        fft::corr_real(
+            apply_corr_factor(der_w, g_pi / g_z_limit_value, offset, fg_count),
+            summ_lambda_mu));
     const auto u_lambda_for_s = summ_real(
-        fft::conv_real(apply_conv_factor(prev_u[z_idx], g_pi / g_z_limit_value, offset),
-                       lambda),
-        fft::corr_real(apply_corr_factor(prev_u[z_idx], g_pi / g_z_limit_value, offset, fg_count),
+        fft::conv_real(
+            apply_conv_factor(prev_u[z_idx], g_pi / g_z_limit_value, offset),
+            lambda),
+        fft::corr_real(apply_corr_factor(prev_u[z_idx], g_pi / g_z_limit_value,
+                                         offset, fg_count),
                        lambda));
 
     //! For f
@@ -232,14 +255,15 @@ void calculate_one_step(const Values& prev_values, Values& values,
 
 void main_loop_for_t(Values& prev_values, Values& values, const Env& env,
                      const size_t t_idx_limit,
-                     const std::function<void(const Values&)> & callback,
+                     const std::function<void(const Values&)>& callback,
                      const size_t num_threads) {
   utils::TimeGuard time_guard{};
   for (auto t_idx = 0u; t_idx < t_idx_limit; ++t_idx) {
     constexpr auto fg_num = 0u;
     constexpr auto fg_size = g_z_grid_size;
     constexpr auto fg_count = 1u;
-    calculate_one_step(prev_values, values, env, t_idx, fg_num, fg_size, fg_count, num_threads);
+    calculate_one_step(prev_values, values, env, t_idx, fg_num, fg_size,
+                       fg_count, num_threads);
 
     //! new in values_2 now; we don't need values_2, swap here, do not copy
     std::swap(prev_values, values);

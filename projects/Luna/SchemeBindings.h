@@ -1,42 +1,33 @@
 #pragma once
 
-#include <cstdint>
-
+#include <Scheme/Scheme.h>
 #include <ucenv/ucenv.h>
 
-#include <Scheme/Scheme.h>
+#include <cstdint>
 
 extern "C" {
 
 //! import init_env(int #fgnum, int #fgsize, name) as init_env;
 //! \note scheme::g_z_grid_size = fg_num * fg_size;
-void init_env(
-    std::int32_t fg_num,
-    std::int32_t fg_size,
-    luna::ucenv::OutputDF & env);
+void init_env(std::int32_t fg_num, std::int32_t fg_size,
+              luna::ucenv::OutputDF& env);
 
 //! import check_env(value #env, int #fgnum, int #size) as check_env;
 //! \note scheme::g_z_grid_size = fg_num * fg_size;
 //! \warning only for debug purposes;
-void check_env(
-    const luna::ucenv::InputDF & env,
-    std::int32_t fg_num,
-    std::int32_t fg_size);
+void check_env(const luna::ucenv::InputDF& env, std::int32_t fg_num,
+               std::int32_t fg_size);
 
 //! import init_values(int #fgnum, int #fgsize, name) as init_values;
 //! \note scheme::g_z_grid_size = fg_num * fg_size;
-void init_values(
-    std::int32_t fg_num,
-    std::int32_t fg_size,
-    luna::ucenv::OutputDF & values);
+void init_values(std::int32_t fg_num, std::int32_t fg_size,
+                 luna::ucenv::OutputDF& values);
 
 //! import check_values(value #values, int #fgnum, int #size) as check_values;
 //! \note scheme::g_z_grid_size = fg_num * fg_size;
 //! \warning only for debug purposes;
-void check_values(
-    const luna::ucenv::InputDF & values,
-    std::int32_t fg_num,
-    std::int32_t fg_size);
+void check_values(const luna::ucenv::InputDF& values, std::int32_t fg_num,
+                  std::int32_t fg_size);
 
 //! import calculate_one_step(
 //!     value #prev_values,
@@ -46,14 +37,10 @@ void check_values(
 //!     int #fgsize,
 //!     int #fgcount,
 //!     name #values) as calculate_one_step;
-void calculate_one_step(
-    const luna::ucenv::InputDF & prev_values,
-    const luna::ucenv::InputDF & env,
-    std::int32_t t_idx,
-    std::int32_t fg_num,
-    std::int32_t fg_size,
-    std::int32_t fg_count,
-    luna::ucenv::OutputDF & values);
+void calculate_one_step(const luna::ucenv::InputDF& prev_values,
+                        const luna::ucenv::InputDF& env, std::int32_t t_idx,
+                        std::int32_t fg_num, std::int32_t fg_size,
+                        std::int32_t fg_count, luna::ucenv::OutputDF& values);
 
 //! import check_one_step(
 //!     value #prev_values,
@@ -64,14 +51,10 @@ void calculate_one_step(
 //!     int #fgsize
 //!     int #fgcount) as check_one_step;
 //! \warning only for debug purposes;
-void check_one_step(
-    const luna::ucenv::InputDF & prev_values,
-    const luna::ucenv::InputDF & values,
-    const luna::ucenv::InputDF & env,
-    std::int32_t t_idx,
-    std::int32_t fg_num,
-    std::int32_t fg_size,
-    std::int32_t fg_count);
+void check_one_step(const luna::ucenv::InputDF& prev_values,
+                    const luna::ucenv::InputDF& values,
+                    const luna::ucenv::InputDF& env, std::int32_t t_idx,
+                    std::int32_t fg_num, std::int32_t fg_size,
+                    std::int32_t fg_count);
 
-} // extern "C"
-
+}  // extern "C"

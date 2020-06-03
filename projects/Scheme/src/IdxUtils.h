@@ -15,7 +15,8 @@ template <bool vectorized>
 auto apply_conv_factor(const Grid1D& input, Precision mult, size_t offset = 0u);
 
 template <bool vectorized>
-auto apply_corr_factor(const Grid1D& input, Precision mult, size_t offset = 0u, size_t fg_count = 1u);
+auto apply_corr_factor(const Grid1D& input, Precision mult, size_t offset = 0u,
+                       size_t fg_count = 1u);
 
 template <bool vectorized>
 auto summ_real(const Grid1D& x, const Grid1D& y);

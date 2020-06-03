@@ -19,7 +19,7 @@ int main() try {
 
   constexpr auto t_idx_limit = 2u;
 
-  const auto draw_plot = [](const auto & values) {
+  const auto draw_plot = [](const auto& values) {
     //! draw values_1;
     std::vector<double> x, y;
     for (auto x_idx = 0u; x_idx < scheme::g_z_grid_size; ++x_idx) {
@@ -66,10 +66,10 @@ int main() try {
             plt::ylabel("z");
             plt::show();
     }*/
-
   };
 
-  main_loop_for_t(values_1, values_2, env, t_idx_limit, draw_plot, std::thread::hardware_concurrency());
+  main_loop_for_t(values_1, values_2, env, t_idx_limit, draw_plot,
+                  std::thread::hardware_concurrency());
 
 } catch (const utils::MKLException& exception) {
   std::cout << "MKL exception happend: " << exception.what();
