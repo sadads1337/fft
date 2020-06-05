@@ -56,6 +56,30 @@ inline auto apply_operation_impl(
 
 inline namespace normal {
 
+inline auto conv_real_impl(const Grid1D &x, const Grid1D &y, Grid1D &result) {
+  assert(x.size() + y.size() - 1u == result.size());
+  for (auto i = 0u; i < x.size() + y.size() - 1u; i++) {
+    result[i] = static_cast<Precision>(0.);
+    const auto start = i >= x.size() ? i - x.size() + 1u : 0u;
+    const auto end = i < y.size() ? i : y.size() - 1u;
+    for (auto k = start; k <= end; k++) {
+      result[i] += x[i - k] * y[k];
+    }
+  }
+}
+
+inline auto corr_real_impl(const Grid1D &x, const Grid1D &y, Grid1D &result) {
+  assert(x.size() + y.size() - 1u == result.size());
+  for (auto i = 0u; i < result.size(); i++) {
+    result[i] = static_cast<Precision>(0.);
+    const auto start = i >= x.size() ? i - x.size() + 1u : 0u;
+    const auto end = i < y.size() ? i : y.size() - 1u;
+    for (auto k = start; k <= end; k++) {
+      result[i] += x[x.size() - 1u - (i - k)] * y[k];
+    }
+  }
+}
+
 inline auto summ_real_impl(const Grid1D& x, const Grid1D& y, Grid1D& result) {
   for (auto idx = 0u; idx < x.size(); ++idx) {
     result[idx] = x[idx] + y[idx];
@@ -141,6 +165,38 @@ inline auto apply_corr_factor(const Grid1D& input, const Precision mult,
 #endif
   } else {
     normal::apply_corr_factor_impl(input, mult, offset, fg_count, result);
+  }
+  return result;
+}
+
+template <bool vectorized>
+auto inline conv_real(const Grid1D& x, const Grid1D& y) {
+  Grid1D result(x.size() + y.size() - 1u);
+  if constexpr (vectorized) {
+#if FFT_ENABLE_MANUAL_VECT
+    avx::conv_real_impl(x, y, result);
+#else
+    assert(false);
+#endif
+  }
+  else {
+    normal::conv_real_impl(x, y, result);
+  }
+  return result;
+}
+
+template <bool vectorized>
+auto inline corr_real(const Grid1D& x, const Grid1D& y) {
+  Grid1D result(x.size() + y.size() - 1u);
+  if constexpr (vectorized) {
+#if FFT_ENABLE_MANUAL_VECT
+    avx::corr_real_impl(x, y, result);
+#else
+    assert(false);
+#endif
+  }
+  else {
+    normal::corr_real_impl(x, y, result);
   }
   return result;
 }

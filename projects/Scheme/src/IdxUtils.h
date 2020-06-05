@@ -19,6 +19,12 @@ auto apply_corr_factor(const Grid1D& input, Precision mult, size_t offset = 0u,
                        size_t fg_count = 1u);
 
 template <bool vectorized>
+auto conv_real(const Grid1D& x, const Grid1D& y);
+
+template <bool vectorized>
+auto corr_real(const Grid1D& x, const Grid1D& y);
+
+template <bool vectorized>
 auto summ_real(const Grid1D& x, const Grid1D& y);
 
 }  // namespace utils

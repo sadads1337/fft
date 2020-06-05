@@ -12,6 +12,14 @@ namespace utils {
 
 inline namespace avx {
 
+inline auto conv_real_impl(const Grid1D &x, const Grid1D &y, Grid1D &result) {
+  assert(false);
+}
+
+inline auto corr_real_impl(const Grid1D &x, const Grid1D &y, Grid1D &result) {
+  assert(false);
+}
+
 inline auto summ_real_impl(const Grid1D &x, const Grid1D &y, Grid1D &result) {
   static_assert(sizeof(Grid1D::value_type) == 8u);
   for (auto idx = 0u; idx < x.size() / 4u; ++idx) {

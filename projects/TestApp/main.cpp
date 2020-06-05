@@ -7,25 +7,38 @@
 #include <thread>
 
 int main() try {
-  scheme::Values values_1{};
-  scheme::Values values_2{};
+  constexpr auto t_idx_limit = 2u;
+  const auto params = scheme::create_params(std::thread::hardware_concurrency(), 5.115, 1u << 10u,
+                                            t_idx_limit, 1. / static_cast<Precision>(1u << 11u), 32u);
+  scheme::Values values_1{
+      make_grid_2d(params.z_grid_size, params.k_limit),
+      make_grid_2d(params.z_grid_size, params.k_limit),
+      make_grid_2d(params.z_grid_size, params.k_limit),
+      make_grid_2d(params.z_grid_size, params.k_limit),
+      make_grid_2d(params.z_grid_size, params.k_limit),
+  };
+  scheme::Values values_2{
+      make_grid_2d(params.z_grid_size, params.k_limit),
+      make_grid_2d(params.z_grid_size, params.k_limit),
+      make_grid_2d(params.z_grid_size, params.k_limit),
+      make_grid_2d(params.z_grid_size, params.k_limit),
+      make_grid_2d(params.z_grid_size, params.k_limit),
+  };
   const scheme::Env env{
-      Grid1D(scheme::g_k_limit, static_cast<Precision>(1.)),
-      Grid1D(scheme::g_k_limit, static_cast<Precision>(1.)),
-      Grid1D(scheme::g_k_limit, static_cast<Precision>(1.)),
-      scheme::source(4, static_cast<Precision>(1.), scheme::g_t_grid_step,
-                     scheme::g_z_grid_step, scheme::g_t_grid_size),
+      Grid1D(params.k_limit, static_cast<Precision>(1.)),
+      Grid1D(params.k_limit, static_cast<Precision>(1.)),
+      Grid1D(params.k_limit, static_cast<Precision>(1.)),
+      scheme::source(4, static_cast<Precision>(1.), params.t_grid_step,
+                     params.z_grid_step, params.t_limit),
   };
 
-  constexpr auto t_idx_limit = 2u;
-
-  const auto draw_plot = [](const auto& values) {
+  const auto draw_plot = [&](const auto& values) {
     //! draw values_1;
     std::vector<double> x, y;
-    for (auto x_idx = 0u; x_idx < scheme::g_z_grid_size; ++x_idx) {
-      x.push_back(static_cast<Precision>(x_idx) * scheme::g_z_grid_step);
-      constexpr auto z_0 = scheme::g_z_grid_size / 2;
-      const auto f_value = scheme::u_func(values.u, x_idx, z_0);
+    for (auto x_idx = 0u; x_idx < params.z_grid_size; ++x_idx) {
+      x.push_back(static_cast<Precision>(x_idx) * params.z_grid_step);
+      const auto z_0 = params.z_grid_size / 2u;
+      const auto f_value = scheme::u_func(values.u, x_idx, z_0, params);
       y.push_back(f_value);
     }
     namespace plt = matplotlibcpp;
@@ -68,8 +81,8 @@ int main() try {
     }*/
   };
 
-  main_loop_for_t(values_1, values_2, env, t_idx_limit, draw_plot,
-                  std::thread::hardware_concurrency());
+  main_loop_for_t(values_1, values_2, env, draw_plot,
+                  params);
 
 } catch (const utils::MKLException& exception) {
   std::cout << "MKL exception happend: " << exception.what();
