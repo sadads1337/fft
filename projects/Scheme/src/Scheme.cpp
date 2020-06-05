@@ -68,8 +68,6 @@ Grid1D source(int IG, Precision WN7, Precision DT, Precision DZ, int K8) {
 
 Precision u_func(const Grid2D& u, const size_t x_idx, const size_t z_idx, const Params& params) {
   const auto b = params.z_limit_value;
-  static_assert(std::is_same_v<std::remove_cv_t<decltype(b)>, Precision>,
-                "b must be the same type with main precision type");
   auto result = static_cast<Precision>(0.);
   for (auto k_idx = 0u; k_idx < params.k_limit; ++k_idx) {
     const auto x = static_cast<Precision>(x_idx) * params.z_grid_step;
@@ -256,8 +254,6 @@ void calculate_one_step(const Values& prev_values, Values& values,
 
     for (auto k_idx = 0u; k_idx < params.k_limit; ++k_idx) {
       constexpr auto half = static_cast<Precision>(0.5);
-      static_assert(std::is_same_v<std::remove_cv_t<decltype(half)>, Precision>,
-                    "g_z_grid_size must be double");
 
       u[z_idx][k_idx] =
           prev_u[z_idx][k_idx] +

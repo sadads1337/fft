@@ -143,9 +143,9 @@ function(find_mkl_library)
             lib${mkl_args_LIBRARY_NAME}${md_suffix}
             ${mkl_args_LIBRARY_NAME}
             PATHS
-            /opt/intel/mkl/lib
-            /opt/intel/tbb/lib
-            /opt/intel/lib
+            /opt/software/intel/2019/mkl/lib
+            /opt/software/intel/2019/tbb/lib
+            /opt/software/intel/2019/lib
             $ENV{MKLROOT}/lib
             /opt/intel/compilers_and_libraries/linux/mkl/lib
             PATH_SUFFIXES
@@ -213,6 +213,7 @@ find_mkl_library(NAME RT LIBRARY_NAME mkl_rt)
 
 # MKL can link against Intel OpenMP, GNU OpenMP, TBB, and Sequential
 if (MKL_THREAD_LAYER STREQUAL "Intel OpenMP")
+    message(STATUS "ABCABCABCABC")
     find_mkl_library(NAME ThreadLayer LIBRARY_NAME mkl_intel_thread)
     find_mkl_library(NAME ThreadingLibrary LIBRARY_NAME iomp5)
 elseif (MKL_THREAD_LAYER STREQUAL "GNU OpenMP")
