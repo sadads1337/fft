@@ -9,11 +9,15 @@
 #include <thread>
 
 int main([[maybe_unused]] int argc, [[maybe_unused]] char** argv) try {
-  const auto num_threads = argc <= 1 ? std::thread::hardware_concurrency()
-                                     : static_cast<size_t>(std::atoi(argv[1]));
+  const auto num_threads = std::atoi(argv[1]);
+  const auto z_limit_value = std::atof(argv[2]);
+  const auto z_grid_size = static_cast<size_t>(std::atoi(argv[3]));
+  const auto t_limit = static_cast<size_t>(std::atoi(argv[4]));
+  const auto t_grid_step = std::atof(argv[5]);
+  const auto k_limit = static_cast<size_t>(std::atoi(argv[6]));
 
-  const auto params = scheme::create_params(num_threads, 5.115, 1u << 16u,
-                                            1024u, 1. / static_cast<Precision>(1u << 17u), 32u);
+  const auto params = scheme::create_params(num_threads, z_limit_value, z_grid_size,
+                                            t_limit, t_grid_step, k_limit);
 
   std::cout << "num_threads: " << num_threads
             << " z_limit: " << params.z_limit_value
