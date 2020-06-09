@@ -2,7 +2,7 @@
 
 В данной главе описана общая математическая модель для решения численной задачи о распространении
 упругих волн в 2D неоднородных средах, которые возникают в результате воздействия источника,
-расположенного непосредственно в самой исследуемой среде.
+расположенного непосредственно в самой исследуемой среде (вблизи ее поверхности).
 
 \subsection{Постановка задачи}
 Исследование распространения упругих сейсмических волн в неоднородных средах будет проводится на 
@@ -16,7 +16,7 @@
 
 \addimghere{env}{0.30}{Система координат}{env}
 
-Задача будет записана в терминах вектора скоростей смещений $\vec{u}={(u, w)}^T$
+Задача записывается в терминах вектора скоростей смещений $\vec{u}={(u, w)}^T$
 и тензора напряжений $\vec{\sigma}=(\sigma_{xx}, \sigma_{xz}, \sigma_{zz})^T$ в следующем виде.
 
 \begin{equation}
@@ -37,8 +37,7 @@
 	\vec{u},
 \end{dcases}
 \end{equation}
-
-Где $t$ - время, $u$, $w$ - компоненты скоростей смещений по $Ox$ и $Oz$ соотвественно.
+где $t$ - время, $u$, $w$ - компоненты скоростей смещений по $Ox$ и $Oz$ соотвественно.
 Параметры $\lambda(x,z), \mu(x,z)$ - коэффициенты Ламе, удовлетворяющие соотношениям: $\lambda + 2\mu=\rho{v}_p^2$, $\mu=\rho{v}_s^2$, 
 где $v_p$ - скорость распространения продольных волн, $v_s$ - скорость распространения поперечных волн,
 а $\rho(x,z)>0, \forall x,z$ - плотность среды.
@@ -47,7 +46,7 @@
 
 \begin{equation}
 	\label{eq:2}
-	\sigma_{xx}|_{z=0}=\sigma_{xz}|_{z=0}=0
+	\sigma_{zz}|_{z=0}=\sigma_{xz}|_{z=0}=0
 \end{equation}
 
 В качестве начальных условий, в момент времени $t=0$ положим:
@@ -55,7 +54,7 @@
 \begin{equation}
 \begin{dcases}
 	\label{eq:3}
-	u = w = 0, \\
+	u |_{t=0}= w|_{t=0} = 0, \\
 	\sigma_{xx}|_{t=0}=\sigma_{xz}|_{z=0}=\sigma_{zz}|_{z=0}=0
 \end{dcases}
 \end{equation}
@@ -104,7 +103,7 @@ $$
 (\lambda + 2 \mu)(x,z) = \frac{(\lambda + 2 \mu)_0}{2} + \sum_{\overline l=1}^\infty{(\overline{\lambda} + 2 \overline{\mu})_{\overline l} \cdot cos(\overline lx)}
 $$
 $$
-\mu(x,z) = \frac{\overline{\mu}_0}{2} + \sum_{\overline l=1}^\infty{\overline{\mu}_0 \cdot cos(\overline lx)}
+\mu(x,z) = \frac{\overline{\mu}_0}{2} + \sum_{\overline l=1}^\infty{\overline{\mu}_l \cdot cos(\overline lx)}
 $$
 $$
 \lambda(x,z) = \frac{\overline{\lambda}_0}{2} + \sum_{\overline l=1}^\infty{\overline{\lambda}_0 \cdot cos(\overline lx)}
@@ -258,7 +257,7 @@ $$sum(x,y)_{\overline k} = conv(x,y)_{\overline k} + corr(x,y)_{\overline k}$$
 \subsection{Метод решения: разностная схема для преобразованной задачи}
 Новую, уже одномерную задачу (\ref{eq:7}-\ref{eq:8}), полученную из исходной постановки (\ref{eq:1}-\ref{eq:3}),
 можно решать различными конечно-разностными методами. В данной работе в качестве разностной схемы для решения (\ref{eq:7}-\ref{eq:8})
-был взят одномерный аналог, хорошо себя зарекомендовавшей, конечно-разностной схемы Верье на сдвинутых сетках.
+был взят одномерный аналог, хорошо себя зарекомендовавшей, конечно-разностной схемы Верье на сдвинутых сетках [Virieux J. P-SV wave propagation in heterogeneous media: Velocity-stress finite-difference method // Geophysics, Volume 51, April 1986, Number 4, p. 889-901].
 \addimghere{nodes}{0.30}{Расположение узлов сетки}{nodes}
 Полагая, что $\tau$ - шаг по времени, а $h$ - по пространственной координате, получаем следующее конечно-разностное представление системы (\ref{eq:7}-\ref{eq:8})
 \begin{longaligned}
@@ -281,7 +280,7 @@ $$sum(x,y)_{\overline k} = conv(x,y)_{\overline k} + corr(x,y)_{\overline k}$$
 	- sum(\overline u_{n, i}, \overline\lambda_i)_{\overline k} \right] + f_{z,n}^{\overline k}\\
 \end{longaligned}
 
-Где функция источника представляется в виде:
+Где функция источника аппроксимируется следующим образом:
 $$
 f_{x,n}^{\overline k}=f_{z,n}^{\overline k}=\left\{
   \begin{array}{ccc}
