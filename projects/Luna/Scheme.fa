@@ -11,9 +11,9 @@ import check_one_step(value #prev_values, value #values, value #env, int #t_idx,
 ##const FG_SIZE 1024
 ##const FG_COUNT 8
 
-##const Z_LIMIT_VALUE 5.195
+##const Z_LIMIT_VALUE 40.96
 ##const Z_GRID_SIZE 8192 // Z_GRID_SIZE = FG_SIZE * FG_COUNT
-##const T_LIMIT 256
+##const T_LIMIT 1024
 ##const T_GRID_STEP 1.024
 ##const K_LIMIT 64
 
