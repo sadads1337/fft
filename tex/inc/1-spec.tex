@@ -79,14 +79,14 @@
 \begin{equation}
 \begin{sqcases}
 	\label{eq:4}
-	\overline{u}_{\overline k} = \int_0^b{u \cdot sin(\overline k x)} dx = \int_0^b{u(x,z,t) \cdot sin(\overline k x)} dx = \overline{u}_{\overline k}(x,z,t), \\
-	\overline{w}_{\overline k} = \int_0^b{w \cdot cos(\overline kx)} dx = \int_0^b{w(x,z,t) \cdot cos(\overline kx)} dx = \overline{w}_{\overline k}(x,z,t), \\
-	\overline{p}_{\overline k} = \overline{\sigma}_{xx}^{\overline k} = \int_0^b{{\sigma}_{xx} \cdot cos(\overline kx)} dx 
-		= \int_0^b{{\sigma}_{xx}(x,z,t) \cdot cos(\overline kx)} dx = \overline{{\sigma}}_{xx}^{\overline k}(x,z,t), \\
-	\overline{q}_{\overline k} = \overline{\sigma}_{xz}^{\overline k} = \int_0^b{{\sigma}_{xz} \cdot sin(\overline kx)} dx 
-		= \int_0^b{{\sigma}_{xz}(x,z,t) \cdot sin(\overline kx)} dx = \overline{{\sigma}}_{xz}^{\overline k}(x,z,t), \\
-	\overline{s}_{\overline k} = \overline{\sigma}_{zz}^{\overline k} = \int_0^b{{\sigma}_{zz} \cdot cos(\overline kx)} dx 
-		= \int_0^b{{\sigma}_{zz}(x,z,t) \cdot cos(\overline kx)} dx = \overline{{\sigma}}_{zz}^{\overline k}(x,z,t)
+	\overline{u}_{k} = \int_0^b{u(x,z,t) \cdot sin(\overline k x)} dx = \overline{u}_{k}(x,z,t), \\
+	\overline{w}_{k} = \int_0^b{w(x,z,t) \cdot cos(\overline kx)} dx = \overline{w}_{k}(x,z,t), \\
+	\overline{p}_{k} = \overline{\sigma}_{xx}^{k}
+		= \int_0^b{{\sigma}_{xx}(x,z,t) \cdot cos(\overline kx)} dx = \overline{{\sigma}}_{xx}^{k}(x,z,t), \\
+	\overline{q}_{k} = \overline{\sigma}_{xz}^{k}
+		= \int_0^b{{\sigma}_{xz}(x,z,t) \cdot sin(\overline kx)} dx = \overline{{\sigma}}_{xz}^{k}(x,z,t), \\
+	\overline{s}_{k} = \overline{\sigma}_{zz}^{k}
+		= \int_0^b{{\sigma}_{zz}(x,z,t) \cdot cos(\overline kx)} dx = \overline{{\sigma}}_{zz}^{k}(x,z,t)
 \end{sqcases}
 \end{equation}
 Где полагаем, что $\overline k=\frac{k\pi}{b}$.
@@ -98,17 +98,16 @@
 Умножим каждое уравнение системы (\ref{eq:1}) на соответсвующую базисную $k$-функцию и проинтегрируем
 по $x$, предполагая, что
 $$
-\frac{1}{\rho(x,z,t)} = \frac{\overline{\rho}_0}{2} + \sum_{\overline l=1}^\infty{\overline{\rho}_{\overline l} \cdot cos(\overline lx)}
-	= \frac{\overline{\rho}_0(0,z)}{2} + \sum_{\overline l=1}^\infty{\overline{\rho}_{\overline l}(\overline l,z) \cdot cos(\overline lx)}
+\frac{1}{\rho(x,z,t)} = \frac{\overline{\rho}_0}{2} + \sum_{l=1}^\infty{\overline{\rho}_{l} \cdot cos(\overline lx)}
 $$
 $$
-(\lambda + 2 \mu)(x,z) = \frac{(\lambda + 2 \mu)_0}{2} + \sum_{\overline l=1}^\infty{(\overline{\lambda} + 2 \overline{\mu})_{\overline l} \cdot cos(\overline lx)}
+(\lambda + 2 \mu)(x,z) = \frac{(\lambda + 2 \mu)_0}{2} + \sum_{l=1}^\infty{(\overline{\lambda} + 2 \overline{\mu})_{l} \cdot cos(\overline lx)}
 $$
 $$
-\mu(x,z) = \frac{\overline{\mu}_0}{2} + \sum_{\overline l=1}^\infty{\overline{\mu}_l \cdot cos(\overline lx)}
+\mu(x,z) = \frac{\overline{\mu}_0}{2} + \sum_{l=1}^\infty{\overline{\mu}_l \cdot cos(\overline lx)}
 $$
 $$
-\lambda(x,z) = \frac{\overline{\lambda}_0}{2} + \sum_{\overline l=1}^\infty{\overline{\lambda}_0 \cdot cos(\overline lx)}
+\lambda(x,z) = \frac{\overline{\lambda}_0}{2} + \sum_{l=1}^\infty{\overline{\lambda}_l \cdot cos(\overline lx)}
 $$
 
 Использая формулу интегрирования по частям, формулу произведения тригонометрических функций, приводя подобные слагаемые, и замену (\ref{eq:4})
@@ -121,24 +120,24 @@ $$
 &=\underbrace{{\left[\sigma_{xx} \frac{1}{\rho} sin(\overline kx) \right]}_0^b}_{=0} 
 	- \int_0^b\sigma_{xx}\frac{\partial}{\partial x}\left[ \frac{1}{\rho}sin(\overline kx)\right]dx =\\
 &= - \int_0^b\sigma_{xx}\frac{\partial}{\partial x}\left[ 
-	\left(\ \frac{\overline{\rho}_0}{2} + \sum_{\overline l=1}^\infty{\overline{\rho}_{\overline l} \cdot cos(\overline lx)} \right)sin(\overline kx)\right]dx =\\
+	\left(\ \frac{\overline{\rho}_0}{2} + \sum_{l=1}^\infty{\overline{\rho}_{l} \cdot cos(\overline lx)} \right)sin(\overline kx)\right]dx =\\
 &= - \int_0^b\sigma_{xx}\frac{\partial}{\partial x}\left[ 
-	\frac{\overline{\rho}_0}{2}sin(\overline kx) + \sum_{\overline l=1}^\infty{\overline{\rho}_{\overline l} \cdot cos(\overline lx)} sin(\overline kx)\right]dx =\\
+	\frac{\overline{\rho}_0}{2}sin(\overline kx) + \sum_{l=1}^\infty{\overline{\rho}_{l} \cdot cos(\overline lx)} sin(\overline kx)\right]dx =\\
 &= - \int_0^b\sigma_{xx}\frac{\partial}{\partial x}\left[ 
-	\frac{\overline{\rho}_0}{2}sin(\overline kx) + \frac{1}{2}\sum_{\overline l=1}^\infty{\overline{\rho}_{\overline l} \cdot sin\left((\overline k+\overline l)x\right)} \right. +\\
-		&\left.+ \frac{1}{2}\sum_{\overline l=1}^\infty{\overline{\rho}_{\overline l} \cdot sin\left((\overline k-\overline l)x\right)} \right]dx = \longalignedtag\\
+	\frac{\overline{\rho}_0}{2}sin(\overline kx) + \frac{1}{2}\sum_{l=1}^\infty{\overline{\rho}_{l} \cdot sin\left((\overline k+\overline l)x\right)} \right. +\\
+		&\left.+ \frac{1}{2}\sum_{l=1}^\infty{\overline{\rho}_{l} \cdot sin\left((\overline k-\overline l)x\right)} \right]dx = \longalignedtag\\
 &= - \int_0^b\sigma_{xx}\left[ 
-	k\frac{\overline{\rho}_0}{2}cos(\overline kx) + \frac{1}{2}\left(\sum_{\overline l=1}^\infty{(\overline k+\overline l)\overline{\rho}_{\overline l} \cdot cos\left((\overline k+\overline l)x\right)} \right.\right. +\\
-		&\left.\left.+ \sum_{\overline l=1}^\infty{(\overline k-\overline l)\overline{\rho}_l \cdot cos\left((\overline k-\overline l)x\right)}\right)\right]dx =\\
-&= -\overline k \overline{\sigma}_{xx}^{\overline k} \frac{\overline{\rho}_0}{2} - \frac{1}{2}\left(
-	\sum_{\overline l=1}^\infty{(\overline k+\overline l)\overline{\rho}_{\overline l} \cdot \overline{\sigma}_{xx}^{(\overline k+\overline l)}}
+	k\frac{\overline{\rho}_0}{2}cos(\overline kx) + \frac{1}{2}\left(\sum_{l=1}^\infty{(k+l)\overline{\rho}_{l} \cdot cos\left((\overline k+\overline l)x\right)} \right.\right. +\\
+		&\left.\left.+ \sum_{l=1}^\infty{(k-l)\overline{\rho}_l \cdot cos\left((\overline k-\overline l)x\right)}\right)\right]dx =\\
+&= -k \overline{\sigma}_{xx}^{k} \frac{\overline{\rho}_0}{2} - \frac{1}{2}\left(
+	\sum_{l=1}^\infty{(k+l)\overline{\rho}_{l} \cdot \overline{\sigma}_{xx}^{(k+l)}}
 		+ \sum_{l=1}^\infty{(k-l)\overline{\rho}_l \cdot \overline{\sigma}_{xx}^{(k-l)}}\right) =\\
 &= - \frac{1}{2} \cdot \left(
-	\sum_{\overline l=0}^\infty{(\overline k+\overline l)\overline{\rho}_{\overline l} \cdot \overline{\sigma}_{xx}^{(\overline k+\overline l)}}
-		+ \sum_{\overline l=0}^\infty{(\overline k-\overline l)\overline{\rho}_{\overline l} \cdot \overline{\sigma}_{xx}^{(\overline k-\overline l)}}\right) =\\
+	\sum_{l=0}^\infty{(k+l)\overline{\rho}_{l} \cdot \overline{\sigma}_{xx}^{(k+l)}}
+		+ \sum_{l=0}^\infty{(k-l)\overline{\rho}_{l} \cdot \overline{\sigma}_{xx}^{(k-l)}}\right) =\\
 &= - \frac{1}{2} \cdot \left(
-	\sum_{\overline l=0}^\infty{(\overline k+\overline l)\overline{\rho}_{\overline l} \cdot \overline{p}^{(\overline k+\overline l)}}
-		+ \sum_{\overline l=0}^\infty{(\overline k-\overline l)\overline{\rho}_{\overline l} \cdot \overline{p}^{(\overline k-\overline l)}}\right)
+	\sum_{l=0}^\infty{(k+l)\overline{\rho}_{l} \cdot \overline{p}^{(k+l)}}
+		+ \sum_{l=0}^\infty{(k-l)\overline{\rho}_{l} \cdot \overline{p}^{(k-l)}}\right)
 \end{longaligned}
 
 Аналогичным образом получаем оставшиеся соотношения.
@@ -147,99 +146,99 @@ $$
 {}
 &\int_0^b{\frac{1}{\rho}\frac{\partial\sigma_{xz}}{\partial z}sin(\overline kx)dx} =\\
 &= \frac{1}{2} \cdot \left(
-	\sum_{\overline l=0}^\infty{(\overline k+\overline l)\overline{\rho}_{\overline l} \cdot \frac{\partial \overline{\sigma}_{xz}^{(\overline k+\overline l)}}{\partial z}} \right.+
-		\left.+ \sum_{\overline l=0}^\infty{(\overline k-\overline l)\overline{\rho}_{\overline l} \cdot \frac{\partial\overline{\sigma}_{xz}^{(\overline k-\overline l)}}{\partial z}}\right) =\\
+	\sum_{l=0}^\infty{(k+l)\overline{\rho}_{l} \cdot \frac{\partial \overline{\sigma}_{xz}^{(k+l)}}{\partial z}} \right.+
+		\left.+ \sum_{l=0}^\infty{(k-l)\overline{\rho}_{l} \cdot \frac{\partial\overline{\sigma}_{xz}^{(k-l)}}{\partial z}}\right) =\\
 &= \frac{1}{2} \cdot \left(
-	\sum_{\overline l=0}^\infty{(\overline k+\overline l)\overline{\rho}_{\overline l} \cdot \frac{\partial \overline{q}^{(\overline k+\overline l)}}{\partial z}}
-		+ \sum_{\overline l=0}^\infty{(\overline k-\overline l)\overline{\rho}_{\overline l} \cdot \frac{\partial\overline{q}^{(\overline k-\overline l)}}{\partial z}}\right); \\
+	\sum_{l=0}^\infty{(k+l)\overline{\rho}_{l} \cdot \frac{\partial \overline{q}^{(k+l)}}{\partial z}}
+		+ \sum_{l=0}^\infty{(k-l)\overline{\rho}_{l} \cdot \frac{\partial\overline{q}^{(k- l)}}{\partial z}}\right); \\
 &\int_0^b{\frac{1}{\rho}\frac{\partial\sigma_{xz}}{\partial x}cos(\overline kx)dx} =\\
 &= \frac{1}{2} \cdot \left(
-	\sum_{\overline l=0}^\infty{(\overline k+\overline l)\overline{\rho}_{\overline l} \cdot \overline{\sigma}_{xz}^{(\overline k+\overline l)}}
-		+ \sum_{\overline l=0}^\infty{(\overline k-\overline l)\overline{\rho}_{\overline l} \cdot \overline{\sigma}_{xz}^{(\overline k-\overline l)}}\right) =\\
+	\sum_{l=0}^\infty{(k+l)\overline{\rho}_{l} \cdot \overline{\sigma}_{xz}^{(k+l)}}
+		+ \sum_{l=0}^\infty{(k-l)\overline{\rho}_{l} \cdot \overline{\sigma}_{xz}^{(k-l)}}\right) =\\
 &= \frac{1}{2} \cdot \left(
-	\sum_{\overline l=0}^\infty{(\overline k+\overline l)\overline{\rho}_{\overline l} \cdot \overline{q}^{(\overline k+\overline l)}}
-		+ \sum_{\overline l=0}^\infty{(\overline k-\overline l)\overline{\rho}_{\overline l} \cdot \overline{q}^{(\overline k-\overline l)}}\right); \\
+	\sum_{l=0}^\infty{(k+l)\overline{\rho}_{l} \cdot \overline{q}^{(k+l)}}
+		+ \sum_{l=0}^\infty{(k-l)\overline{\rho}_{l} \cdot \overline{q}^{(k-l)}}\right); \\
 &\int_0^b{\frac{1}{\rho}\frac{\partial\sigma_{zz}}{\partial z}cos(kx)dx} = \longalignedtag\\
 &= \frac{1}{2} \cdot \left(
-	\sum_{\overline l=0}^\infty{(\overline k+\overline l)\overline{\rho}_{\overline l} \cdot \frac{\partial \overline{\sigma}_{zz}^{(\overline k+\overline l)}}{\partial z}}
-		+ \sum_{\overline l=0}^\infty{(\overline k-\overline l)\overline{\rho}_{\overline l} \cdot \frac{\partial\overline{\sigma}_{zz}^{(\overline k-\overline l)}}{\partial z}}\right) =\\
+	\sum_{l=0}^\infty{(k+l)\overline{\rho}_{l} \cdot \frac{\partial \overline{\sigma}_{zz}^{(k+l)}}{\partial z}}
+		+ \sum_{l=0}^\infty{(k-l)\overline{\rho}_{l} \cdot \frac{\partial\overline{\sigma}_{zz}^{(k-l)}}{\partial z}}\right) =\\
 &= \frac{1}{2} \cdot \left(
-	\sum_{\overline l=0}^\infty{(\overline k+\overline l)\overline{\rho}_{\overline l} \cdot \frac{\partial \overline{s}^{(\overline k+\overline l)}}{\partial z}}
-		+ \sum_{\overline l=0}^\infty{(\overline k-\overline l)\overline{\rho}_{\overline l} \cdot \frac{\partial\overline{s}^{(\overline k-\overline l)}}{\partial z}}\right); \\
+	\sum_{l=0}^\infty{(k+l)\overline{\rho}_{l} \cdot \frac{\partial \overline{s}^{(k+l)}}{\partial z}}
+		+ \sum_{l=0}^\infty{(k-l)\overline{\rho}_{l} \cdot \frac{\partial\overline{s}^{(k-l)}}{\partial z}}\right); \\
 &\int_0^b{(\lambda + 2 \mu) \frac{\partial u}{\partial x}cos(\overline kx)dx} =\\
 &= \frac{1}{2} \cdot \left(
-	\sum_{\overline l=0}^\infty{(\overline k+\overline l)(\overline{\lambda}_{\overline l} + 2\overline{\mu}_{\overline l}) \cdot \overline{u}^{(\overline k+\overline l)}}
-		+ \sum_{\overline l=0}^\infty{(\overline k-\overline l)(\overline{\lambda}_{\overline l} + 2\overline{\mu}_{\overline l}) \cdot \overline{u}^{(\overline k-\overline l)}}\right); \\
+	\sum_{l=0}^\infty{(k+l)(\overline{\lambda}_{l} + 2\overline{\mu}_{l}) \cdot \overline{u}^{(k+l)}}
+		+ \sum_{l=0}^\infty{(k-l)(\overline{\lambda}_{l} + 2\overline{\mu}_{l}) \cdot \overline{u}^{(k-l)}}\right); \\
 &\int_0^b{\lambda \frac{\partial w}{\partial z}cos(\overline kx)dx}
 = \frac{1}{2} \cdot \left(
-	\sum_{\overline l=0}^\infty{(\overline k+\overline l)\overline{\lambda}_{\overline l} \cdot \frac{\partial\overline{w}^{(\overline k+\overline l)}}{\partial z}}
-		+ \sum_{\overline l=0}^\infty{(\overline k-\overline l)\overline{\lambda}_{\overline l} \cdot \frac{\partial\overline{w}^{(\overline k-\overline l)}}{\partial z}}\right); \\
+	\sum_{l=0}^\infty{(k+l)\overline{\lambda}_{l} \cdot \frac{\partial\overline{w}^{(k+l)}}{\partial z}}
+		+ \sum_{l=0}^\infty{(k-l)\overline{\lambda}_{l} \cdot \frac{\partial\overline{w}^{(k-l)}}{\partial z}}\right); \\
 &\int_0^b{\lambda \frac{\partial u}{\partial z}sin(\overline kx)dx}
 = \frac{1}{2} \cdot \left(
-	\sum_{\overline l=0}^\infty{(\overline k+\overline l)\overline{\mu}_{\overline l} \cdot \frac{\partial\overline{u}^{(\overline k+\overline l)}}{\partial z}}
-		+ \sum_{\overline l=0}^\infty{(\overline k-\overline l)\overline{\mu}_{\overline l} \cdot \frac{\partial\overline{u}^{(\overline k-\overline l)}}{\partial z}}\right); \\
+	\sum_{l=0}^\infty{(k+l)\overline{\mu}_{l} \cdot \frac{\partial\overline{u}^{(k+l)}}{\partial z}}
+		+ \sum_{l=0}^\infty{(k-l)\overline{\mu}_{l} \cdot \frac{\partial\overline{u}^{(k-l)}}{\partial z}}\right); \\
 &\int_0^b{\mu \frac{\partial w}{\partial x}sin(\overline kx)dx}
 = -\frac{1}{2} \cdot \left(
-	\sum_{\overline l=0}^\infty{(\overline k+\overline l)\overline{\mu}_{\overline l} \cdot \overline{w}^{(\overline k+\overline l)}}
-		+ \sum_{\overline l=0}^\infty{(\overline k-\overline l)\overline{\mu}_{\overline l} \cdot \overline{w}^{(\overline k-\overline l)}}\right); \\
+	\sum_{l=0}^\infty{(k+l)\overline{\mu}_{l} \cdot \overline{w}^{(k+l)}}
+		+ \sum_{l=0}^\infty{(k-l)\overline{\mu}_{l} \cdot \overline{w}^{(k-l)}}\right); \\
 &\int_0^b{(\lambda + 2 \mu) \frac{\partial w}{\partial z}cos(\overline kx)dx} =\\
 &= \frac{1}{2} \cdot \left(
-	\sum_{\overline l=0}^\infty{(\overline k+\overline l)(\overline{\lambda}_{\overline l} + 2\overline{\mu}_{\overline l}) \cdot \frac{\overline{w}^{(\overline k+\overline l)}}{\partial z}}
-		+ \sum_{\overline l=0}^\infty{(\overline k-\overline l)(\overline{\lambda}_{\overline l} + 2\overline{\mu}_{\overline l}) \cdot \frac{\overline{w}^{(\overline k-\overline l)}}{\partial z}}\right); \\
+	\sum_{l=0}^\infty{(k+l)(\overline{\lambda}_{l} + 2\overline{\mu}_{l}) \cdot \frac{\overline{w}^{(k+l)}}{\partial z}}
+		+ \sum_{l=0}^\infty{(k-l)(\overline{\lambda}_{l} + 2\overline{\mu}_{l}) \cdot \frac{\overline{w}^{(k-l)}}{\partial z}}\right); \\
 &\int_0^b{\lambda \frac{\partial u}{\partial x}cos(\overline kx)dx}
 = -\frac{1}{2} \cdot \left(
-	\sum_{\overline l=0}^\infty{(\overline k+\overline l)\overline{\lambda}_{\overline l} \cdot \overline{u}^{(\overline k+\overline l)}}
-		+ \sum_{\overline l=0}^\infty{(\overline k-\overline l)\overline{\lambda}_{\overline l} \cdot \overline{u}^{(\overline k-\overline l)}}\right);
+	\sum_{l=0}^\infty{(k+l)\overline{\lambda}_{l} \cdot \overline{u}^{(k+l)}}
+		+ \sum_{l=0}^\infty{(k-l)\overline{\lambda}_{l} \cdot \overline{u}^{(k-l)}}\right);
 \end{longaligned}
 
 Таким образом, используя (\ref{eq:5}) и (\ref{eq:6}), и обозначая 
-$$conv(x,y)_{\overline k} = \sum_{\overline l=0}^\infty(\overline k-\overline l)x^{(\overline k-\overline l)}y^{\overline l}$$
-$$corr(x,y)_{\overline k} = \sum_{\overline l=0}^\infty(\overline k+\overline l)x^{(\overline k+\overline l)}y^{\overline l}$$
-$$sum(x,y)_{\overline k} = conv(x,y)_{\overline k} + corr(x,y)_{\overline k}$$
+$$conv(x,y)_{k} = \sum_{l=0}^\infty(k-l)x^{(k-l)}y^{l}$$
+$$corr(x,y)_{k} = \sum_{l=0}^\infty(k+l)x^{(k+l)}y^{l}$$
+$$sum(x,y)_{k} = conv(x,y)_{k} + corr(x,y)_{k}$$
 можно привести исходную систему (\ref{eq:1}-\ref{eq:3}) к виду.
 \begin{longaligned}
 \label{eq:7}
 {}
-&\frac{\partial\overline{u}_{\overline k}}{\partial t} = \frac{1}{2} \cdot \sum_{\overline l=0}^\infty\left(
-	-(\overline k+\overline l)\overline{\rho}_{\overline l}\overline{p}^{(\overline k+\overline l)}
-		-(\overline k-\overline l)\overline{\rho}_{\overline l}\overline{p}^{(\overline k-\overline l)} + \right.\\
-	&\left.+(\overline k+\overline l)\overline{\rho}_{\overline l}\frac{\partial\overline{q}^{(\overline k+\overline l)}}{\partial z}
-		+(\overline k-\overline l)\overline{\rho}_{\overline l}\frac{\partial\overline{q}^{(\overline k-\overline l)}}{\partial z}\right)
-		+ \overline{f}_x^{\overline k} = \\
+&\frac{\partial\overline{u}_{k}}{\partial t} = \frac{1}{2} \cdot \sum_{l=0}^\infty\left(
+	-(k+l)\overline{\rho}_{l}\overline{p}^{(k+l)}
+		-(k-l)\overline{\rho}_{l}\overline{p}^{(k-l)} + \right.\\
+	&\left.+(k+l)\overline{\rho}_{l}\frac{\partial\overline{q}^{(k+l)}}{\partial z}
+		+(k-l)\overline{\rho}_{l}\frac{\partial\overline{q}^{(k-l)}}{\partial z}\right)
+		+ \overline{f}_x^{k} = \\
 	&=\frac{1}{2} \cdot \left(
-		-conv(\overline\rho, \overline{p})_{\overline k}
-			-corr(\overline\rho, \overline{p})_{\overline k}
-			+ conv(\overline\rho, \frac{\partial\overline{q}}{\partial z})_{\overline k} 
-			+ corr(\overline\rho, \frac{\partial\overline{q}}{\partial z})_{\overline k} \right)
-		+ \overline{f}_x^{\overline k} = \\
+		-conv(\overline\rho, \overline{p})_{k}
+			-corr(\overline\rho, \overline{p})_{k}
+			+ conv(\overline\rho, \frac{\partial\overline{q}}{\partial z})_{k} 
+			+ corr(\overline\rho, \frac{\partial\overline{q}}{\partial z})_{k} \right)
+		+ \overline{f}_x^{k} = \\
 	&=\frac{1}{2} \cdot \left(
-		-sum(\overline\rho, \overline{p})_{\overline k}
-			+ sum(\overline\rho, \frac{\partial\overline{q}}{\partial z})_{\overline k} \right)
-		+ \overline{f}_x^{\overline k}; \\
-&\frac{\partial\overline{w}_{\overline k}}{\partial t}
+		-sum(\overline\rho, \overline{p})_{k}
+			+ sum(\overline\rho, \frac{\partial\overline{q}}{\partial z})_{k} \right)
+		+ \overline{f}_x^{k}; \\
+&\frac{\partial\overline{w}_{k}}{\partial t}
 	=\frac{1}{2} \cdot \left(
-		sum(\overline\rho, \overline{q})_{\overline k}
-			+ sum(\overline\rho, \frac{\partial\overline{s}}{\partial z})_{\overline k} \right)
-		+ \overline{f}_z^{\overline k}; \longalignedtag\\
-&\frac{\partial\overline{p}_{\overline k}}{\partial t}
+		sum(\overline\rho, \overline{q})_{k}
+			+ sum(\overline\rho, \frac{\partial\overline{s}}{\partial z})_{k} \right)
+		+ \overline{f}_z^{k}; \longalignedtag\\
+&\frac{\partial\overline{p}_{k}}{\partial t}
 	=\frac{1}{2} \cdot \left(
-		sum((\overline{\lambda} + 2\overline{\mu}), \overline{u})_{\overline k}
-			+ sum(\overline\lambda, \frac{\partial\overline{w}}{\partial z})_{\overline k} \right) ; \\
-&\frac{\partial\overline{q}_{\overline k}}{\partial t}
+		sum((\overline{\lambda} + 2\overline{\mu}), \overline{u})_{k}
+			+ sum(\overline\lambda, \frac{\partial\overline{w}}{\partial z})_{k} \right) ; \\
+&\frac{\partial\overline{q}_{k}}{\partial t}
 	=\frac{1}{2} \cdot \left(
-		sum(\overline\mu, \frac{\partial\overline{u}}{\partial z})_{\overline k}
-			- sum(\overline\mu, \overline{w})_{\overline k} \right) ; \\
-&\frac{\partial\overline{s}_{\overline k}}{\partial t}
+		sum(\overline\mu, \frac{\partial\overline{u}}{\partial z})_{k}
+			- sum(\overline\mu, \overline{w})_{k} \right) ; \\
+&\frac{\partial\overline{s}_{k}}{\partial t}
 	=\frac{1}{2} \cdot \left(
-		sum((\overline{\lambda} + 2\overline{\mu}), \frac{\partial\overline{w}}{\partial z})_{\overline k}
-			+ sum(\overline\lambda, \overline{u})_{\overline k} \right) ; \\
+		sum((\overline{\lambda} + 2\overline{\mu}), \frac{\partial\overline{w}}{\partial z})_{k}
+			+ sum(\overline\lambda, \overline{u})_{k} \right) ; \\
 \end{longaligned}
 Начальные и граничные условия примут вид
 \begin{equation}
 \begin{dcases}
 \label{eq:8}
-\overline u^{\overline k} = \overline w^{\overline k} = \overline p^{\overline k} = \overline q^{\overline k} = \overline s^{\overline k} = 0; \\
-\overline p^{\overline k} = \overline s^{\overline k} = 0
+\overline u^{k}|_{t=0} = \overline w^{k}|_{t=0} = \overline p^{k}|_{t=0} = \overline q^{k}|_{t=0} = \overline s^{k}|_{t=0} = 0; \\
+\overline p^{k}|_{z=0} = \overline s^{k}|_{z=0} = 0
 \end{dcases}
 \end{equation}
 
@@ -247,44 +246,44 @@ $$sum(x,y)_{\overline k} = conv(x,y)_{\overline k} + corr(x,y)_{\overline k}$$
 \begin{longaligned}
 \label{eq:8_1}
 {}
-&u(x,z,t) = \frac{2}{b}\sum_{\overline k=1}^{\infty}\overline u_{\overline k}(k,z,t)sin(\overline kx) \\
-&w(x,z,t) = \frac{1}{b}\overline w(0,z,t) + \frac{2}{b}\sum_{\overline k=1}^{\infty}\overline w_{\overline k}(k,z,t)cos(\overline kx) \\
+&u(x,z,t) = \frac{2}{b}\sum_{ k=1}^{\infty}\overline u_{ k}(k,z,t)sin(\overline kx) \\
+&w(x,z,t) = \frac{1}{b}\overline w(0,z,t) + \frac{2}{b}\sum_{ k=1}^{\infty}\overline w_{ k}(k,z,t)cos(\overline kx) \\
 &\sigma_{xx}(x,z,t) = \frac{1}{b}\overline \tau_{xx}(0,z,t)
-	+ \frac{2}{b}\sum_{\overline k=1}^{\infty}\overline \sigma_{xx}^{\overline k}(k,z,t)cos(\overline kx) \\
-&\sigma_{xz}(x,z,t) = \frac{2}{b}\sum_{\overline k=1}^{\infty}\overline \sigma_{xz}^{\overline k}(k,z,t)sin(\overline kx) \longalignedtag\\
+	+ \frac{2}{b}\sum_{ k=1}^{\infty}\overline \sigma_{xx}^{ k}(k,z,t)cos(\overline kx) \\
+&\sigma_{xz}(x,z,t) = \frac{2}{b}\sum_{ k=1}^{\infty}\overline \sigma_{xz}^{ k}(k,z,t)sin(\overline kx) \longalignedtag\\
 &\sigma_{zz}(x,z,t) = \frac{1}{b}\overline \sigma_{zz}(0,z,t)
-	+ \frac{2}{b}\sum_{\overline k=1}^{\infty}\overline \sigma_{zz}^{\overline k}(k,z,t)cos(\overline kx) \\
+	+ \frac{2}{b}\sum_{ k=1}^{\infty}\overline \sigma_{zz}^{ k}(k,z,t)cos(\overline kx) \\
 \end{longaligned}
 
 \subsection{Метод решения: разностная схема для преобразованной задачи}
 Новую, уже одномерную задачу (\ref{eq:7}-\ref{eq:8}), полученную из исходной постановки (\ref{eq:1}-\ref{eq:3}),
 можно решать различными конечно-разностными методами. В данной работе в качестве разностной схемы для решения (\ref{eq:7}-\ref{eq:8})
-был взят одномерный аналог, хорошо себя зарекомендовавшей, конечно-разностной схемы Верье на сдвинутых сетках [Virieux J. P-SV wave propagation in heterogeneous media: Velocity-stress finite-difference method // Geophysics, Volume 51, April 1986, Number 4, p. 889-901].
+был взят одномерный аналог, хорошо себя зарекомендовавшей, конечно-разностной схемы Верье на сдвинутых сетках \cite{vir}.
 \addimghere{nodes}{0.30}{Расположение узлов сетки}{nodes}
 Полагая, что $\tau$ - шаг по времени, а $h$ - по пространственной координате, получаем следующее конечно-разностное представление системы (\ref{eq:7}-\ref{eq:8})
 \begin{longaligned}
 \label{eq:9}
 {}
-&\frac{\overline u_{n+1,i}^{\overline k} - \overline u_{n,i}^{\overline k}}{\tau}
-= \frac{1}{2} \left[sum(\frac{\overline q_{n,i+\frac{1}{2}}^{\overline k} - \overline q_{n,i-\frac{1}{2}}^{\overline k}}{h}, \overline\rho_i)_{\overline k} 
-	- sum(\overline p_{n, i}, \overline\rho_i)_{\overline k} \right] \\
-&\frac{\overline w_{n+1,i+\frac{1}{2}}^{\overline k} - \overline w_{n+1,i+\frac{1}{2}}^{\overline k}}{\tau} 
-= \frac{1}{2} \left[sum(\overline q_{n, i+\frac{1}{2}}^{\overline k}, \overline\rho_{i+\frac{1}{2}})_{\overline k}
-	- sum(\frac{\overline s_{n,i+1}^{\overline k} - \overline s_{n,i}^{\overline k}}{h}, \overline\rho_{i+\frac{1}{2}})_{\overline k} \right] \\
-&\frac{\overline p_{n+1,i}^{\overline k} - \overline p_{n,i}^{\overline k}}{\tau}
-= \frac{1}{2} \left[sum(\frac{\overline w_{n,i+\frac{1}{2}}^{\overline k} - \overline w_{n,i-\frac{1}{2}}^{\overline k}}{h}, \overline\lambda_i)_{\overline k} 
-	- sum(\overline u_{n, i}, \overline\lambda_i + 2\overline\mu_i)_{\overline k} \right] + f_{x,n}^{\overline k}\longalignedtag\\
-&\frac{\overline q_{n+1,i+\frac{1}{2}}^{\overline k} - \overline q_{n+1,i+\frac{1}{2}}^{\overline k}}{\tau} 
-= \frac{1}{2} \left[sum(\frac{\overline u_{n,i+1}^{\overline k} - \overline u_{n,i}^{\overline k}}{h}, \overline\mu_{i+\frac{1}{2}})_{\overline k}
-	- sum(\overline w_{n, i+\frac{1}{2}}^{\overline k}, \overline\mu_{i+\frac{1}{2}})_{\overline k} \right] \\
-&\frac{\overline s_{n+1,i}^{\overline k} - \overline s_{n,i}^{\overline k}}{\tau}
-= \frac{1}{2} \left[sum(\frac{\overline w_{n,i+\frac{1}{2}}^{\overline k} - \overline w_{n,i-\frac{1}{2}}^{\overline k}}{h}, \overline\lambda_i+2\overline\mu_i)_{\overline k} 
-	- sum(\overline u_{n, i}, \overline\lambda_i)_{\overline k} \right] + f_{z,n}^{\overline k}\\
+&\frac{\overline u_{n+1,i}^{ k} - \overline u_{n,i}^{ k}}{\tau}
+= \frac{1}{2} \left[sum(\frac{\overline q_{n,i+\frac{1}{2}}^{ k} - \overline q_{n,i-\frac{1}{2}}^{ k}}{h}, \overline\rho_i)_{ k} 
+	- sum(\overline p_{n, i}, \overline\rho_i)_{ k} \right] \\
+&\frac{\overline w_{n+1,i+\frac{1}{2}}^{ k} - \overline w_{n+1,i+\frac{1}{2}}^{ k}}{\tau} 
+= \frac{1}{2} \left[sum(\overline q_{n, i+\frac{1}{2}}^{ k}, \overline\rho_{i+\frac{1}{2}})_{ k}
+	- sum(\frac{\overline s_{n,i+1}^{ k} - \overline s_{n,i}^{ k}}{h}, \overline\rho_{i+\frac{1}{2}})_{ k} \right] \\
+&\frac{\overline p_{n+1,i}^{ k} - \overline p_{n,i}^{ k}}{\tau}
+= \frac{1}{2} \left[sum(\frac{\overline w_{n,i+\frac{1}{2}}^{ k} - \overline w_{n,i-\frac{1}{2}}^{ k}}{h}, \overline\lambda_i)_{ k} 
+	- sum(\overline u_{n, i}, \overline\lambda_i + 2\overline\mu_i)_{ k} \right] + f_{x,n}^{ k}\longalignedtag\\
+&\frac{\overline q_{n+1,i+\frac{1}{2}}^{ k} - \overline q_{n+1,i+\frac{1}{2}}^{ k}}{\tau} 
+= \frac{1}{2} \left[sum(\frac{\overline u_{n,i+1}^{ k} - \overline u_{n,i}^{ k}}{h}, \overline\mu_{i+\frac{1}{2}})_{ k}
+	- sum(\overline w_{n, i+\frac{1}{2}}^{ k}, \overline\mu_{i+\frac{1}{2}})_{ k} \right] \\
+&\frac{\overline s_{n+1,i}^{ k} - \overline s_{n,i}^{ k}}{\tau}
+= \frac{1}{2} \left[sum(\frac{\overline w_{n,i+\frac{1}{2}}^{ k} - \overline w_{n,i-\frac{1}{2}}^{ k}}{h}, \overline\lambda_i+2\overline\mu_i)_{ k} 
+	- sum(\overline u_{n, i}, \overline\lambda_i)_{ k} \right] + f_{z,n}^{ k}\\
 \end{longaligned}
 
 Где функция источника аппроксимируется следующим образом:
 $$
-f_{x,n}^{\overline k}=f_{z,n}^{\overline k}=\left\{
+f_{x,n}^{ k}=f_{z,n}^{ k}=\left\{
   \begin{array}{ccc}
     f(t)cos(\overline k x_0) & , z=z_0 \\
     0 & , z\neq z_0
@@ -295,7 +294,7 @@ $$
 А граничные условия:
 $$
 \frac{\overline w_{n+1, \frac{1}{2}} - \overline w_{n, \frac{1}{2}}}{\tau}
-= \frac{1}{2} sum(\frac{2\overline s_{n,1}^{\overline k}}{h}, \overline\rho_1)
+= \frac{1}{2} sum(\frac{2\overline s_{n,1}^{ k}}{h}, \overline\rho_1)
 $$
 
 Для того, чтобы обеспечить сходимость представленной выше явной разностной схемы, также необходимо выполнение условий Куранта:
