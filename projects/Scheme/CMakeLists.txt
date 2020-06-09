@@ -51,6 +51,8 @@ target_link_libraries(${MODULE_NAME}
         FFT::Core
         )
 
+target_compile_options(${MODULE_NAME} PRIVATE -fPIC)
+
 add_library(${PROJECT_NAME}::${MODULE_NAME} ALIAS ${MODULE_NAME})
 
 if (FFT_ENABLE_TESTS)

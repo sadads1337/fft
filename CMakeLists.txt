@@ -4,9 +4,9 @@ project(FFT C CXX)
 
 option(FFT_SANITIZE "Enable builds with sanitizers support" OFF)
 option(FFT_ENABLE_TESTS "Enable tests build" ON)
-option(FFT_ENABLE_OPENMP "Enable OpenMP support" ON)
-option(FFT_ENABLE_LUNA "Enable LuNA support" OFF)
-option(FFT_ENABLE_MANUAL_VECT "Enable manual vectorization" OFF)
+option(FFT_ENABLE_OPENMP "Enable OpenMP support" OFF)
+option(FFT_ENABLE_LUNA "Enable LuNA support" ON)
+option(FFT_ENABLE_MANUAL_VECT "Enable manual vectorization" ON)
 option(FFT_ENABLE_VECT_REPORT "Enable additional vectorization report while compiling" OFF)
 
 list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake)

@@ -1,34 +1,41 @@
-import init_env(int #fgnum, int #fgsize, name) as init_env;
-import check_env(value #env, int #fgnum, int #size) as check_env;
+import init_params(real #z_limit_value, int #z_grid_size, int #t_limit, real #t_grid_step, int #k_limit, name #params) as init_params;
+import init_env(value #params, int #fgnum, int #fgsize, name) as init_env;
+import check_env(value #params, value #env, int #fgnum, int #size) as check_env;
 
-import init_values(int #fgnum, int #fgsize, name) as init_values;
+import init_values(value #params, int #fgnum, int #fgsize, name) as init_values;
 import check_values(value #values, int #fgnum, int #size) as check_values;
 
-import calculate_one_step(value #prev_values, value #env, int #t_idx, int #fgnum, int #fgsize, int #fgcount, name #values) as calculate_one_step;
+import calculate_one_step(value #params, value #prev_values, value #env, int #t_idx, int #fgnum, int #fgsize, int #fgcount, name #values) as calculate_one_step;
 import check_one_step(value #prev_values, value #values, value #env, int #t_idx, int #fgnum, int #fgsize, int #fgcount) as check_one_step;
 
-##const FG_SIZE 512
-##const FG_COUNT 1
-##const T_IDX_LIMIT 1024
+##const FG_SIZE 1024
+##const FG_COUNT 8
+
+##const Z_LIMIT_VALUE 5.195
+##const Z_GRID_SIZE 8192 // Z_GRID_SIZE = FG_SIZE * FG_COUNT
+##const T_LIMIT 256
+##const T_GRID_STEP 1.024
+##const K_LIMIT 64
 
 sub main()
 {
-	df env, values, last_iter;
+	df params, env, values, last_iter;
 
-	init_env($FG_COUNT, $FG_SIZE, env);
-	check_env(env, $FG_COUNT, $FG_SIZE);
+	init_params($Z_LIMIT_VALUE, $Z_GRID_SIZE, $T_LIMIT, $T_GRID_STEP, $K_LIMIT, params);
+	init_env(params, $FG_COUNT, $FG_SIZE, env);
+	check_env(params, env, $FG_COUNT, $FG_SIZE);
 
 	for fg_num = 0..$FG_COUNT-1
 	{
-		init_values(fg_num, $FG_SIZE, values[0][fg_num]);
+		init_values(params, fg_num, $FG_SIZE, values[0][fg_num]);
 		//check_values(values[0][fg_num], fg_num, $FG_SIZE);
 	}
 
-	while (int(it < $T_IDX_LIMIT)), it = 0 .. out last_iter
+	while (int(it < $T_LIMIT)), it = 0 .. out last_iter
 	{
 		for fg_num = 0..$FG_COUNT-1
 		{
-			calculate_one_step(values[it][fg_num], env, it, fg_num, $FG_SIZE, $FG_COUNT, values[it + 1][fg_num]) --> (values[it][fg_num]);
+			calculate_one_step(params, values[it][fg_num], env, it, fg_num, $FG_SIZE, $FG_COUNT, values[it + 1][fg_num]) --> (values[it][fg_num]);
 			//check_one_step(values[it][fg_num], values[it + 1][fg_num], env, it, fg_num, $FG_SIZE, $FG_COUNT);
 		}
 	}

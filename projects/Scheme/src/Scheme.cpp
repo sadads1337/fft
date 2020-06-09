@@ -11,10 +11,10 @@ Params create_params(const size_t num_threads, const Precision z_limit_value, co
                      const size_t t_limit, const Precision t_grid_step, const size_t k_limit) {
   const auto z_grid_step = z_limit_value / static_cast<Precision>(z_grid_size);
 
-  assert(z_grid_step <
+  /*assert(z_grid_step <
                 static_cast<Precision>(1) / (static_cast<Precision>(2.) *
                                               static_cast<Precision>(k_limit)));
-  assert(t_grid_step <= z_grid_step / sqrt(2.));
+  assert(t_grid_step <= z_grid_step / sqrt(2.));*/
   return {
       num_threads,
       z_limit_value,
@@ -140,8 +140,8 @@ void calculate_one_step(const Values& prev_values, Values& values,
   const auto offset = fg_num * fg_size;
 
   assert(z_idx_start >= 0);
-  assert(z_idx_end < g_z_grid_size);
-  assert(fg_size * fg_count == g_z_grid_size);
+  assert(z_idx_end < params.z_grid_size);
+  assert(fg_size * fg_count == params.z_grid_size);
 
 #if FFT_ENABLE_OPENMP
   omp_set_dynamic(0);
