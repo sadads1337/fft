@@ -3,7 +3,7 @@ cmake_minimum_required(VERSION 3.10 FATAL_ERROR)
 project(FFT C CXX)
 
 option(FFT_SANITIZE "Enable builds with sanitizers support" OFF)
-option(FFT_ENABLE_TESTS "Enable tests build" ON)
+option(FFT_ENABLE_TESTS "Enable tests build" OFF)
 option(FFT_ENABLE_OPENMP "Enable OpenMP support" OFF)
 option(FFT_ENABLE_LUNA "Enable LuNA support" ON)
 option(FFT_ENABLE_MANUAL_VECT "Enable manual vectorization" ON)

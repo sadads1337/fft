@@ -15,20 +15,20 @@ set(SRC_LIST
 
         src/TimeGuard.cpp
 
-        MKL/Utils.h
-        MKL/Utils.inl
-        MKL/src/Utils.cpp
+        #MKL/Utils.h
+        #MKL/Utils.inl
+        #MKL/src/Utils.cpp
         )
 
 add_library(${MODULE_NAME} ${SRC_LIST})
 
 set_target_properties(${MODULE_NAME} PROPERTIES LINKER_LANGUAGE CXX)
 
-find_package(MKL REQUIRED)
+#find_package(MKL REQUIRED)
 
 target_link_libraries(${MODULE_NAME}
         PUBLIC
-        MKL::MKL
+        #MKL::MKL
         aligned
         )
 

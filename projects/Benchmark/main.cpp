@@ -1,4 +1,4 @@
-#include <Core/MKL/Utils.h>
+//#include <Core/MKL/Utils.h>
 #include <Core/TimeGuard.h>
 #include <Core/Types.h>
 #include <Scheme/Scheme.h>
@@ -49,8 +49,8 @@ int main([[maybe_unused]] int argc, [[maybe_unused]] char** argv) try {
   };
 
   main_loop_for_t(values_1, values_2, env, {}, params);
-} catch (const utils::MKLException& exception) {
+} /*catch (const utils::MKLException& exception) {
   std::cout << "MKL exception happend: " << exception.what();
-} catch (const std::exception& exception) {
+}*/ catch (const std::exception& exception) {
   std::cout << "Another exception happend: " << exception.what();
 }
