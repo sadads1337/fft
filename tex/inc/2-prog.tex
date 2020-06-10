@@ -256,13 +256,13 @@ inline auto apply_corr_factor(
 Сравнения выполнены на процессоре Intel Core-i9(16 X 2300 MHz CPUs) L3 Unified 16384 KiB, на последних доступных
 на момент написания работы версиях компиляторов.
 
-\addimghere{intel-vect}{0.85}{Результаты векторизации для Intel C++ Intel Core-i9(16 X 2300 MHz CPUs) L3 Unified 16384 KiB}{intel-vect}
-\addimghere{gcc-vect}{0.85}{Результаты векторизации для GNU GCC Intel Core-i9(16 X 2300 MHz CPUs L3 Unified 16384 KiB)}{gcc-vect}
-\addimghere{apple-vect}{0.85}{Результаты векторизации для LLVM Clang Intel Core-i9(16 X 2300 MHz CPUs L3 Unified 16384 KiB)}{apple-vect}
-
 На графиках для компиляторов GNU GCC и LLVM Clang (рис. \ref{gcc-vect}, рис. \ref{apple-vect}) аномальных результатов не наблюдается,
 тогда как, для компилятор Intel C++ векторизация средствами OpenMP оказывается медленнее, чем векторизация выполненная
 этим компилятором автоматически (рис. \ref{intel-vect}).
+
+\addimghere{intel-vect}{0.85}{Результаты векторизации для Intel C++ Intel Core-i9(16 X 2300 MHz CPUs) L3 Unified 16384 KiB}{intel-vect}
+\addimghere{gcc-vect}{0.85}{Результаты векторизации для GNU GCC Intel Core-i9(16 X 2300 MHz CPUs L3 Unified 16384 KiB)}{gcc-vect}
+\addimghere{apple-vect}{0.85}{Результаты векторизации для LLVM Clang Intel Core-i9(16 X 2300 MHz CPUs L3 Unified 16384 KiB)}{apple-vect}
 
 \subsubsection{Сравнение автовекторизации различных компиляторов}
 
@@ -273,7 +273,7 @@ inline auto apply_corr_factor(
 
 \addimghere{intel-gcc-clang}{0.85}{Сравнение автовекторизации Intel Core-i9(16 X 2300 MHz CPUs) L3 Unified 16384 KiB}{intel-gcc-clang}
 
-Из приведенного графика (рис. \ref{intel-gcc-clang}) видно, что наилучший результат автоматической векторизации показывают
+Из приведенного графика видно, что наилучший результат автоматической векторизации показывают
 компиляторы Intel C++ и LLVM Clang, синяя и зеленая линии соответственно.
 
 \subsubsection{Выравнивание памяти}
