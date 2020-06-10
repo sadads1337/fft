@@ -103,14 +103,12 @@ auto inline apply_operation(T&&... args) {
 
 template <typename... T>
 auto inline conv_real(T&&... args) {
-  constexpr bool vectorized = false;
-  return utils::conv_real<vectorized>(std::forward<T>(args)...);
+  return fft::conv_real(std::forward<T>(args)...);
 }
 
 template <typename... T>
 auto inline corr_real(T&&... args) {
-  constexpr bool vectorized = false;
-  return utils::corr_real<vectorized>(std::forward<T>(args)...);
+  return fft::corr_real(std::forward<T>(args)...);
 }
 
 void calculate_one_step(const Values& prev_values, Values& values,

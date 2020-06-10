@@ -48,6 +48,7 @@ RealContainer ifft_real(ComplexContainer& in) {
 }
 
 RealContainer conv_real(const RealContainer& x, const RealContainer& y) {
+  int save = mkl_set_num_threads_local( 1u );
   RealContainer z(x.size() + y.size() - 1);
   VSLConvTaskPtr task;
   utils::save_mkl_call(vsldConvNewTask1D, &task, VSL_CONV_MODE_AUTO,
@@ -56,10 +57,12 @@ RealContainer conv_real(const RealContainer& x, const RealContainer& y) {
   utils::save_mkl_call(vsldConvExec1D, task, x.data(), 1, y.data(), 1, z.data(),
                        1);
   utils::save_mkl_call(vslConvDeleteTask, &task);
+  mkl_set_num_threads_local( save );
   return z;
 }
 
 RealContainer corr_real(const RealContainer& x, const RealContainer& y) {
+  int save = mkl_set_num_threads_local( 1u );
   RealContainer z(x.size() + y.size() - 1);
   VSLCorrTaskPtr task;
   utils::save_mkl_call(vsldCorrNewTask1D, &task, VSL_CORR_MODE_AUTO,
@@ -67,6 +70,8 @@ RealContainer corr_real(const RealContainer& x, const RealContainer& y) {
                        static_cast<int>(z.size()));
   utils::save_mkl_call(vsldCorrExec1D, task, x.data(), 1, y.data(), 1, z.data(),
                        1);
+  utils::save_mkl_call(vslCorrDeleteTask, &task);
+  mkl_set_num_threads_local( save );
   return z;
 }
 
