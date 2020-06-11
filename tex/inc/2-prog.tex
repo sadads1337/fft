@@ -260,9 +260,9 @@ inline auto apply_corr_factor(
 тогда как, для компилятора Intel C++ векторизация средствами OpenMP оказывается медленнее, чем векторизация выполненная
 этим компилятором автоматически (рис. \ref{intel-vect}).
 
-\addimghere{intel-vect}{0.85}{Результаты векторизации для Intel C++ Intel Core-i9(16 X 2300 MHz CPUs) L3 Unified 16384 KiB}{intel-vect}
-\addimghere{gcc-vect}{0.85}{Результаты векторизации для GNU GCC Intel Core-i9(16 X 2300 MHz CPUs L3 Unified 16384 KiB)}{gcc-vect}
-\addimghere{apple-vect}{0.85}{Результаты векторизации для LLVM Clang Intel Core-i9(16 X 2300 MHz CPUs L3 Unified 16384 KiB)}{apple-vect}
+\addimghere{intel-vect}{0.85}{Результаты векторизации для Intel C++. Intel Core-i9(16 X 2300 MHz CPUs) L3 Unified 16384 KiB}{intel-vect}
+\addimghere{gcc-vect}{0.85}{Результаты векторизации для GNU GCC. Intel Core-i9(16 X 2300 MHz CPUs L3 Unified 16384 KiB)}{gcc-vect}
+\addimghere{apple-vect}{0.85}{Результаты векторизации для LLVM Clang. Intel Core-i9(16 X 2300 MHz CPUs L3 Unified 16384 KiB)}{apple-vect}
 
 \subsubsection{Сравнение автовекторизации различных компиляторов}
 
@@ -271,7 +271,7 @@ inline auto apply_corr_factor(
 Поэтому еще одной темой представляющей интерес является сравнение производительности кода,
 скомпилированного различными компиляторами (рис. \ref{intel-gcc-clang}).
 
-\addimghere{intel-gcc-clang}{0.85}{Сравнение автовекторизации Intel Core-i9(16 X 2300 MHz CPUs) L3 Unified 16384 KiB}{intel-gcc-clang}
+\addimghere{intel-gcc-clang}{0.85}{Сравнение автовекторизации. Intel Core-i9(16 X 2300 MHz CPUs) L3 Unified 16384 KiB}{intel-gcc-clang}
 
 Из приведенного графика видно, что наилучший результат автоматической векторизации показывают
 компиляторы Intel C++ и LLVM Clang, синяя и зеленая линии соответственно.
